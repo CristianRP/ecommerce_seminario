@@ -31,3 +31,8 @@
 
 en:
   hello: "Hello world"
+  brand:
+    name: "Inventory"
+  general:
+    list: 'List of %{model}'
+    copyright: Copyright © Mayan Technology 2019

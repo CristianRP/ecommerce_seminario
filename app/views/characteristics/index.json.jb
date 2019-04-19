@@ -1,0 +1,7 @@
+@characteristics.map do |characteristic|
+  {
+    id: characteristic.id,
+    name: characteristic.name,
+    url: characteristic_url(characteristic, format: :json)
+  }
+end

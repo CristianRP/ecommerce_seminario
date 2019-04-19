@@ -1,0 +1,19 @@
+%p#notice= notice
+%p
+  %strong Name:
+  = @dealer.name
+%p
+  %strong Last name:
+  = @dealer.last_name
+%p
+  %strong Phone:
+  = @dealer.phone
+%p
+  %strong Address:
+  = @dealer.address
+%p
+  %strong Comission:
+  = @dealer.comission
+= link_to 'Edit', edit_dealer_path(@dealer)
+|
+= link_to 'Back', dealers_path

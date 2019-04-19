@@ -1,0 +1,6 @@
+{
+  id: @characteristic.id,
+  name: @characteristic.name,
+  created_at: @characteristic.created_at,
+  updated_at: @characteristic.updated_at
+}

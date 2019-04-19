@@ -1,0 +1,7 @@
+@carriers.map do |carrier|
+  {
+    id: carrier.id,
+    name: carrier.name,
+    url: carrier_url(carrier, format: :json)
+  }
+end

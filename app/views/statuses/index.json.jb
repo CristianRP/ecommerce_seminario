@@ -1,0 +1,7 @@
+@statuses.map do |status|
+  {
+    id: status.id,
+    description: status.description,
+    url: status_url(status, format: :json)
+  }
+end

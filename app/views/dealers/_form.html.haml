@@ -1,0 +1,26 @@
+= form_with(model: dealer, local: true) do |form|
+  - if dealer.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(dealer.errors.count, "error")
+        prohibited this dealer from being saved:
+      %ul
+        - dealer.errors.full_messages.each do |message|
+          %li= message
+  .field
+    = form.label :name
+    = form.text_field :name
+  .field
+    = form.label :last_name
+    = form.text_field :last_name
+  .field
+    = form.label :phone
+    = form.text_field :phone
+  .field
+    = form.label :address
+    = form.text_field :address
+  .field
+    = form.label :comission
+    = form.text_field :comission
+  .actions
+    = form.submit

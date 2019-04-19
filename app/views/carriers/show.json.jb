@@ -1,0 +1,6 @@
+{
+  id: @carrier.id,
+  name: @carrier.name,
+  created_at: @carrier.created_at,
+  updated_at: @carrier.updated_at
+}

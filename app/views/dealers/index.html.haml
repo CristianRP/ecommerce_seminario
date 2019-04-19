@@ -1,0 +1,30 @@
+- model_class = Dealer
+- content_for :title, model_class.model_name.human.pluralize.titleize
+%p#notice= notice
+.card.shadow.mb-4
+  .card-header.py-3
+    %h6.m-0.font-weight-bold.text-primary= t '.title', :default => t('general.list', model: model_class.model_name.human.pluralize)
+  .card-body
+    .table-responsive
+      %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+        %thead
+          %tr
+            %th Name
+            %th Last name
+            %th Phone
+            %th Address
+            %th Comission
+            %th{:colspan => "3"}
+        %tbody
+          - @dealers.each do |dealer|
+            %tr
+              %td= dealer.name
+              %td= dealer.last_name
+              %td= dealer.phone
+              %td= dealer.address
+              %td= dealer.comission
+              %td= link_to 'Show', dealer
+              %td= link_to 'Edit', edit_dealer_path(dealer)
+              %td= link_to 'Destroy', dealer, method: :delete, data: { confirm: 'Are you sure?' }
+      %br/
+      = link_to 'New Dealer', new_dealer_path

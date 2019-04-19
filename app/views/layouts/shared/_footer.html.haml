@@ -1,0 +1,18 @@
+/ Footer
+%footer.sticky-footer.bg-white
+  .container.my-auto
+    .copyright.text-center.my-auto
+      %span= t('general.copyright')
+/ End of Footer
+
+/ Core plugin JavaScript
+%script{:src => "vendor/jquery/jquery.min.js", type: 'text/js'}
+%script{:src => "vendor/bootstrap/js/bootstrap.bundle.min.js", type: 'text/js'}
+%script{:src => "vendor/jquery-easing/jquery.easing.min.js", type: 'text/js'}
+/ Custom scripts for all pages
+%script{:src => "js/sb-admin-2.min.js", type: 'text/js'}
+/ Page level plugins
+%script{:src => "vendor/datatables/jquery.dataTables.min.js", type: 'text/js'}
+%script{:src => "vendor/datatables/dataTables.bootstrap4.min.js", type: 'text/js'}
+/ Page level custom scripts
+%script{:src => "js/demo/datatables-demo.js", type: 'text/js'}

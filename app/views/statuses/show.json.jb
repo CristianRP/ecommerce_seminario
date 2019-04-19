@@ -1,0 +1,6 @@
+{
+  id: @status.id,
+  description: @status.description,
+  created_at: @status.created_at,
+  updated_at: @status.updated_at
+}
