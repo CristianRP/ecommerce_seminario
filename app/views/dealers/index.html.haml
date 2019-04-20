@@ -1,19 +1,24 @@
+:javascript
+  $(function() {
+    //alert('cara lenteja');
+  });
 - model_class = Dealer
-- content_for :title, model_class.model_name.human.pluralize.titleize
+- content_for :title, model_class.model_name.human.pluralize(I18n.locale).titleize
+
 %p#notice= notice
 .card.shadow.mb-4
   .card-header.py-3
-    %h6.m-0.font-weight-bold.text-primary= t '.title', :default => t('general.list', model: model_class.model_name.human.pluralize)
+    %h6.m-0.font-weight-bold.text-primary= t '.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale))
   .card-body
     .table-responsive
       %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
         %thead
           %tr
-            %th Name
-            %th Last name
-            %th Phone
-            %th Address
-            %th Comission
+            %th= model_class.human_attribute_name(:name) 
+            %th= model_class.human_attribute_name(:last_name) 
+            %th= model_class.human_attribute_name(:phone) 
+            %th= model_class.human_attribute_name(:address) 
+            %th= model_class.human_attribute_name(:comission) 
             %th{:colspan => "3"}
         %tbody
           - @dealers.each do |dealer|
@@ -23,8 +28,8 @@
               %td= dealer.phone
               %td= dealer.address
               %td= dealer.comission
-              %td= link_to 'Show', dealer
-              %td= link_to 'Edit', edit_dealer_path(dealer)
-              %td= link_to 'Destroy', dealer, method: :delete, data: { confirm: 'Are you sure?' }
+              %td= link_to t('.show', :default => t("helpers.links.show")), dealer_path(dealer), :class => 'btn btn-default btn-xs'
+              %td= link_to t('.edit', :default => t("helpers.links.edit")), edit_dealer_path(dealer), :class => 'btn btn-default btn-xs'
+              %td= = link_to t('.destroy', :default => t("helpers.links.destroy")), dealer, :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-xs btn-danger'
       %br/
-      = link_to 'New Dealer', new_dealer_path
+      = bootstrap_btn_icon_split('primary', t('helpers.titles.new', model: model_class.model_name.human), 'plus', new_dealer_path)

@@ -10,9 +10,9 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
- *= require_self
- *= require css/sb-admin-2.min.css
- *= require vendor/fontawesome-free/css/all.min.css
- *= require vendor/datatables/dataTables.bootstrap4.min.css
+ * require_tree .
+ * require_self
  */
+@import '../../../vendor/assets/stylesheets//scss/theme/sb-admin-2';
+@import '../../../vendor/assets/stylesheets/fontawesome/css/all.min';
+//@import '../../../vendor/assets/stylesheets/css/datatables/dataTables.bootstrap4.min';

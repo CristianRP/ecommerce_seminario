@@ -1,26 +1,36 @@
-= form_with(model: dealer, local: true) do |form|
-  - if dealer.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(dealer.errors.count, "error")
-        prohibited this dealer from being saved:
-      %ul
-        - dealer.errors.full_messages.each do |message|
-          %li= message
-  .field
-    = form.label :name
-    = form.text_field :name
-  .field
-    = form.label :last_name
-    = form.text_field :last_name
-  .field
-    = form.label :phone
-    = form.text_field :phone
-  .field
-    = form.label :address
-    = form.text_field :address
-  .field
-    = form.label :comission
-    = form.text_field :comission
-  .actions
-    = form.submit
+:javascript 
+  $(function(){
+    $("#btnSubmit").on('click', function() {
+      $("form").submit();
+    )};
+  });
+
+= bootstrap_card t('general.datos') do 
+  = form_with(model: dealer, local: true) do |form|
+    - if dealer.errors.any?
+      #error_explanation
+        %h2
+          = pluralize(dealer.errors.count, "error")
+          prohibited this dealer from being saved:
+        %ul
+          - dealer.errors.full_messages.each do |message|
+            %li= message
+    .form-group
+      = form.label :name
+      = bootstrap_text_field(form, :name)
+    .field
+      = form.label :last_name
+      = bootstrap_text_field(form, :last_name)
+    .field
+      = form.label :phone
+      = bootstrap_text_field(form, :phone)
+    .field
+      = form.label :address
+      = bootstrap_text_field(form, :address)
+    .field
+      = form.label :comission
+      = bootstrap_text_field(form, :comission)
+    .text-right
+      %br
+      = bootstrap_btn_icon_split('primary', t('helpers.links.back'), 'arrow-left', dealers_path)
+      = bootstrap_btn_icon_split('success', action, 'check', '', 'btnSubmit')

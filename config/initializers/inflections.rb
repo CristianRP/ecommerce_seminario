@@ -11,6 +11,15 @@
 # end
 
 # These inflection rules are supported but not enabled by default:
-# ActiveSupport::Inflector.inflections(:en) do |inflect|
-#   inflect.acronym 'RESTful'
-# end
+ActiveSupport::Inflector.inflections(:es) do |inflect|
+  inflect.plural(/$/, 's')
+  inflect.plural(/([^aeioué])$/, '\1es')
+  inflect.plural(/([aeiou]s)$/, '\1')
+  inflect.plural(/z$/, 'ces')
+  inflect.plural(/á([sn])$/, 'a\1es')
+  inflect.plural(/í([sn])$/, 'i\1es')
+  inflect.plural(/ó([sn])$/, 'o\1es')
+  inflect.plural(/ú([sn])$/, 'u\1es')
+  inflect.singular(/s$/, '')
+  inflect.singular(/es$/, '')
+end
