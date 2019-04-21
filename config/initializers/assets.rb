@@ -13,4 +13,4 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 # folder are already added.
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
 # Rails.application.config.assets.precompile << /\.(?:svg|eot|woff|woff2|ttf)\z/
-Rails.application.config.assets.precompile += %w[theme/sb-admin-2.js]
+Rails.application.config.assets.precompile += %w[theme/sb-admin-2.js data_table_init.js]

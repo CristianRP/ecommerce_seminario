@@ -24,7 +24,7 @@ module ApplicationHelper
 
   def bootstrap_btn_destroy_icon_split(model)
     content_tag(:a, nil, class: "btn btn-sm btn-danger btn-icon-split", 
-      'data-method': :delete, rel: 'no-follow', href: dealer_path(model), 
+      'data-method': :delete, rel: 'no-follow', href: url_for(model), 
       data: { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?'))}) {
       content_tag(:span, nil, class: 'icon text-white-50') {
         content_tag(:i, nil, class: "fas fa-trash")
@@ -76,5 +76,9 @@ module ApplicationHelper
         }
       }
     }
+  end
+
+  def date_format(date)
+    date.strftime('%d/%m/%Y')
   end
 end

@@ -19,3 +19,13 @@
 //= require datatables/jquery.dataTables
 //= require datatables/dataTables.bootstrap4
 // require_tree .
+
+$(function() {
+  var dataTable = null;
+  document.addEventListener("turbolinks:before-cache", function() {
+    if (dataTable !== null) {
+      dataTable.destroy();
+      dataTable = null;
+    }
+  });
+});

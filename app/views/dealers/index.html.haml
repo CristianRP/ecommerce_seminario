@@ -1,22 +1,4 @@
-:javascript
-  $(function() {
-    $('#dealersTable').DataTable({
-      paging: true,
-      searching: true,
-      ordering: true,
-      language: {
-        search: 'Buscar',
-        paginate: {
-          first: 'Primero',
-          previous: 'Anterior',
-          next: 'Siguiente',
-          last: 'Último'
-        },
-        info: 'Mostrando _START_ de _END_ registros',
-        lengthMenu: 'Mostrar _MENU_ registros'
-      }
-    });
-  });
+= javascript_include_tag 'data_table_init'
 
 - model_class = Dealer
 - content_for :title, model_class.model_name.human.pluralize(I18n.locale).titleize
@@ -28,7 +10,7 @@
     %h6.m-0.font-weight-bold.text-primary= t '.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale))
   .card-body
     .table-responsive
-      %table#dealersTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+      %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
         %thead
           %tr
             %th= model_class.human_attribute_name(:name) 
@@ -36,7 +18,7 @@
             %th= model_class.human_attribute_name(:phone) 
             %th= model_class.human_attribute_name(:address) 
             %th= model_class.human_attribute_name(:comission) 
-            %th
+            %th= t '.actions', :default => t("helpers.actions")
         %tbody
           - @dealers.each do |dealer|
             %tr

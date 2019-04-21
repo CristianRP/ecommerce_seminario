@@ -19,6 +19,8 @@ es:
         phone: 'Teléfono'
         address: 'Dirección'
         comission: 'Comisión'
+      carrier:
+        name: 'Nombre'  
       name: 'Nombre'
       created_at: 'Fecha creación'
       updated_at: 'Fecha actualización'
