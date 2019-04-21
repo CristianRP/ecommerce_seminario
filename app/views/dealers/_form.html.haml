@@ -15,6 +15,12 @@
       = form.label :last_name
       = bootstrap_text_field(form, :last_name)
     .form-group
+      = form.label :email
+      = bootstrap_text_field(form, :email)
+    .form-group
+      = form.label :password
+      = form.password_field :password, autocomplete: "new-password", class: 'form-control'
+    .form-group
       = form.label :phone
       = bootstrap_text_field(form, :phone)
     .form-group

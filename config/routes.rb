@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :dealers
   resources :statuses
   resources :carriers
   resources :characteristics

@@ -69,6 +69,6 @@ class DealersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def dealer_params
-      params.require(:dealer).permit(:name, :last_name, :phone, :address, :comission)
+      params.require(:dealer).permit(:name, :last_name, :phone, :address, :comission, :email, :password)
     end
 end

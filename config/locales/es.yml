@@ -19,6 +19,8 @@ es:
         phone: 'Teléfono'
         address: 'Dirección'
         comission: 'Comisión'
+        email: 'Correo electrónico'
+        password: 'Contraseña'
       carrier:
         name: 'Nombre'
       category:

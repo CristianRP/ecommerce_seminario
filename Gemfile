@@ -31,6 +31,8 @@ gem 'haml'
 gem 'haml-rails'
 # Use jb as a simple and fast JSON API template engine
 gem 'jb'
+# User for authentication users
+gem 'devise'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
