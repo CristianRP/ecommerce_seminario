@@ -1,17 +1,34 @@
 :javascript
   $(function() {
-    //alert('cara lenteja');
+    $('#dealersTable').DataTable({
+      paging: true,
+      searching: true,
+      ordering: true,
+      language: {
+        search: 'Buscar',
+        paginate: {
+          first: 'Primero',
+          previous: 'Anterior',
+          next: 'Siguiente',
+          last: 'Último'
+        },
+        info: 'Mostrando _START_ de _END_ registros',
+        lengthMenu: 'Mostrar _MENU_ registros'
+      }
+    });
   });
+
 - model_class = Dealer
 - content_for :title, model_class.model_name.human.pluralize(I18n.locale).titleize
 
-%p#notice= notice
+- unless notice.nil?
+  = bootstrap_notice(notice, 'success')
 .card.shadow.mb-4
   .card-header.py-3
     %h6.m-0.font-weight-bold.text-primary= t '.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale))
   .card-body
     .table-responsive
-      %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+      %table#dealersTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
         %thead
           %tr
             %th= model_class.human_attribute_name(:name) 
@@ -19,7 +36,7 @@
             %th= model_class.human_attribute_name(:phone) 
             %th= model_class.human_attribute_name(:address) 
             %th= model_class.human_attribute_name(:comission) 
-            %th{:colspan => "3"}
+            %th
         %tbody
           - @dealers.each do |dealer|
             %tr
@@ -28,8 +45,9 @@
               %td= dealer.phone
               %td= dealer.address
               %td= dealer.comission
-              %td= link_to t('.show', :default => t("helpers.links.show")), dealer_path(dealer), :class => 'btn btn-default btn-xs'
-              %td= link_to t('.edit', :default => t("helpers.links.edit")), edit_dealer_path(dealer), :class => 'btn btn-default btn-xs'
-              %td= = link_to t('.destroy', :default => t("helpers.links.destroy")), dealer, :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-xs btn-danger'
+              %td
+                =# bootstrap_btn_icon_split('success', t('helpers.links.show', model: model_class.model_name.human), 'eye', dealer_path(dealer))
+                = bootstrap_btn_icon_split('warning', t('helpers.links.edit', model: model_class.model_name.human), 'exclamation-triangle', edit_dealer_path(dealer))
+                = bootstrap_btn_destroy_icon_split(dealer)
       %br/
       = bootstrap_btn_icon_split('primary', t('helpers.titles.new', model: model_class.model_name.human), 'plus', new_dealer_path)

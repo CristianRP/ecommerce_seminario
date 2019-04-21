@@ -16,6 +16,7 @@ es:
       destroy: "Eliminar"
       new: "Nuevo"
       edit: "Editar"
+      show: "Ver"
     titles:
       edit: "Editar %{model}"
       save: "Grabar %{model}"

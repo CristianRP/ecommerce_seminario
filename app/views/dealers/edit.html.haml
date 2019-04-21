@@ -1,5 +1,3 @@
-%h1 Editing Dealer
-= render 'form', dealer: @dealer
-= link_to 'Show', @dealer
-|
-= link_to 'Back', dealers_path
+- model_class = Dealer
+- content_for :title, t('helpers.titles.edit', model: model_class.model_name.human.titleize)
+= render 'form', dealer: @dealer, action: t('helpers.titles.edit', model: model_class.model_name.human)

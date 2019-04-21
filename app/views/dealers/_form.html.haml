@@ -1,20 +1,13 @@
-:javascript 
-  $(function(){
-    $("#btnSubmit").on('click', function() {
-      $("form").submit();
-    )};
-  });
-
 = bootstrap_card t('general.datos') do 
   = form_with(model: dealer, local: true) do |form|
     - if dealer.errors.any?
-      #error_explanation
-        %h2
-          = pluralize(dealer.errors.count, "error")
-          prohibited this dealer from being saved:
-        %ul
-          - dealer.errors.full_messages.each do |message|
-            %li= message
+      = bootstrap_error_alert 'danger' do 
+        #error_explanation
+          %h5
+            = t('activerecord.errors.messages.record_invalid', errors: pluralize(dealer.errors.count, "error"))
+          %ul
+            - dealer.errors.full_messages.each do |message|
+              %li= message
     .form-group
       = form.label :name
       = bootstrap_text_field(form, :name)
@@ -29,8 +22,9 @@
       = bootstrap_text_field(form, :address)
     .field
       = form.label :comission
-      = bootstrap_text_field(form, :comission)
+      = form.number_field :comission, class: 'form-control', step: :any
     .text-right
       %br
       = bootstrap_btn_icon_split('primary', t('helpers.links.back'), 'arrow-left', dealers_path)
-      = bootstrap_btn_icon_split('success', action, 'check', '', 'btnSubmit')
+      = bootstrap_submit_icon_split 'success', 'check' do 
+        = form.submit action, class: 'btn btn-sm', style: 'color: white;'

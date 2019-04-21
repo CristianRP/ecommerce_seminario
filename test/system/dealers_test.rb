@@ -7,45 +7,45 @@ class DealersTest < ApplicationSystemTestCase
 
   test "visiting the index" do
     visit dealers_url
-    assert_selector "h1", text: "Dealers"
+    assert_selector "h1", text: Dealer.model_name.human.pluralize(I18n.locale)
   end
 
   test "creating a Dealer" do
     visit dealers_url
-    click_on "New Dealer"
+    click_on I18n.t('helpers.titles.new', model: Dealer.model_name.human)
 
-    fill_in "Address", with: @dealer.address
-    fill_in "Comission", with: @dealer.comission
-    fill_in "Last name", with: @dealer.last_name
-    fill_in "Name", with: @dealer.name
-    fill_in "Phone", with: @dealer.phone
-    click_on "Create Dealer"
+    fill_in Dealer.human_attribute_name(:address), with: @dealer.address
+    fill_in Dealer.human_attribute_name(:comission), with: @dealer.comission
+    fill_in Dealer.human_attribute_name(:last_name), with: @dealer.last_name
+    fill_in Dealer.human_attribute_name(:name), with: @dealer.name
+    fill_in Dealer.human_attribute_name(:phone), with: @dealer.phone
+    click_on 'Nuevo Vendedor'
 
-    assert_text "Dealer was successfully created"
-    click_on "Back"
+    assert_text I18n.t('forms.created', model: Dealer.model_name.human)
+    
   end
 
   test "updating a Dealer" do
     visit dealers_url
-    click_on "Edit", match: :first
+    click_on "Editar", match: :first
 
-    fill_in "Address", with: @dealer.address
-    fill_in "Comission", with: @dealer.comission
-    fill_in "Last name", with: @dealer.last_name
-    fill_in "Name", with: @dealer.name
-    fill_in "Phone", with: @dealer.phone
-    click_on "Update Dealer"
+    fill_in Dealer.human_attribute_name(:address), with: @dealer.address
+    fill_in Dealer.human_attribute_name(:comission), with: @dealer.comission
+    fill_in Dealer.human_attribute_name(:last_name), with: @dealer.last_name
+    fill_in Dealer.human_attribute_name(:name), with: @dealer.name
+    fill_in Dealer.human_attribute_name(:phone), with: @dealer.phone
+    click_on "Editar Vendedor"
 
-    assert_text "Dealer was successfully updated"
-    click_on "Back"
+    assert_text I18n.t('forms.updated', model: Dealer.model_name.human)
+    
   end
 
   test "destroying a Dealer" do
     visit dealers_url
     page.accept_confirm do
-      click_on "Destroy", match: :first
+      click_on "Eliminar", match: :first
     end
 
-    assert_text "Dealer was successfully destroyed"
+    assert_text I18n.t('forms.deleted', model: Dealer.model_name.human)
   end
 end

@@ -237,4 +237,14 @@ es:
   general:
     datos: 'Datos'
     list: 'Listado de %{model}'
+    company: Mayan Technology
     copyright: Copyright © Mayan Technology 2019
+    module: 'Modulo'
+  modules:
+    dashboard: 'Dashboard'
+    catalog: 'Catalogo'
+    user: 'Usuarios'
+  forms: 
+    created: '%{model} creado con éxito.'
+    deleted: '%{model} eliminado con éxito.'
+    updated: '%{model} actualizado con éxito.'

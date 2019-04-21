@@ -1,34 +1,36 @@
 / Sidebar
 %ul#accordionSidebar.navbar-nav.bg-gradient-primary.sidebar.sidebar-dark.accordion
   / Sidebar - Brand
-  %a.sidebar-brand.d-flex.align-items-center.justify-content-center{:href => "index.html"}
+  %a.sidebar-brand.d-flex.align-items-center.justify-content-center{:href => root_path}
     .sidebar-brand-icon.rotate-n-15
       %i.fas.fa-laugh-wink
     .sidebar-brand-text.mx-3
-      SB Admin
-      %sup 2
+      = t('general.company')
   / Divider
   %hr.sidebar-divider.my-0/
   / Nav Item - Dashboard
   %li.nav-item
-    %a.nav-link{:href => "index.html"}
+    %a.nav-link{:href => root_path}
       %i.fas.fa-fw.fa-tachometer-alt
-      %span Dashboard
+      %span= t('modules.dashboard')      
   / Divider
   %hr.sidebar-divider/
   / Heading
   .sidebar-heading
-    Interface
+    = t('general.module').pluralize(I18n.locale)
   / Nav Item - Pages Collapse Menu
   %li.nav-item
     %a.nav-link.collapsed{"aria-controls": "collapseTwo", "aria-expanded": "true", "data-target": "#collapseTwo", "data-toggle": "collapse", href: "#"}
       %i.fas.fa-fw.fa-cog
-      %span Components
+      %span= t('modules.catalog').pluralize(I18n.locale)
     #collapseTwo.collapse{"aria-labelledby": "headingTwo", "data-parent": "#accordionSidebar"}
       .bg-white.py-2.collapse-inner.rounded
-        %h6.collapse-header Custom Components:
-        %a.collapse-item{href: "buttons.html"} Buttons
-        %a.collapse-item{href: "cards.html"} Cards
+        %a.collapse-item{href: dealers_path}= t('activerecord.models.dealer').pluralize(I18n.locale)
+        %a.collapse-item{href: carriers_path}= t('activerecord.models.carrier').pluralize(I18n.locale)
+        %a.collapse-item{href: categories_path}= t('activerecord.models.category').pluralize(I18n.locale)
+        %a.collapse-item{href: characteristics_path}= t('activerecord.models.characteristic').pluralize(I18n.locale)
+        %a.collapse-item{href: statuses_path}= t('activerecord.models.status').pluralize(I18n.locale)
+
   / Nav Item - Utilities Collapse Menu
   %li.nav-item
     %a.nav-link.collapsed{"aria-controls" => "collapseUtilities", "aria-expanded" => "true", "data-target" => "#collapseUtilities", "data-toggle" => "collapse", href: "#"}

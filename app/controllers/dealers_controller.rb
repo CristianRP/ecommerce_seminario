@@ -28,7 +28,7 @@ class DealersController < ApplicationController
 
     respond_to do |format|
       if @dealer.save
-        format.html { redirect_to @dealer, notice: 'Dealer was successfully created.' }
+        format.html { redirect_to dealers_path, notice: t('forms.created', model: Dealer.model_name.human) }
         format.json { render :show, status: :created, location: @dealer }
       else
         format.html { render :new }
@@ -42,7 +42,7 @@ class DealersController < ApplicationController
   def update
     respond_to do |format|
       if @dealer.update(dealer_params)
-        format.html { redirect_to @dealer, notice: 'Dealer was successfully updated.' }
+        format.html { redirect_to dealers_path, notice: t('forms.updated', model: Dealer.model_name.human) }
         format.json { render :show, status: :ok, location: @dealer }
       else
         format.html { render :edit }
@@ -56,7 +56,7 @@ class DealersController < ApplicationController
   def destroy
     @dealer.destroy
     respond_to do |format|
-      format.html { redirect_to dealers_url, notice: 'Dealer was successfully destroyed.' }
+      format.html { redirect_to dealers_url, notice: t('forms.deleted', model: Dealer.model_name.human) }
       format.json { head :no_content }
     end
   end
