@@ -9,7 +9,7 @@
             - carrier.errors.full_messages.each do |message|
               %li= message
     .form-group
-      = f.label :name
+      = f.label f.label t('activerecord.attributes.name')
       = bootstrap_text_field(f, :name)
     .text-right
       %br

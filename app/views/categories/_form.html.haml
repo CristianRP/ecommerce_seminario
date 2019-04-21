@@ -1,13 +1,18 @@
 = form_for @category do |f|
   - if @category.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@category.errors.count, "error")} prohibited this category from being saved:"
-      %ul
-        - @category.errors.full_messages.each do |message|
-          %li= message
+    = bootstrap_error_alert 'danger' do
+      #error_explanation
+        %h5
+          = t('activerecord.errors.messages.record_invalid', errors: pluralize(category.errors.count, "error"))
+        %ul
+          - @category.errors.full_messages.each do |message|
+            %li= message
 
-  .field
+  .form-group
     = f.label :name
-    = f.text_field :name
-  .actions
-    = f.submit 'Save'
+    = bootstrap_text_field(f, :name)
+  .text-right
+    %br
+    = bootstrap_btn_icon_split('primary', t('helpers.links.back'), 'arrow-left', categories_path)
+    = bootstrap_submit_icon_split 'success', 'check' do 
+      = f.submit action, class: 'btn btn-sm', style: 'color: white;'

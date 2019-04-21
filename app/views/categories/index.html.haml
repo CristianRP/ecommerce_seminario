@@ -1,21 +1,26 @@
-%h1 Listing categories
+= javascript_include_tag 'data_table_init'
 
-%table
-  %thead
-    %tr
-      %th Name
-      %th
-      %th
-      %th
+- model_class = Category
+- content_for :title, model_class.model_name.human.pluralize(I18n.locale).titleize
 
-  %tbody
-    - @categories.each do |category|
-      %tr
-        %td= category.name
-        %td= link_to 'Show', category
-        %td= link_to 'Edit', edit_category_path(category)
-        %td= link_to 'Destroy', category, method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
-
-= link_to 'New Category', new_category_path
+- unless notice.nil?
+  = bootstrap_notice(notice, 'success')
+.card.shadow.mb-4
+  .card-header.py-3
+    %h6.m-0.font-weight-bold.text-primary= t '.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale))
+  .card-body
+    .table-responsive
+      %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+        %thead
+          %tr
+            %th= model_class.human_attribute_name(:name) 
+            %th= t '.actions', :default => t("helpers.actions")
+        %tbody
+          - @categories.each do |category|
+            %tr
+              %td= category.name
+              %td
+                = bootstrap_btn_icon_split('warning', t('helpers.links.edit', model: model_class.model_name.human), 'exclamation-triangle', edit_category_path(category))
+                = bootstrap_btn_destroy_icon_split(category)
+      %br/
+      = bootstrap_btn_icon_split('primary', t('helpers.titles.new_f', model: model_class.model_name.human), 'plus', new_category_path)

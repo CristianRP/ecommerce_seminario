@@ -21,4 +21,5 @@ es:
       edit: "Editar %{model}"
       save: "Grabar %{model}"
       new: "Nuevo %{model}"
+      new_f: "Nueva %{model}"
       delete: "Eliminar %{model}"

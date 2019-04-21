@@ -1,7 +1,4 @@
-%h1 Editing category
+- model_class = Category
+- content_for :title, t('helpers.titles.edit', model: model_class.model_name.human.titleize)
 
-= render 'form'
-
-= link_to 'Show', @category
-\|
-= link_to 'Back', categories_path
+= render 'form', category: @category, action: t('helpers.titles.edit', model: model_class.model_name.human)

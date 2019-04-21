@@ -20,6 +20,8 @@ es:
         address: 'Dirección'
         comission: 'Comisión'
       carrier:
+        name: 'Nombre'
+      category:
         name: 'Nombre'  
       name: 'Nombre'
       created_at: 'Fecha creación'
