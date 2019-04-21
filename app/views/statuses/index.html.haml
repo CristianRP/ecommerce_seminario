@@ -1,21 +1,30 @@
-%h1 Listing statuses
+= javascript_include_tag 'data_table_init'
 
-%table
-  %thead
-    %tr
-      %th Description
-      %th
-      %th
-      %th
+- model_class = Status
+- content_for :title, model_class.model_name.human.pluralize(I18n.locale).titleize
 
-  %tbody
-    - @statuses.each do |status|
-      %tr
-        %td= status.description
-        %td= link_to 'Show', status
-        %td= link_to 'Edit', edit_status_path(status)
-        %td= link_to 'Destroy', status, method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
-
-= link_to 'New Status', new_status_path
+- unless notice.nil?
+  = bootstrap_notice(notice, 'success')
+.card.shadow.mb-4
+  .card-header.py-3
+    %h6.m-0.font-weight-bold.text-primary= t '.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale))
+  .card-body
+    .table-responsive
+      %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+        %thead
+          %tr
+            %th= model_class.human_attribute_name(:id)
+            %th= model_class.human_attribute_name(:description)
+            %th= t 'activerecord.attributes.created_at'
+            %th= t '.actions', :default => t("helpers.actions")
+        %tbody
+          - @statuses.each do |status|
+            %tr
+              %td= status.id
+              %td= status.description
+              %td= date_format(status.created_at)
+              %td
+                = bootstrap_btn_icon_split('warning', t('helpers.links.edit', model: model_class.model_name.human), 'exclamation-triangle', edit_status_path(status))
+                = bootstrap_btn_destroy_icon_split(status)
+      %br/
+      = bootstrap_btn_icon_split('primary', t('helpers.titles.new', model: model_class.model_name.human), 'plus', new_status_path)

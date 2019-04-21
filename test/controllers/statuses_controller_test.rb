@@ -20,7 +20,7 @@ class StatusesControllerTest < ActionDispatch::IntegrationTest
       post statuses_url, params: { status: { description: @status.description } }
     end
 
-    assert_redirected_to status_url(Status.last)
+    assert_redirected_to statuses_url
   end
 
   test "should show status" do
@@ -35,7 +35,7 @@ class StatusesControllerTest < ActionDispatch::IntegrationTest
 
   test "should update status" do
     patch status_url(@status), params: { status: { description: @status.description } }
-    assert_redirected_to status_url(@status)
+    assert_redirected_to statuses_url
   end
 
   test "should destroy status" do

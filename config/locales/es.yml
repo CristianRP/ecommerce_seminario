@@ -25,6 +25,8 @@ es:
         name: 'Nombre'  
       characteristic:
         name: 'Nombre'
+      status:
+        description: 'Descripción'
       name: 'Nombre'
       created_at: 'Fecha creación'
       updated_at: 'Fecha actualización'

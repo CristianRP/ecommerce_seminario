@@ -1,13 +1,18 @@
-= form_for @status do |f|
-  - if @status.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@status.errors.count, "error")} prohibited this status from being saved:"
-      %ul
-        - @status.errors.full_messages.each do |message|
-          %li= message
-
-  .field
-    = f.label :description
-    = f.text_field :description
-  .actions
-    = f.submit 'Save'
+= bootstrap_card t('general.datos') do 
+  = form_with(model: status, local: true) do |form|
+    - if status.errors.any?
+      = bootstrap_error_alert 'danger' do 
+        #error_explanation
+          %h5
+            = t('activerecord.errors.messages.record_invalid', errors: pluralize(status.errors.count, "error"))
+          %ul
+            - status.errors.full_messages.each do |message|
+              %li= message
+    .form-group
+      = form.label :description
+      = bootstrap_text_field(form, :description)
+    .text-right
+      %br
+      = bootstrap_btn_icon_split('primary', t('helpers.links.back'), 'arrow-left', statuses_path)
+      = bootstrap_submit_icon_split 'success', 'check' do 
+        = form.submit action, class: 'btn btn-sm', style: 'color: white;'
