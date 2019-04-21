@@ -1,11 +1,11 @@
-= form_for @category do |f|
-  - if @category.errors.any?
+= form_whit(model: category, local: true) do |f|
+  - if category.errors.any?
     = bootstrap_error_alert 'danger' do
       #error_explanation
         %h5
           = t('activerecord.errors.messages.record_invalid', errors: pluralize(category.errors.count, "error"))
         %ul
-          - @category.errors.full_messages.each do |message|
+          - category.errors.full_messages.each do |message|
             %li= message
 
   .form-group

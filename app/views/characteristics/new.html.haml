@@ -1,5 +1,5 @@
-%h1 New characteristic
+- model_class = Characteristic
+- content_for :title, t('helpers.titles.new_f', model: model_class.model_name.human.titleize)
 
-= render 'form'
+= render 'form', characteristic: @characteristic, action: t('helpers.titles.new_f', model: model_class.model_name.human)
 
-= link_to 'Back', characteristics_path

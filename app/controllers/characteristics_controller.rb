@@ -28,7 +28,7 @@ class CharacteristicsController < ApplicationController
 
     respond_to do |format|
       if @characteristic.save
-        format.html { redirect_to @characteristic, notice: 'Characteristic was successfully created.' }
+        format.html { redirect_to characteristics_path, notice: t('forms.created', model: Characteristic.model_name.human) }
         format.json { render :show, status: :created, location: @characteristic }
       else
         format.html { render :new }
@@ -42,7 +42,7 @@ class CharacteristicsController < ApplicationController
   def update
     respond_to do |format|
       if @characteristic.update(characteristic_params)
-        format.html { redirect_to @characteristic, notice: 'Characteristic was successfully updated.' }
+        format.html { redirect_to characteristics_path, notice: t('forms.updated', model: Characteristic.model_name.human) }
         format.json { render :show, status: :ok, location: @characteristic }
       else
         format.html { render :edit }
@@ -56,7 +56,7 @@ class CharacteristicsController < ApplicationController
   def destroy
     @characteristic.destroy
     respond_to do |format|
-      format.html { redirect_to characteristics_url, notice: 'Characteristic was successfully destroyed.' }
+      format.html { redirect_to characteristics_url, notice: t('forms.deleted', model: Characteristic.model_name.human) }
       format.json { head :no_content }
     end
   end

@@ -1,7 +1,4 @@
-%h1 Editing characteristic
+- model_class = Characteristic
+- content_for :title, t('helpers.titles.edit', model: model_class.model_name.human.titleize)
 
-= render 'form'
-
-= link_to 'Show', @characteristic
-\|
-= link_to 'Back', characteristics_path
+= render 'form', characteristic: @characteristic, action: t('helpers.titles.edit', model: model_class.model_name.human)

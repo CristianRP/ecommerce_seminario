@@ -7,37 +7,37 @@ class CharacteristicsTest < ApplicationSystemTestCase
 
   test "visiting the index" do
     visit characteristics_url
-    assert_selector "h1", text: "Characteristics"
+    assert_selector "h1", text: Characteristic.model_name.human.pluralize(I18n.locale).titleize
   end
 
   test "creating a Characteristic" do
     visit characteristics_url
-    click_on "New Characteristic"
+    click_on I18n.t('helpers.titles.new_f', model: Characteristic.model_name.human)
 
-    fill_in "Name", with: @characteristic.name
-    click_on "Create Characteristic"
+    fill_in Characteristic.human_attribute_name(:name), with: @characteristic.name
+    click_on I18n.t('helpers.titles.new_f', model: Characteristic.model_name.human)
 
-    assert_text "Characteristic was successfully created"
-    click_on "Back"
+    assert_text I18n.t('forms.created', model: Characteristic.model_name.human)
+    
   end
 
   test "updating a Characteristic" do
     visit characteristics_url
-    click_on "Edit", match: :first
+    click_on I18n.t('helpers.links.edit'), match: :first
 
-    fill_in "Name", with: @characteristic.name
-    click_on "Update Characteristic"
+    fill_in Characteristic.human_attribute_name(:name), with: @characteristic.name
+    click_on I18n.t('helpers.titles.edit', model: Characteristic.model_name.human)
 
-    assert_text "Characteristic was successfully updated"
-    click_on "Back"
+    assert_text I18n.t('forms.updated', model: Characteristic.model_name.human)
+    
   end
 
   test "destroying a Characteristic" do
     visit characteristics_url
     page.accept_confirm do
-      click_on "Destroy", match: :first
+      click_on I18n.t('helpers.links.destroy'), match: :first
     end
 
-    assert_text "Characteristic was successfully destroyed"
+    assert_text I18n.t('forms.deleted', model: Characteristic.model_name.human)
   end
 end

@@ -1,13 +1,17 @@
-= form_for @characteristic do |f|
-  - if @characteristic.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@characteristic.errors.count, "error")} prohibited this characteristic from being saved:"
-      %ul
-        - @characteristic.errors.full_messages.each do |message|
-          %li= message
-
-  .field
+= form_with(model: characteristic, local: true) do |f|
+  - if characteristic.errors.any?
+    = bootstrap_error_alert 'danger' do
+      #error_explanation
+        %h5
+          = t('activerecord.errors.messages.record_invalid', errors: pluralize(characteristic.errors.count, "error"))
+        %ul
+          - characteristic.errors.full_messages.each do |message|
+            %li= message
+  .form-group
     = f.label :name
-    = f.text_field :name
-  .actions
-    = f.submit 'Save'
+    = bootstrap_text_field(f, :name)
+  .text-right
+    %br
+    = bootstrap_btn_icon_split('primary', t('helpers.links.back'), 'arrow-left', characteristics_path)
+    = bootstrap_submit_icon_split 'success', 'check' do 
+      = f.submit action, class: 'btn btn-sm', style: 'color: white;'
