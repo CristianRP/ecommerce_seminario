@@ -12,7 +12,14 @@
  *
  * require_tree .
  * require_self
+ * --- Angle Main Stylesheet
+ * 
+ *= require angle/app
+ *
+ * --- Assets paths redefinition 
+ * 
+ *= require fonts
+ *= require vendor.assets
+ *= require select2.min
  */
-@import '../../../vendor/assets/stylesheets//scss/theme/sb-admin-2';
-@import '../../../vendor/assets/stylesheets/fontawesome/css/all.min';
 @import '../../../vendor/assets/stylesheets/css/datatables/dataTables.bootstrap4.min';

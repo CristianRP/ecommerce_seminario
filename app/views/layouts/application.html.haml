@@ -2,20 +2,35 @@
 %html
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:content => "width=device-width, initial-scale=1, maximum-scale=1", :name => "viewport"}/
+    %meta{:content => "app, responsive, jquery, bootstrap, dashboard, admin", :name => "keywords"}/
+    %meta{content: 'Inventory app', name: 'description'}
     %title InventoryMt
     = csrf_meta_tags
     = csp_meta_tag
+    = stylesheet_link_tag 'base'
+    =# stylesheet_link_tag params[:controller]
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'jquery/dist/jquery'
+    = javascript_include_tag 'init'
+  %body
+    .wrapper
+      %header.topnavbar-wrapper
+        = render 'layouts/shared/topnavbar'
+      %aside.aside
+        = render 'layouts/shared/sidebar'
+      %section
+        .content-wrapper
+          = yield
+    = javascript_include_tag 'base'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
-    %link{:href => "https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i", :rel => "stylesheet"}/
-  %body#page-top
-    #wrapper
-      = render 'layouts/shared/sidebar'
-      #content-wrapper.d-flex.flex-column
-        #content
-          = render 'layouts/shared/topbar'
-          .container-fluid
-            / Page Heading
-            %h1.h3.mb-2.text-gray-800= content_for?(:title) ? yield(:title) : t('brand.name')
-            = yield
-        = render 'layouts/shared/footer'
+    
+=##content-wrapper.d-flex.flex-column
+=#  #content
+=#    = render 'layouts/shared/topbar'
+=#    %a{'data-method': :delete, href: destroy_dealer_session_path} SIGN OUT
+=#    .container-fluid
+=#      / Page Heading
+=#      %h1.h3.mb-2.text-gray-800= content_for?(:title) ? yield(:title) : t('brand.name')
+=#      = yield
+=#  = render 'layouts/shared/footer'

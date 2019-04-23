@@ -41,7 +41,12 @@ class DealersController < ApplicationController
   # PATCH/PUT /dealers/1.json
   def update
     respond_to do |format|
-      if @dealer.update(dealer_params)
+      update_dealer = if params[:dealer][:password].present? 
+                        @dealer.update(dealer_params)
+                      else
+                        @dealer.update_without_password(dealer_params)
+                      end
+      if update_dealer
         format.html { redirect_to dealers_path, notice: t('forms.updated', model: Dealer.model_name.human) }
         format.json { render :show, status: :ok, location: @dealer }
       else
@@ -69,6 +74,6 @@ class DealersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def dealer_params
-      params.require(:dealer).permit(:name, :last_name, :phone, :address, :comission, :email, :password)
+      params.require(:dealer).permit(:name, :last_name, :phone, :address, :comission, :email, :password, :parent_id)
     end
 end

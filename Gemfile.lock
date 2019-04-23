@@ -53,6 +53,7 @@ GEM
     bindex (0.7.0)
     bootsnap (1.4.3)
       msgpack (~> 1.0)
+    bower-rails (0.9.2)
     builder (3.2.3)
     byebug (11.0.1)
     capybara (3.17.0)
@@ -266,6 +267,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap (>= 1.1.0)
+  bower-rails (~> 0.9.2)
   byebug
   capybara (>= 2.15)
   chromedriver-helper

@@ -33,6 +33,8 @@ gem 'haml-rails'
 gem 'jb'
 # User for authentication users
 gem 'devise'
+# Support for bower
+gem "bower-rails", "~> 0.9.2"
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

@@ -21,6 +21,7 @@ es:
         comission: 'Comisión'
         email: 'Correo electrónico'
         password: 'Contraseña'
+        parent_id: 'Supervisor'
       carrier:
         name: 'Nombre'
       category:

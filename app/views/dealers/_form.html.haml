@@ -1,3 +1,8 @@
+:javascript
+  $(function() {
+    $('#dealer_parent_id').select2();
+  });
+
 = bootstrap_card t('general.datos') do 
   = form_with(model: dealer, local: true) do |form|
     - if dealer.errors.any?
@@ -29,6 +34,9 @@
     .form-group
       = form.label :comission
       = form.number_field :comission, class: 'form-control', step: :any
+    .form-group
+      = form.label :parent_id
+      = form.collection_select :parent_id, Dealer.all, :id, :name, { prompt: true }, { class: 'form-control' }
     .text-right
       %br
       = bootstrap_btn_icon_split('primary', t('helpers.links.back'), 'arrow-left', dealers_path)

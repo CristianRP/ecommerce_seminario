@@ -10,14 +10,15 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require rails-ujs
+// require rails-ujs
 //= require activestorage
-//= require jquery/jquery.min
-//= require bootstrap/js/bootstrap.bundle.min
-//= require jquery-easing/jquery.easing.min
-//= require datatables/jquery.dataTables
-//= require datatables/dataTables.bootstrap4
+// require jquery/dist/jquery
+// require bootstrap/js/bootstrap.bundle.min
+// require datatables/jquery.dataTables
+// require datatables/media/js/dataTables.bootstrap.min
+// require select2.min
 // require_tree .
+//= require_tree ./angle/
 
 $(function() {
   var dataTable = null;

@@ -81,4 +81,12 @@ module ApplicationHelper
   def date_format(date)
     date.strftime('%d/%m/%Y')
   end
+
+  def controller?(*controller)
+    controller.include?(params[:controller])
+  end
+
+  def action?(*action)
+    action.include?(params[:action])
+  end
 end
