@@ -3,3 +3,4 @@
 //= require datatables/media/js/dataTables.bootstrap
 // --- Select2
 //= require select2/dist/js/select2
+$.fn.select2.defaults.set( "theme", "bootstrap" );

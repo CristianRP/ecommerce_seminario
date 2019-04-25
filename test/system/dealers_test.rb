@@ -19,6 +19,9 @@ class DealersTest < ApplicationSystemTestCase
     fill_in Dealer.human_attribute_name(:last_name), with: @dealer.last_name
     fill_in Dealer.human_attribute_name(:name), with: @dealer.name
     fill_in Dealer.human_attribute_name(:phone), with: @dealer.phone
+    fill_in Dealer.human_attribute_name(:email), with: @dealer.email
+    fill_in Dealer.human_attribute_name(:password), with: @dealer.password
+    fill_in Dealer.human_attribute_name(:parent_id), with: @dealer.parent_id
     click_on 'Nuevo Vendedor'
 
     assert_text I18n.t('forms.created', model: Dealer.model_name.human)

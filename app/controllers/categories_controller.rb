@@ -53,7 +53,7 @@ class CategoriesController < ApplicationController
 
   # DELETE /categories/1
   # DELETE /categories/1.json
-  def destroy
+  def destroy 
     @category.destroy
     respond_to do |format|
       format.html { redirect_to categories_url, notice: t('forms.deleted', model: Category.model_name.human) }

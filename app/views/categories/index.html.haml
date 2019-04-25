@@ -4,7 +4,7 @@
 - content_for :title, model_class.model_name.human.pluralize(I18n.locale).titleize
 
 - unless notice.nil?
-  = bootstrap_notice(notice, 'success')
+  = bootstrap_notice(notice, alert.nil? ? 'success' : 'danger')
 = bootstrap_card t '.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale)) do
   .table-responsive
     %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}

@@ -1,0 +1,37 @@
+= javascript_include_tag 'data_table_init'
+
+- model_class = Product
+- content_for :title, model_class.model_name.human.pluralize(I18n.locale).titleize
+
+- unless notice.nil?
+  = bootstrap_notice(notice, alert.nil? ? 'success' : 'danger')
+= bootstrap_card t('.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale))) do
+  .table-responsive
+    %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+      %thead
+        %tr
+          %th= model_class.human_attribute_name(:descrition)
+          %th= model_class.human_attribute_name(:sku)
+          %th= model_class.human_attribute_name(:category)
+          %th= model_class.human_attribute_name(:active)
+          %th= model_class.human_attribute_name(:quantity)
+          %th= model_class.human_attribute_name(:price)
+          %th= model_class.human_attribute_name(:cost)
+          %th= model_class.human_attribute_name(:characteristic)
+          %th= t '.actions', :default => t("helpers.actions")
+      %tbody
+        - @products.each do |product|
+          %tr
+            %td= product.description
+            %td= product.sku
+            %td= product.category.name
+            %td= product.active
+            %td= product.quantity
+            %td= product.price
+            %td= product.cost
+            %td= product.characteristic.name
+            %td
+              = bootstrap_button('warning', t('helpers.links.edit'), 'exclamation-triangle', edit_product_path(product))
+              = bootstrap_button_destroy(product)
+    %br/
+    = bootstrap_button('primary', t('helpers.titles.new', model: model_class.model_name.human), 'plus', new_product_path)

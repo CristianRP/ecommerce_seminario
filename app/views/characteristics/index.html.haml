@@ -4,7 +4,7 @@
 - content_for :title, model_class.model_name.human.pluralize(I18n.locale).titleize
 
 - unless notice.nil?
-  = bootstrap_notice(notice, 'success')
+  = bootstrap_notice(notice, alert.nil? ? 'success' : 'danger')
 .card.shadow.mb-4
   .card-header.py-3
     %h6.m-0.font-weight-bold.text-primary= t '.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale))

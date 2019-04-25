@@ -1,0 +1,48 @@
+:javascript
+  $(function() {
+    $('#product_category_id').select2();
+    $('#product_characteristic_id').select2();
+  });
+- model_class = Product
+= bootstrap_card t('general.datos') do 
+  = form_with(model: product, local: true) do |f|
+    - if product.errors.any?
+      = bootstrap_error_alert 'danger' do 
+        #error_explanation
+          %h5
+            = t('activerecord.errors.messages.record_invalid', errors: pluralize(product.errors.count, "error"))
+          %ul
+            - product.errors.full_messages.each do |message|
+              %li= message
+
+    .form-group
+      = f.label :description
+      = bootstrap_text_field f, :description
+    .form-group
+      = f.label :sku
+      = bootstrap_text_field f, :sku
+    .form-group
+      = f.label :category
+      = f.collection_select :category_id, Category.all, :id, :name, { prompt: true }, { class: 'form-control' }
+    .form-group
+      = f.label :active
+      = f.check_box :active
+    .form-group
+      = f.label :quantity
+      = bootstrap_text_field f, :quantity
+    .form-group
+      = f.label :price
+      = bootstrap_text_field f, :price
+    .form-group
+      = f.label :cost
+      = bootstrap_text_field f, :cost
+    .form-group
+      = f.label :characteristic
+      = f.collection_select :characteristic_id, Characteristic.all, :id, :name, { prompt: true }, { class: 'form-control' }
+    .form-group
+      = f.label :images
+      = f.file_field :images, multiple: true, class: 'form-control'
+    .text-right
+      %br
+      = bootstrap_button('primary', t('helpers.links.back'), 'arrow-left', products_path)
+      = bootstrap_submit_button(f, t('helpers.titles.new', model: model_class.model_name.human))

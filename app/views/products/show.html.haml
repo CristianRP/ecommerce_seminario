@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b Description:
+  = @product.description
+%p
+  %b Sku:
+  = @product.sku
+%p
+  %b Category:
+  = @product.category
+%p
+  %b Active:
+  = @product.active
+%p
+  %b Quantity:
+  = @product.quantity
+%p
+  %b Price:
+  = @product.price
+%p
+  %b Cost:
+  = @product.cost
+%p
+  %b Characteristic:
+  = @product.characteristic
+
+= link_to 'Edit', edit_product_path(@product)
+\|
+= link_to 'Back', products_path

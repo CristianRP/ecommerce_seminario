@@ -9,10 +9,9 @@
             - carrier.errors.full_messages.each do |message|
               %li= message
     .form-group
-      = f.label f.label t('activerecord.attributes.name')
+      = f.label t('activerecord.attributes.name')
       = bootstrap_text_field(f, :name)
     .text-right
       %br
       = bootstrap_button('primary', t('helpers.links.back'), 'arrow-left', carriers_path)
-      = bootstrap_submit_button 'success', 'check' do 
-        = f.submit action, class: 'btn btn-sm', style: 'color: white;'
+      = bootstrap_submit_button(f, t('helpers.titles.new', model: Carrier.model_name.human))

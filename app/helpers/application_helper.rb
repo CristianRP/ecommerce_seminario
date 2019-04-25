@@ -14,14 +14,14 @@ module ApplicationHelper
   end
 
   def bootstrap_button(css_class, text, icon, action = '')
-    content_tag(:a, nil, class: "btn btn-sm btn-#{css_class} btn-icon-split", href: action) {
+    content_tag(:a, nil, class: "btn btn-sm btn-#{css_class}", href: action) {
       content_tag(:i, nil, class: "fa fa-#{icon}") +
       content_tag(:span, text, class: 'text')
     }
   end
 
   def bootstrap_button_destroy(model)
-    content_tag(:a, nil, class: "btn btn-sm btn-danger btn-icon-split", 
+    content_tag(:a, nil, class: "btn btn-sm btn-danger", 
       'data-method': :delete, rel: 'no-follow', href: url_for(model), 
       data: { confirm: t('.confirm', default: t("helpers.links.confirm", default: 'Are you sure?'))}) {
       content_tag(:i, nil, class: "fa fa-trash") + 
@@ -35,21 +35,21 @@ module ApplicationHelper
   end
 
   def bootstrap_notice(text, css_class) 
-    content_tag(:div, nil, class: "alert alert-#{css_class} alert-dismissible fade show", role: 'alert') {
-      text.html_safe +
+    content_tag(:div, nil, class: "alert alert-#{css_class} alert-dismissible fade in", role: 'alert') {
       content_tag(:button, nil, type: 'button', class: 'close', 'data-dismiss': 'alert', 'aria-label': 'Close') {
         content_tag(:span, '&times;'.html_safe, 'aria-hidden': true)
-      }
+      } +
+      text.html_safe 
     }
   end
 
   def bootstrap_error_alert(css_class, &block)
     content = capture(&block) 
-    content_tag(:div, nil, class: "alert alert-#{css_class} alert-dismissible fade show", role: 'alert') {
-      content +
+    content_tag(:div, nil, class: "alert alert-#{css_class} alert-dismissible fade in", role: 'alert') {
       content_tag(:button, nil, type: 'button', class: 'close', 'data-dismiss': 'alert', 'aria-label': 'Close') {
         content_tag(:span, '&times;'.html_safe, 'aria-hidden': true)
-      }
+      } +
+      content
     }
   end
 

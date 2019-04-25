@@ -1,0 +1,3 @@
+- model_class = Product
+- content_for :title, t('helpers.titles.edit', model: model_class.model_name.human.titleize)
+= render 'form', product: @product, action: t('helpers.titles.edit', model: model_class.model_name.human)

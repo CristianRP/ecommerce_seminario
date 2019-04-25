@@ -46,6 +46,6 @@ class CategoriesTest < ApplicationSystemTestCase
       click_on I18n.t('helpers.links.destroy'), match: :first
     end
 
-    assert_text I18n.t('forms.deleted', model: Category.model_name.human)
+    assert_text I18n.t('activerecord.errors.messages.foreign_key.violation.has_dependencies')
   end
 end
