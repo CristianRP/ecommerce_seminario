@@ -265,10 +265,12 @@ es:
     company: Mayan Technology
     copyright: Copyright © Mayan Technology 2019
     module: 'Modulo'
+    sign_out: 'Cerrar sesión'
   modules:
     dashboard: 'Dashboard'
     catalog: 'Catalogo'
     user: 'Usuarios'
+    security: 'Seguridad'
   forms: 
     created: '%{model} creado con éxito.'
     deleted: '%{model} eliminado con éxito.'

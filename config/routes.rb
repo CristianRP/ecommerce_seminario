@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :products
-  devise_for :dealers
+  devise_for :dealers, controllers: {
+    sessions: 'dealers/sessions'
+  }
   resources :statuses
   resources :carriers
   resources :characteristics

@@ -64,6 +64,16 @@
         %a{href: statuses_path, title: t('activerecord.models.status').pluralize(I18n.locale)}
           %em.fa.fa-adjust
           %span{"data-localize" => "sidebar.nav.element.ELEMENTS"}= t('activerecord.models.status').pluralize(I18n.locale)
+      %li.nav-heading
+        %span= t('modules.security')
+      %li{:class => "#{'active' if controller?('dealers')}"}
+        %a{href: dealers_path, title: t('activerecord.models.dealer').pluralize(I18n.locale)}
+          %em.fa.fa-users
+          %span{"data-localize" => "sidebar.nav.element.ELEMENTS"}= t('activerecord.models.dealer').pluralize(I18n.locale)
+      %li{:class => "#{'active' if controller?('statuses')}"}
+        %a{href: destroy_dealer_session_path, title: t('activerecord.models.status').pluralize(I18n.locale), 'data-method': :delete}
+          %em.fa.fa-sign-out
+          %span{"data-localize" => "sidebar.nav.element.ELEMENTS"}= t('general.sign_out')
       - if false
         %li{:class => "#{'active' if controller?('forms')}"}
           %a{"data-toggle": "collapse", href: "#forms", title: "Forms"}

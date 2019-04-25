@@ -1,0 +1,19 @@
+.block-center.mt-xl.wd-xl
+  / START panel
+  .panel.panel-dark.panel-flat
+    .panel-heading.text-center{style: 'background-color: #3a3f51; border-color: #3a3f51;'}
+      %a{:href => "#"}
+        %img.block-center.img-rounded{:alt => "Image", :src => "image_path('angle/logo.png')"}/
+    .panel-body
+      %p.text-center.pv SIGN IN TO CONTINUE.
+      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |form|
+        .form-group.has-feedback
+          = form.email_field :email, autofocus: true, autocomplete: 'email', class: 'exampleInputEmail1 form-control', placeholder: 'Ingresa tu email', required: :required
+          %span.fa.fa-envelope.form-control-feedback.text-muted
+        .form-group.has-feedback
+          = form.password_field :password, autocomplete: 'current-password', class: 'exampleInputPassword1 form-control', placeholder: 'Contraseña', required: :required
+          %span.fa.fa-lock.form-control-feedback.text-muted
+        .clearfix
+        %button.btn.btn-block.btn-primary.mt-lg{:type => "submit"} Login
+      
+  / END panel

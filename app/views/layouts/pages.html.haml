@@ -1,1 +1,21 @@
-= yield
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:content => "width=device-width, initial-scale=1, maximum-scale=1", :name => "viewport"}/
+    %meta{:content => "app, responsive, jquery, bootstrap, dashboard, admin", :name => "keywords"}/
+    %meta{content: 'Inventory app', name: 'description'}
+    %title InventoryMt
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag 'base'
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'jquery/dist/jquery'
+    = javascript_include_tag 'init'
+  %body
+    .wrapper
+      .content-wrapper
+        %h3= content_for?(:title) ? yield(:title) : t('brand.name')
+        = yield
+    = javascript_include_tag 'base'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
