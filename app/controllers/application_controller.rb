@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  protect_from_forgery with: :exception
+  before_action :authenticate_dealer!
   around_action :rescue_from_fk_constraint, only: :destroy
 
   def rescue_from_fk_constraint

@@ -1,16 +1,17 @@
-= form_with(model: characteristic, local: true) do |f|
-  - if characteristic.errors.any?
-    = bootstrap_error_alert 'danger' do
-      #error_explanation
-        %h5
-          = t('activerecord.errors.messages.record_invalid', errors: pluralize(characteristic.errors.count, "error"))
-        %ul
-          - characteristic.errors.full_messages.each do |message|
-            %li= message
-  .form-group
-    = f.label :name
-    = bootstrap_text_field(f, :name)
-  .text-right
-    %br
-    = bootstrap_button('primary', t('helpers.links.back'), 'arrow-left', characteristics_path)
-    = bootstrap_submit_button(f, t('helpers.titles.new', model: Characteristic.model_name.human))
+= bootstrap_card t('general.datos') do 
+  = form_with(model: characteristic, local: true) do |f|
+    - if characteristic.errors.any?
+      = bootstrap_error_alert 'danger' do
+        #error_explanation
+          %h5
+            = t('activerecord.errors.messages.record_invalid', errors: pluralize(characteristic.errors.count, "error"))
+          %ul
+            - characteristic.errors.full_messages.each do |message|
+              %li= message
+    .form-group
+      = f.label :name
+      = bootstrap_text_field(f, :name)
+    .text-right
+      %br
+      = bootstrap_button('primary', t('helpers.links.back'), 'arrow-left', characteristics_path)
+      = bootstrap_submit_button(f, t('helpers.titles.new', model: Characteristic.model_name.human))

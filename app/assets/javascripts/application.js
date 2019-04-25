@@ -18,7 +18,7 @@
 // require datatables/media/js/dataTables.bootstrap.min
 // require select2.min
 // require_tree .
-// require_tree ./angle/
+//= require_tree ./angle/
 
 $(function() {
   var dataTable = null;

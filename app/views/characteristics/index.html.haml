@@ -5,26 +5,23 @@
 
 - unless notice.nil?
   = bootstrap_notice(notice, alert.nil? ? 'success' : 'danger')
-.card.shadow.mb-4
-  .card-header.py-3
-    %h6.m-0.font-weight-bold.text-primary= t '.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale))
-  .card-body
-    .table-responsive
-      %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
-        %thead
+= bootstrap_card t('.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale))) do
+  .table-responsive
+    %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+      %thead
+        %tr
+          %th= model_class.human_attribute_name(:id)
+          %th= model_class.human_attribute_name(:name)
+          %th= t 'activerecord.attributes.created_at'
+          %th= t '.actions', :default => t("helpers.actions")
+      %tbody
+        - @characteristics.each do |characteristic|
           %tr
-            %th= model_class.human_attribute_name(:id)
-            %th= model_class.human_attribute_name(:name)
-            %th= t 'activerecord.attributes.created_at'
-            %th= t '.actions', :default => t("helpers.actions")
-        %tbody
-          - @characteristics.each do |characteristic|
-            %tr
-              %td= characteristic.id
-              %td= characteristic.name
-              %td= date_format(characteristic.created_at)
-              %td
-                = bootstrap_button('warning', t('helpers.links.edit', model: model_class.model_name.human), 'exclamation-triangle', edit_characteristic_path(characteristic))
-                = bootstrap_button_destroy(characteristic)
-      %br/
-      = bootstrap_button('primary', t('helpers.titles.new_f', model: model_class.model_name.human), 'plus', new_characteristic_path)
+            %td= characteristic.id
+            %td= characteristic.name
+            %td= date_format(characteristic.created_at)
+            %td
+              = bootstrap_button('warning', t('helpers.links.edit', model: model_class.model_name.human), 'exclamation-triangle', edit_characteristic_path(characteristic))
+              = bootstrap_button_destroy(characteristic)
+    %br/
+    = bootstrap_button('primary', t('helpers.titles.new_f', model: model_class.model_name.human), 'plus', new_characteristic_path)
