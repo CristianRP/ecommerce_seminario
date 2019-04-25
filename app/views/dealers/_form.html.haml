@@ -1,8 +1,10 @@
 :javascript
   $(function() {
-    $('#dealer_parent_id').select2();
+    $('#dealer_parent_id').select2({
+      theme: "bootstrap"
+    });
   });
-
+- model_class = Dealer
 = bootstrap_card t('general.datos') do 
   = form_with(model: dealer, local: true) do |form|
     - if dealer.errors.any?
@@ -39,6 +41,5 @@
       = form.collection_select :parent_id, Dealer.all, :id, :name, { prompt: true }, { class: 'form-control' }
     .text-right
       %br
-      = bootstrap_btn_icon_split('primary', t('helpers.links.back'), 'arrow-left', dealers_path)
-      = bootstrap_submit_icon_split 'success', 'check' do 
-        = form.submit action, class: 'btn btn-sm', style: 'color: white;'
+      = bootstrap_button('primary', t('helpers.links.back'), 'arrow-left', dealers_path)
+      = bootstrap_submit_button(form, t('helpers.titles.new', model: model_class.model_name.human))

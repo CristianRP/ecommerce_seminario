@@ -21,10 +21,11 @@
         = render 'layouts/shared/sidebar'
       %section
         .content-wrapper
+          %h3= content_for?(:title) ? yield(:title) : t('brand.name')
           = yield
     = javascript_include_tag 'base'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
-    
+
 =##content-wrapper.d-flex.flex-column
 =#  #content
 =#    = render 'layouts/shared/topbar'

@@ -5,31 +5,28 @@
 
 - unless notice.nil?
   = bootstrap_notice(notice, 'success')
-.card.shadow.mb-4
-  .card-header.py-3
-    %h6.m-0.font-weight-bold.text-primary= t '.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale))
-  .card-body
-    .table-responsive
-      %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
-        %thead
+= bootstrap_card t('.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale))) do
+  .table-responsive
+    %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+      %thead
+        %tr
+          %th= model_class.human_attribute_name(:name) 
+          %th= model_class.human_attribute_name(:last_name) 
+          %th= model_class.human_attribute_name(:phone) 
+          %th= model_class.human_attribute_name(:address) 
+          %th= model_class.human_attribute_name(:comission) 
+          %th= t '.actions', :default => t("helpers.actions")
+      %tbody
+        - @dealers.each do |dealer|
           %tr
-            %th= model_class.human_attribute_name(:name) 
-            %th= model_class.human_attribute_name(:last_name) 
-            %th= model_class.human_attribute_name(:phone) 
-            %th= model_class.human_attribute_name(:address) 
-            %th= model_class.human_attribute_name(:comission) 
-            %th= t '.actions', :default => t("helpers.actions")
-        %tbody
-          - @dealers.each do |dealer|
-            %tr
-              %td= dealer.name
-              %td= dealer.last_name
-              %td= dealer.phone
-              %td= dealer.address
-              %td= dealer.comission
-              %td
-                =# bootstrap_btn_icon_split('success', t('helpers.links.show', model: model_class.model_name.human), 'eye', dealer_path(dealer))
-                = bootstrap_btn_icon_split('warning', t('helpers.links.edit', model: model_class.model_name.human), 'exclamation-triangle', edit_dealer_path(dealer))
-                = bootstrap_btn_destroy_icon_split(dealer)
-      %br/
-      = bootstrap_btn_icon_split('primary', t('helpers.titles.new', model: model_class.model_name.human), 'plus', new_dealer_path)
+            %td= dealer.name
+            %td= dealer.last_name
+            %td= dealer.phone
+            %td= dealer.address
+            %td= dealer.comission
+            %td
+              =# bootstrap_button('success', t('helpers.links.show', model: model_class.model_name.human), 'eye', dealer_path(dealer))
+              = bootstrap_button('warning', t('helpers.links.edit', model: model_class.model_name.human), 'exclamation-triangle', edit_dealer_path(dealer))
+              = bootstrap_button_destroy(dealer)
+    %br/
+    = bootstrap_button('primary', t('helpers.titles.new', model: model_class.model_name.human), 'plus', new_dealer_path)

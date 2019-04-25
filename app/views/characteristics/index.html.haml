@@ -24,7 +24,7 @@
               %td= characteristic.name
               %td= date_format(characteristic.created_at)
               %td
-                = bootstrap_btn_icon_split('warning', t('helpers.links.edit', model: model_class.model_name.human), 'exclamation-triangle', edit_characteristic_path(characteristic))
-                = bootstrap_btn_destroy_icon_split(characteristic)
+                = bootstrap_button('warning', t('helpers.links.edit', model: model_class.model_name.human), 'exclamation-triangle', edit_characteristic_path(characteristic))
+                = bootstrap_button_destroy(characteristic)
       %br/
-      = bootstrap_btn_icon_split('primary', t('helpers.titles.new_f', model: model_class.model_name.human), 'plus', new_characteristic_path)
+      = bootstrap_button('primary', t('helpers.titles.new_f', model: model_class.model_name.human), 'plus', new_characteristic_path)

@@ -24,7 +24,7 @@
               %td= status.description
               %td= date_format(status.created_at)
               %td
-                = bootstrap_btn_icon_split('warning', t('helpers.links.edit', model: model_class.model_name.human), 'exclamation-triangle', edit_status_path(status))
-                = bootstrap_btn_destroy_icon_split(status)
+                = bootstrap_button('warning', t('helpers.links.edit', model: model_class.model_name.human), 'exclamation-triangle', edit_status_path(status))
+                = bootstrap_button_destroy(status)
       %br/
-      = bootstrap_btn_icon_split('primary', t('helpers.titles.new', model: model_class.model_name.human), 'plus', new_status_path)
+      = bootstrap_button('primary', t('helpers.titles.new', model: model_class.model_name.human), 'plus', new_status_path)

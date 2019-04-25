@@ -13,6 +13,6 @@
       = bootstrap_text_field(form, :description)
     .text-right
       %br
-      = bootstrap_btn_icon_split('primary', t('helpers.links.back'), 'arrow-left', statuses_path)
-      = bootstrap_submit_icon_split 'success', 'check' do 
+      = bootstrap_button('primary', t('helpers.links.back'), 'arrow-left', statuses_path)
+      = bootstrap_submit_button 'success', 'check' do 
         = form.submit action, class: 'btn btn-sm', style: 'color: white;'

@@ -2,10 +2,9 @@ module ApplicationHelper
   # Helper to render a bootstrap card and passing a block
   def bootstrap_card(title, &block)
     content = capture(&block)
-    content_tag(:div, nil, class: 'card shadow mb-4') {
-      content_tag(:div, nil, class: 'card-header py-3') {
-        content_tag(:h6, title, class: 'm-0 font-weight-bold text-primary')
-      } + content_tag(:div, content, class: 'card-body')
+    content_tag(:div, nil, class: 'panel panel-default') {
+      content_tag(:div, title, class: 'panel-heading') +
+        content_tag(:div, content, class: 'panel-body')
     }
   end
 
@@ -14,31 +13,25 @@ module ApplicationHelper
     form.text_field attribute, class: 'form-control', placeholder: placeholder
   end
 
-  def bootstrap_btn_icon_split(css_class, text, icon, action = '')
+  def bootstrap_button(css_class, text, icon, action = '')
     content_tag(:a, nil, class: "btn btn-sm btn-#{css_class} btn-icon-split", href: action) {
-      content_tag(:span, nil, class: 'icon text-white-50') {
-        content_tag(:i, nil, class: "fas fa-#{icon}")
-      } + content_tag(:span, text, class: 'text')
+      content_tag(:i, nil, class: "fa fa-#{icon}") +
+      content_tag(:span, text, class: 'text')
     }
   end
 
-  def bootstrap_btn_destroy_icon_split(model)
+  def bootstrap_button_destroy(model)
     content_tag(:a, nil, class: "btn btn-sm btn-danger btn-icon-split", 
       'data-method': :delete, rel: 'no-follow', href: url_for(model), 
-      data: { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?'))}) {
-      content_tag(:span, nil, class: 'icon text-white-50') {
-        content_tag(:i, nil, class: "fas fa-trash")
-      } + content_tag(:span, t('.destroy', :default => t("helpers.links.destroy")), class: 'text')
+      data: { confirm: t('.confirm', default: t("helpers.links.confirm", default: 'Are you sure?'))}) {
+      content_tag(:i, nil, class: "fa fa-trash") + 
+      content_tag(:span, t('.destroy', default: t("helpers.links.destroy")), class: 'text')
     }
   end
 
-  def bootstrap_submit_icon_split(css_class, icon, &block)
-    content = capture(&block)
-    content_tag(:a, nil, class: "btn btn-sm btn-#{css_class} btn-icon-split", type: 'submit') {
-      content_tag(:span, nil, class: 'icon text-white-50') {
-        content_tag(:i, nil, class: "fas fa-#{icon}")
-      } + content 
-    }
+  def bootstrap_submit_button(form, text)
+    #content_tag(:input, nil, class: "btn btn-sm btn-success", type: 'submit', name: 'commit', value: "<span class='fa fa-plus'>#{text}</span>".html_safe, 'data-disable-with': text) 
+    form.submit text, class: "btn btn-sm btn-success"
   end
 
   def bootstrap_notice(text, css_class) 
