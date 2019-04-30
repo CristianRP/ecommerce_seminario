@@ -1,0 +1,10 @@
+@parameters.map do |parameter|
+  {
+    id: parameter.id,
+    tag: parameter.tag,
+    description: parameter.description,
+    int_value: parameter.int_value,
+    text_value: parameter.text_value,
+    url: parameter_url(parameter, format: :json)
+  }
+end

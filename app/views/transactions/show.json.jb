@@ -1,0 +1,16 @@
+{
+  id: @transaction.id,
+  description: @transaction.description,
+  client: @transaction.client,
+  address: @transaction.address,
+  address2: @transaction.address2,
+  phone: @transaction.phone,
+  amount: @transaction.amount,
+  status_id: @transaction.status_id,
+  dealer_id: @transaction.dealer_id,
+  type_id: @transaction.type_id,
+  tracking_number: @transaction.tracking_number,
+  carrier_id: @transaction.carrier_id,
+  created_at: @transaction.created_at,
+  updated_at: @transaction.updated_at
+}

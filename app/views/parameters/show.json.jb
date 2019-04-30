@@ -1,0 +1,9 @@
+{
+  id: @parameter.id,
+  tag: @parameter.tag,
+  description: @parameter.description,
+  int_value: @parameter.int_value,
+  text_value: @parameter.text_value,
+  created_at: @parameter.created_at,
+  updated_at: @parameter.updated_at
+}

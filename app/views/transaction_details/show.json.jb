@@ -1,0 +1,10 @@
+{
+  id: @transaction_detail.id,
+  transaction_id: @transaction_detail.transaction_id,
+  product_id: @transaction_detail.product_id,
+  unit_price: @transaction_detail.unit_price,
+  quantity: @transaction_detail.quantity,
+  total: @transaction_detail.total,
+  created_at: @transaction_detail.created_at,
+  updated_at: @transaction_detail.updated_at
+}

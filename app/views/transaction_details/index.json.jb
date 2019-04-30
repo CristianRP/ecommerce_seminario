@@ -1,0 +1,11 @@
+@transaction_details.map do |transaction_detail|
+  {
+    id: transaction_detail.id,
+    transaction_id: transaction_detail.transaction_id,
+    product_id: transaction_detail.product_id,
+    unit_price: transaction_detail.unit_price,
+    quantity: transaction_detail.quantity,
+    total: transaction_detail.total,
+    url: transaction_detail_url(transaction_detail, format: :json)
+  }
+end

@@ -8,13 +8,26 @@ module ApplicationHelper
     }
   end
 
+  def bootstrap_card_collapse(title, &block)
+    content = capture(&block)
+    content_tag(:div, nil, class: 'panel panel-default') {
+      content_tag(:div, nil, class: 'panel-heading') {
+        content_tag(:a, nil, class: 'pull-right', 'data-toggle': :tooltip, 'data-tool': 'panel-collapse', href: '#', title: title) {
+          content_tag(:em, nil, class: 'fa fa-minus')
+        } +
+        content_tag(:div, title, class: 'panel-title')
+      } +
+      content_tag(:div, content, class: 'panel-body')
+    }
+  end
+
   # Render themed text field 
   def bootstrap_text_field(form, attribute, placeholder = nil)
     form.text_field attribute, class: 'form-control', placeholder: placeholder
   end
 
-  def bootstrap_button(css_class, text, icon, action = '')
-    content_tag(:a, nil, class: "btn btn-sm btn-#{css_class}", href: action) {
+  def bootstrap_button(css_class, text, icon, action = '', method = '')
+    content_tag(:a, nil, class: "btn btn-sm btn-#{css_class}", href: action, 'data-method': method) {
       content_tag(:i, nil, class: "fa fa-#{icon}") +
       content_tag(:span, text, class: 'text')
     }

@@ -5,4 +5,8 @@ class Dealer < ApplicationRecord
          :recoverable, :rememberable, :validatable, :trackable
   validates :name, :last_name, :phone, :address, :comission, presence: true
   validates_numericality_of :comission, on: :create, message: I18n.t('errors.messages.not_a_number')
+
+  def custom_name
+    [id, name, last_name].join(' ')
+  end
 end

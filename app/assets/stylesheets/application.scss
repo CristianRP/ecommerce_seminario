@@ -24,3 +24,7 @@
  *= require select2-bootstrap-theme/dist/select2-bootstrap.css
  */
 @import '../../../vendor/assets/stylesheets/css/datatables/dataTables.bootstrap4.min';
+.row-custom {
+  margin-left: 20px;
+  margin-right: 20px;
+}

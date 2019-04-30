@@ -1,0 +1,39 @@
+%p#notice= notice
+
+%p
+  %b Description:
+  = @transaction.description
+%p
+  %b Client:
+  = @transaction.client
+%p
+  %b Address:
+  = @transaction.address
+%p
+  %b Address2:
+  = @transaction.address2
+%p
+  %b Phone:
+  = @transaction.phone
+%p
+  %b Amount:
+  = @transaction.amount
+%p
+  %b Status:
+  = @transaction.status
+%p
+  %b Dealer:
+  = @transaction.dealer
+%p
+  %b Type:
+  = @transaction.type_id
+%p
+  %b Tracking number:
+  = @transaction.tracking_number
+%p
+  %b Carrier:
+  = @transaction.carrier
+
+= link_to 'Edit', edit_transaction_path(@transaction)
+\|
+= link_to 'Back', transactions_path

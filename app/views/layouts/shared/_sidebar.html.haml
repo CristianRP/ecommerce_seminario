@@ -25,6 +25,12 @@
         %a{href: root_path, title: t('modules.dashboard')}
           %em.icon-speedometer
           %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.dashboard')
+      %li.nav-heading
+        %span= t('modules.management')
+      %li{:class => "#{'active' if controller?('transaction')}"}
+        %a{href: root_path, title: t('modules.sale')}
+          %em.fa.fa-cart-plus
+          %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.sale')
       - if false
         %li{:class => "#{'active' if controller?('widgets') && action?('index')}"}
           %a{href: "/widgets", title: "Widgets"}

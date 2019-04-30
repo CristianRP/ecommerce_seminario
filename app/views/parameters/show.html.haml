@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Tag:
+  = @parameter.tag
+%p
+  %b Description:
+  = @parameter.description
+%p
+  %b Int value:
+  = @parameter.int_value
+%p
+  %b Text value:
+  = @parameter.text_value
+
+= link_to 'Edit', edit_parameter_path(@parameter)
+\|
+= link_to 'Back', parameters_path

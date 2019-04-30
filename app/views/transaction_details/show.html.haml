@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Transaction:
+  = @transaction_detail.transaction
+%p
+  %b Product:
+  = @transaction_detail.product
+%p
+  %b Unit price:
+  = @transaction_detail.unit_price
+%p
+  %b Quantity:
+  = @transaction_detail.quantity
+%p
+  %b Total:
+  = @transaction_detail.total
+
+= link_to 'Edit', edit_transaction_detail_path(@transaction_detail)
+\|
+= link_to 'Back', transaction_details_path

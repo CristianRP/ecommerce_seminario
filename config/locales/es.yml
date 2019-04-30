@@ -16,6 +16,9 @@ es:
       characteristic: 'Caracteristíca'
       status: 'Estado'
       product: 'Producto'
+      transaction: 'Pedidos'
+      transaction_detail: 'Productos'
+      parameters: 'Parámetros'
     attributes:
       dealer:
         name: 'Nombres'
@@ -44,6 +47,18 @@ es:
         cost: 'Costo'
         characteristic: 'Característica'
         images: 'Imagenes'
+      transaction:
+        description: 'Descripción'
+        client: 'Cliente'
+        address: 'Dirección'
+        address2: 'Dirección de entrega'
+        phone: 'Teléfono'
+        amount: 'Total'
+        status: 'Estado'
+        dealer: 'Vendedor'
+        type: 'Tipo Movimiento'
+        tracking_number: 'No. Seguimiento'
+        carrier: 'Transportista'
       name: 'Nombre'
       created_at: 'Fecha creación'
       updated_at: 'Fecha actualización'
@@ -266,11 +281,16 @@ es:
     copyright: Copyright © Mayan Technology 2019
     module: 'Modulo'
     sign_out: 'Cerrar sesión'
+    order_parent: 'Encabezado de la orden'
+    add_products: 'Agregar productos'
+    close_order: 'Cerrar pedido'
   modules:
     dashboard: 'Dashboard'
     catalog: 'Catalogo'
     user: 'Usuarios'
     security: 'Seguridad'
+    management: 'Gestiones'
+    sale: 'Ingreso de pedido'
   forms: 
     created: '%{model} creado con éxito.'
     deleted: '%{model} eliminado con éxito.'

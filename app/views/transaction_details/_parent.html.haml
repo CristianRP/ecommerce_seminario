@@ -1,0 +1,81 @@
+:javascript
+  $(function() {
+    $('select').select2({
+      theme: "bootstrap"
+    });
+    $('input[type=text]').prop('disabled', true);
+    $('#transaction_carrier_id').prop('disabled', true);
+    /*if ($('#transaction_type_id').val() == 2 || $('#transaction_type_id').text().equals('SALIDA')) {
+      
+    }*/
+  });
+- model_class = Transaction
+= bootstrap_card_collapse t('general.order_parent') do 
+  = form_with(model: transaction, local: true, class: 'form-inline') do |f|
+    - if transaction.errors.any?
+      = bootstrap_error_alert 'danger' do 
+        #error_explanation
+          %h5
+            = t('activerecord.errors.messages.record_invalid', errors: pluralize(transaction.errors.count, "error"))
+          %ul
+            - transaction.errors.full_messages.each do |message|
+              %li= message
+    - if false
+      .form-group
+        = f.label :type_id
+        = f.collection_select :type_id, Parameter.transaction_types, :int_value, :text_value, { prompt: true }, { class: 'form-control' }
+    .form-group{disabled: true}
+      .row.row-custom
+        .col
+          = f.label :description
+        .col
+          = bootstrap_text_field(f, :description, model_class.human_attribute_name(:description))
+    .form-group
+      .row.row-custom
+        .col
+          = f.label :client
+        .col
+          = bootstrap_text_field(f, :client, model_class.human_attribute_name(:client))
+    .form-group
+      .row.row-custom
+        .col
+          = f.label :address
+        .col
+          = bootstrap_text_field(f, :address, model_class.human_attribute_name(:address))
+    .form-group
+      .row.row-custom
+        .col
+          = f.label :address2
+        .col
+          = bootstrap_text_field(f, :address2, model_class.human_attribute_name(:address2))
+    .form-group
+      .row.row-custom
+        .col
+          = f.label :phone
+        .col
+          = bootstrap_text_field(f, :phone, model_class.human_attribute_name(:phone))
+    - if false
+      .form-group
+        .row.row-custom
+          .col
+            = f.label :status
+          .col
+            = f.collection_select :status_id, Status.all, :id, :description, { prompt: true }, { class: 'form-control' }
+      .form-group
+        .row.row-custom
+          .col
+            = f.label :dealer
+          .col
+            = f.collection_select :dealer_id, Dealer.all, :id, :name, { prompt: true }, { class: 'form-control' }    
+        .form-group
+          .row.row-custom
+            .col
+              = f.label :tracking_number
+            .col
+              = bootstrap_text_field(f, :tracking_number, model_class.human_attribute_name(:tracking_number))
+    .form-group
+      .row.row-custom
+        .col
+          = f.label :carrier
+        .col
+          = f.collection_select :carrier_id, Carrier.all, :id, :name, { prompt: true }, { class: 'form-control' }

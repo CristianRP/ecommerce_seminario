@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_25_041940) do
+ActiveRecord::Schema.define(version: 2019_04_29_003128) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,16 @@ ActiveRecord::Schema.define(version: 2019_04_25_041940) do
     t.index ["reset_password_token"], name: "index_dealers_on_reset_password_token", unique: true
   end
 
+  create_table "parameters", force: :cascade do |t|
+    t.string "tag"
+    t.string "description"
+    t.integer "int_value"
+    t.string "text_value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tag"], name: "index_parameters_on_tag"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "description"
     t.string "sku"
@@ -99,7 +109,44 @@ ActiveRecord::Schema.define(version: 2019_04_25_041940) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "transaction_details", force: :cascade do |t|
+    t.bigint "transaction_id"
+    t.bigint "product_id"
+    t.decimal "unit_price"
+    t.decimal "quantity"
+    t.decimal "total"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_transaction_details_on_product_id"
+    t.index ["transaction_id"], name: "index_transaction_details_on_transaction_id"
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.string "description"
+    t.string "client"
+    t.string "address"
+    t.string "address2"
+    t.string "phone"
+    t.decimal "amount"
+    t.bigint "status_id"
+    t.bigint "dealer_id"
+    t.integer "type_id"
+    t.string "tracking_number"
+    t.bigint "carrier_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["carrier_id"], name: "index_transactions_on_carrier_id"
+    t.index ["dealer_id"], name: "index_transactions_on_dealer_id"
+    t.index ["status_id"], name: "index_transactions_on_status_id"
+    t.index ["type_id"], name: "index_transactions_on_type_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "products", "categories"
   add_foreign_key "products", "characteristics"
+  add_foreign_key "transaction_details", "products"
+  add_foreign_key "transaction_details", "transactions"
+  add_foreign_key "transactions", "carriers"
+  add_foreign_key "transactions", "dealers"
+  add_foreign_key "transactions", "statuses"
 end

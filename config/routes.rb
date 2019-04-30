@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :parameters
+  resources :transactions do 
+    resources :transaction_details
+    post 'close_order', to: 'close_order', as: 'close_order'
+  end
   resources :products
   devise_for :dealers, controllers: {
     sessions: 'dealers/sessions'

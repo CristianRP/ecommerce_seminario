@@ -19,3 +19,6 @@
 //= require screenfull/dist/screenfull
 //--- Localize
 //= require jquery-localize-i18n/dist/jquery.localize
+//= require angle/modules/panels
+//= require flot/jquery.flot
+//= require flot.tooltip/js/jquery.flot.tooltip.min
