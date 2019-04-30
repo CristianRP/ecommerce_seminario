@@ -17,6 +17,7 @@ es:
       new: "Nuevo"
       edit: "Editar"
       show: "Ver"
+      next: 'Siguiente'
     titles:
       edit: "Editar %{model}"
       save: "Grabar %{model}"

@@ -25,6 +25,7 @@ class TransactionsController < ApplicationController
   # POST /transactions.json
   def create
     @transaction = Transaction.new(transaction_params)
+    @transaction.type_id = Parameter.transaction_type_in.first.int_value
     @transaction.status_id = Status.initial.first.id
     @transaction.dealer_id = current_dealer.id
     respond_to do |format|

@@ -16,7 +16,7 @@ es:
       characteristic: 'Caracteristíca'
       status: 'Estado'
       product: 'Producto'
-      transaction: 'Pedidos'
+      transaction: 'Pedido'
       transaction_detail: 'Productos'
       parameters: 'Parámetros'
     attributes:
