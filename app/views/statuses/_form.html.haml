@@ -1,3 +1,8 @@
+:javascript
+  $(function() {
+    $('select').select2();
+  });
+
 = bootstrap_card t('general.datos') do 
   = form_with(model: status, local: true) do |form|
     - if status.errors.any?
@@ -9,8 +14,14 @@
             - status.errors.full_messages.each do |message|
               %li= message
     .form-group
+      = form.label :tag
+      = bootstrap_text_field(form, :tag)
+    .form-group
       = form.label :description
       = bootstrap_text_field(form, :description)
+    .form-group
+      = form.label :next
+      = form.collection_select :next, Status.all, :id, :description, prompt: true
     .text-right
       %br
       = bootstrap_button('primary', t('helpers.links.back'), 'arrow-left', statuses_path)

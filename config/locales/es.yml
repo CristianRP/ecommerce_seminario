@@ -36,7 +36,9 @@ es:
       characteristic:
         name: 'Nombre'
       status:
+        tag: 'Etiqueta'
         description: 'Descripción'
+        next: 'Estado siguiente'
       product:
         description: 'Descripción'
         sku: 'SKU'

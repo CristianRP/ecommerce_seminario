@@ -24,6 +24,8 @@ default: &default
 development:
   <<: *default
   database: inventory_mt_development
+  username: postgres
+  password: oracle
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
