@@ -1,7 +1,35 @@
 :javascript
+  function validNegativeNumber(view, group) {
+    $(view).keyup(function() {
+      const value = $(this).val();
+      var error = '';
+      $('#lblIntegerError').remove();
+      $(group).removeClass('has-warning');
+      if (isNaN(value)) error = 'El valor debe ser un número'
+      else if (parseInt(value, 10) != value || value <= 0) error = 'El valor debe ser un número positivo, mayor a cero.';
+      else return true;
+      $(this).after('<label style="color: red;" id="lblIntegerError"><br/>' + error + '</label>');
+      $(group).addClass('has-warning');
+      return false;
+    });
+  }
   $(function() {
     $('#product_category_id').select2();
     $('#product_characteristic_id').select2();
+    validNegativeNumber('#product_min', '#formGroupMin');
+    validNegativeNumber('#product_quantity', '#formGroupQuantity');
+    $('#product_max').change(function() {
+      console.log($('#product_min').val())
+
+      console.log($(this).val())
+      if ($(this).val() < $('#product_min').val()) {
+        $(this).after('<label style="color: red;" id="lblError"><br/>El valor no puede ser menor a la cantidad miníma.</label>');
+        $('#formGroupMax').addClass('has-warning');
+      } else {
+        $('#lblError').remove();
+        $('#formGroupMax').removeClass('has-warning');
+      }
+    });
   });
 - model_class = Product
 = bootstrap_card t('general.datos') do 
@@ -26,22 +54,22 @@
       = f.collection_select :category_id, Category.all, :id, :name, { prompt: true }, { class: 'form-control' }
     .form-group
       = f.label :active
-      = f.check_box :active
+      = f.check_box :active, checked: true
     .form-group
       = f.label :price
       = bootstrap_text_field f, :price
     .form-group
       = f.label :cost
       = bootstrap_text_field f, :cost
-    .form-group
+    .form-group{id: 'formGroupMin'}
+      = f.label :min
+      = f.number_field :min, class: 'form-control', step: :any, min: 0
+    .form-group{id: 'formGroupMax'}
+      = f.label :max
+      = f.number_field :max, class: 'form-control'
+    .form-group{id: 'formGroupQuantity'}
       = f.label :quantity
       = bootstrap_text_field f, :quantity
-    .form-group
-      = f.label :min
-      = bootstrap_text_field f, :min
-    .form-group
-      = f.label :max
-      = bootstrap_text_field f, :max
     .form-group
       = f.label :characteristic
       = f.collection_select :characteristic_id, Characteristic.all, :id, :name, { prompt: true }, { class: 'form-control' }
