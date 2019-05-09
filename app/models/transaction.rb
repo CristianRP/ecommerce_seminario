@@ -4,4 +4,5 @@ class Transaction < ApplicationRecord
   belongs_to :status
   belongs_to :dealer
   belongs_to :carrier
+  belongs_to :dealer, class_name: :Dealer, foreign_key: :courier_id, optional: true
 end

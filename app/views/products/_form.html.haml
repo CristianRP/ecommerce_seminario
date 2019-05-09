@@ -28,20 +28,28 @@
       = f.label :active
       = f.check_box :active
     .form-group
-      = f.label :quantity
-      = bootstrap_text_field f, :quantity
-    .form-group
       = f.label :price
       = bootstrap_text_field f, :price
     .form-group
       = f.label :cost
       = bootstrap_text_field f, :cost
     .form-group
+      = f.label :quantity
+      = bootstrap_text_field f, :quantity
+    .form-group
+      = f.label :min
+      = bootstrap_text_field f, :min
+    .form-group
+      = f.label :max
+      = bootstrap_text_field f, :max
+    .form-group
       = f.label :characteristic
       = f.collection_select :characteristic_id, Characteristic.all, :id, :name, { prompt: true }, { class: 'form-control' }
     .form-group
       = f.label :images
       = f.file_field :images, multiple: true, class: 'form-control'
+    - if product.images.attached?
+      = render 'images', product: product
     .text-right
       %br
       = bootstrap_button('primary', t('helpers.links.back'), 'arrow-left', products_path)

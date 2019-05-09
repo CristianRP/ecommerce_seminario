@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_08_213513) do
+ActiveRecord::Schema.define(version: 2019_05_09_035101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 2019_05_08_213513) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "internal", default: false
   end
 
   create_table "categories", force: :cascade do |t|
@@ -74,6 +75,7 @@ ActiveRecord::Schema.define(version: 2019_05_08_213513) do
     t.inet "current_sign_in_ip"
     t.inet "last_sign_in_ip"
     t.integer "parent_id"
+    t.boolean "courier", default: false
     t.index ["email"], name: "index_dealers_on_email", unique: true
     t.index ["reset_password_token"], name: "index_dealers_on_reset_password_token", unique: true
   end
@@ -99,6 +101,9 @@ ActiveRecord::Schema.define(version: 2019_05_08_213513) do
     t.bigint "characteristic_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "balance"
+    t.decimal "min"
+    t.decimal "max"
     t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["characteristic_id"], name: "index_products_on_characteristic_id"
   end
@@ -137,6 +142,7 @@ ActiveRecord::Schema.define(version: 2019_05_08_213513) do
     t.bigint "carrier_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "courier_id"
     t.index ["carrier_id"], name: "index_transactions_on_carrier_id"
     t.index ["dealer_id"], name: "index_transactions_on_dealer_id"
     t.index ["status_id"], name: "index_transactions_on_status_id"

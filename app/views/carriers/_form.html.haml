@@ -11,6 +11,9 @@
     .form-group
       = f.label t('activerecord.attributes.name')
       = bootstrap_text_field(f, :name)
+    .form-group
+      = f.label :internal
+      = f.check_box :internal
     .text-right
       %br
       = bootstrap_button('primary', t('helpers.links.back'), 'arrow-left', carriers_path)

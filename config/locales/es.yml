@@ -29,8 +29,10 @@ es:
         email: 'Correo electrónico'
         password: 'Contraseña'
         parent_id: 'Supervisor'
+        courier: 'Mensajero?'
       carrier:
         name: 'Nombre'
+        internal: 'Interno?'
       category:
         name: 'Nombre'  
       characteristic:
@@ -49,6 +51,9 @@ es:
         cost: 'Costo'
         characteristic: 'Característica'
         images: 'Imagenes'
+        min: 'Cantidad miníma en inventario'
+        max: 'Cantidad máxima en inventario'
+        balance: 'Saldo'
       transaction:
         description: 'Descripción'
         client: 'Cliente'
@@ -286,6 +291,7 @@ es:
     order_parent: 'Encabezado de la orden'
     add_products: 'Agregar productos'
     close_order: 'Cerrar pedido'
+    carier: 'Mensajero'
   modules:
     dashboard: 'Dashboard'
     catalog: 'Catalogo'
