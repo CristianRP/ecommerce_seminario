@@ -5,6 +5,11 @@
     });
     $('input[type=text]').prop('disabled', true);
     $('#transaction_carrier_id').prop('disabled', true);
+    if ($('#transaction_carrier_id').find(':selected').data('internal')) {
+      $('#courier_group').show();
+      $('#transaction_courier_id').prop('disabled', true);
+    } else 
+      $('#courier_group').hide();
     /*if ($('#transaction_type_id').val() == 2 || $('#transaction_type_id').text().equals('SALIDA')) {
       
     }*/
@@ -78,4 +83,10 @@
         .col
           = f.label :carrier
         .col
-          = f.collection_select :carrier_id, Carrier.all, :id, :name, { prompt: true }, { class: 'form-control' }
+          = f.select :carrier_id, options_for_select(Carrier.all.map {|c| [c.name, c.id, {'data-internal' => c.internal}]}), prompt: true
+    .form-group#courier_group{hidden: true}
+      .row.row-custom
+        .col
+          = f.label t('general.carier')
+        .col
+          = f.collection_select :courier_id, Dealer.couriers, :id, :name, { prompt: true }, { class: 'form-control' }

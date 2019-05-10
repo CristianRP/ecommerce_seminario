@@ -66,6 +66,12 @@ es:
         type: 'Tipo Movimiento'
         tracking_number: 'No. Seguimiento'
         carrier: 'Transportista'
+        same_address: 'Usar la misma dirección para entrega?'
+      transaction_detail:
+        product_id: 'Producto'
+        unit_price: 'Precio unitario'
+        quantity: 'Cantidad'
+        total: 'Total'
       name: 'Nombre'
       created_at: 'Fecha creación'
       updated_at: 'Fecha actualización'

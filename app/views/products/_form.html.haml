@@ -18,11 +18,10 @@
     $('#product_characteristic_id').select2();
     validNegativeNumber('#product_min', '#formGroupMin');
     validNegativeNumber('#product_quantity', '#formGroupQuantity');
+    validNegativeNumber('#product_max', '#formGroupMax');
     $('#product_max').change(function() {
-      console.log($('#product_min').val())
-
-      console.log($(this).val())
-      if ($(this).val() < $('#product_min').val()) {
+      $('#lblError').remove();
+      if (parseInt($(this).val()) < parseInt($('#product_min').val())) {
         $(this).after('<label style="color: red;" id="lblError"><br/>El valor no puede ser menor a la cantidad miníma.</label>');
         $('#formGroupMax').addClass('has-warning');
       } else {

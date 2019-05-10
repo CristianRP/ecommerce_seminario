@@ -12,6 +12,14 @@
         $('#courier_group').hide();
     });
 
+    $('#checkSameAddress').change(function() {
+      if ($(this).is(':checked')) {
+        $('#transaction_address2').val($('#transaction_address').val()).prop('disabled', true);
+      } else {
+        $('#transaction_address2').val('').prop('disabled', false);
+      }
+    });
+
   });
 - model_class = Transaction
 = bootstrap_card_collapse t('general.datos') do 
@@ -46,6 +54,10 @@
           = f.label :address
         .col
           = bootstrap_text_field(f, :address, model_class.human_attribute_name(:address))
+        .col
+          .checkbox.help-block
+            %label
+              %input{type: 'checkbox', id: 'checkSameAddress'}= t('activerecord.attributes.transaction.same_address')
     .form-group
       .row.row-custom
         .col
@@ -82,7 +94,7 @@
         .col
           = f.label :carrier
         .col
-          = f.select :carrier_id, options_for_select(Carrier.all.map {|c| [c.name, c.id, {'data-internal' => c.internal}]})
+          = f.select :carrier_id, options_for_select(Carrier.all.map {|c| [c.name, c.id, {'data-internal' => c.internal}]}), prompt: true
     .form-group#courier_group{hidden: true}
       .row.row-custom
         .col

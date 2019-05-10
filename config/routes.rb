@@ -15,5 +15,11 @@ Rails.application.routes.draw do
   resources :dealers
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      get 'product_availability', to: 'inventory_utils#check_inventory_qty', as: 'product_availability'
+    end
+  end
+
   root 'dashboard#index'
 end

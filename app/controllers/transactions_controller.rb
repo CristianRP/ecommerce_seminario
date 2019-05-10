@@ -41,14 +41,20 @@ class TransactionsController < ApplicationController
 
   # POST /transactions/close_order
   def close_order
-    @transaction.amount = TransactionDetail.get_total_order(@transaction.id).first.total_order
-    respond_to do |format|
-      if @transaction.save
-        format.html { redirect_to transactions_path, notice: 'Transaction detail was successfully created.' }
-        format.json { render :show, status: :created, location: @transaction_detail }
-      else
-        format.html { render :new }
-        format.json { render json: @transaction_detail.errors, status: :unprocessable_entity }
+    if @transaction.transaction_detail.nil?
+      respond_to do |format|
+        # TO DO 
+      end
+    else 
+      @transaction.amount = TransactionDetail.get_total_order(@transaction.id).first.total_order
+      respond_to do |format|
+        if @transaction.save
+          format.html { redirect_to transactions_path, notice: 'Transaction detail was successfully created.' }
+          format.json { render :show, status: :created, location: @transaction_detail }
+        else
+          format.html { render :new }
+          format.json { render json: @transaction_detail.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -85,6 +91,6 @@ class TransactionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def transaction_params
-      params.require(:transaction).permit(:description, :client, :address, :address2, :phone, :amount, :status_id, :dealer_id, :type_id, :tracking_number, :carrier_id)
+      params.require(:transaction).permit(:description, :client, :address, :address2, :phone, :amount, :status_id, :dealer_id, :type_id, :tracking_number, :carrier_id, :courier_id)
     end
 end

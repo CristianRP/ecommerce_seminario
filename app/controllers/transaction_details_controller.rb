@@ -56,7 +56,7 @@ class TransactionDetailsController < ApplicationController
   def destroy
     @transaction_detail.destroy
     respond_to do |format|
-      format.html { redirect_to transaction_details_url, notice: 'Transaction detail was successfully destroyed.' }
+      format.html { redirect_to transaction_transaction_details_url, notice: 'Transaction detail was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

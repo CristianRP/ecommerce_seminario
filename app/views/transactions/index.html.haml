@@ -32,7 +32,7 @@
             %td= transaction.phone
             %td= transaction.amount
             %td= transaction.status.description
-            %td= transaction.dealer.custom_name
+            %td= transaction.dealer.custom_name unless transaction.dealer.nil?
             %td= transaction.type_id
             %td= transaction.tracking_number
             %td= transaction.carrier.name
