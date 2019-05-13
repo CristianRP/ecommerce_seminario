@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class Transaction::Create
-  def self.call(params, transaction) 
+  def self.call(params, transaction)
     new(params, transaction).call
   end
 
@@ -7,7 +9,8 @@ class Transaction::Create
     perform
   end
 
-  private 
+  private
+
   attr_reader :params
   def initialize(params, transaction)
     @params = params
@@ -30,11 +33,11 @@ class Transaction::Create
     @transaction_detail.total = (@product.price * @params[:quantity].to_f)
   end
 
-  def reduce_inventory 
+  def reduce_inventory
     reduce if @transaction_detail.save
   end
 
-  def reduce 
+  def reduce
     @product.quantity -= @transaction_detail.quantity
     @product.save
   end
