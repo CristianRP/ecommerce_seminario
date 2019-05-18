@@ -22,7 +22,7 @@
             %td= status.id
             %td= status.tag
             %td= status.description
-            %td= status.next.description unless status.next.nil?
+            %td= status.parent.description unless status.parent.nil?
             %td= date_format(status.created_at)
             %td
               = bootstrap_button('warning', t('helpers.links.edit', model: model_class.model_name.human), 'exclamation-triangle', edit_status_path(status))

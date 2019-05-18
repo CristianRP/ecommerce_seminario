@@ -48,7 +48,7 @@ class TransactionsController < ApplicationController
       end
     else
       @transaction.amount = TransactionDetail.get_total_order(@transaction.id).first.total_order
-      @transaction.status = @transaction.status.next
+      @transaction.status = @transaction.status.parent
       respond_to do |format|
         if @transaction.save
           format.html { redirect_to transactions_path }
@@ -63,7 +63,7 @@ class TransactionsController < ApplicationController
 
   # POST /transactions/change_status
   def change_status
-    @transaction.status = @transaction.status.next
+    @transaction.status = @transaction.status.parent
     respond_to do |format|
       if @transaction.save
         format.html { redirect_to transactions_path }
