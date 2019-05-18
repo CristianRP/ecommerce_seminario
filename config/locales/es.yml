@@ -9,6 +9,7 @@ es:
         foreign_key:
           violation:
             has_dependencies: 'No se puede borrar este registro, por que tiene dependencias.' 
+        must_have_child: 'Debes agregar al menos un producto a la orden.'
     models:
       dealer: 'Vendedor'
       category: 'Categoria'
@@ -298,6 +299,8 @@ es:
     add_products: 'Agregar productos'
     close_order: 'Cerrar pedido'
     carier: 'Mensajero'
+    change_status: '%{status}'
+    return: 'Devolución'
   modules:
     dashboard: 'Dashboard'
     catalog: 'Catalogo'
@@ -305,6 +308,7 @@ es:
     security: 'Seguridad'
     management: 'Gestiones'
     sale: 'Ingreso de pedido'
+    sales: 'Listado de pedidos'
   forms: 
     created: '%{model} creado con éxito.'
     deleted: '%{model} eliminado con éxito.'

@@ -14,7 +14,7 @@
 
     $('#checkSameAddress').change(function() {
       if ($(this).is(':checked')) {
-        $('#transaction_address2').val($('#transaction_address').val()).prop('disabled', true);
+        $('#transaction_address2').val($('#transaction_address').val());
       } else {
         $('#transaction_address2').val('').prop('disabled', false);
       }

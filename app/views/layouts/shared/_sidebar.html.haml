@@ -27,10 +27,14 @@
           %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.dashboard')
       %li.nav-heading
         %span= t('modules.management')
-      %li{:class => "#{'active' if controller?('transaction')}"}
+      %li{:class => "#{'active' if action?('new')}"}
         %a{href: new_transaction_path, title: t('modules.sale')}
           %em.fa.fa-cart-plus
           %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.sale')
+      %li{:class => "#{'active' if action?('index')}"}
+        %a{href: transactions_path, title: t('modules.sale')}
+          %em.fa.fa-list-ul
+          %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.sales')
       - if false
         %li{:class => "#{'active' if controller?('widgets') && action?('index')}"}
           %a{href: "/widgets", title: "Widgets"}

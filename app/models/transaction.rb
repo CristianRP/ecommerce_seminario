@@ -5,4 +5,13 @@ class Transaction < ApplicationRecord
   belongs_to :dealer
   belongs_to :carrier
   belongs_to :dealer, class_name: :Dealer, foreign_key: :courier_id, optional: true
+  belongs_to :parameter, class_name: :Parameter, foreign_key: 'type_id'
+
+  def closed?(tag)
+    self.status == Status.closed(tag).first
+  end
+
+  def open?(tag)
+    status == Status.initial(tag).first
+  end
 end

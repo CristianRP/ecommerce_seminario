@@ -38,6 +38,7 @@ class Transaction::Create
   end
 
   def reduce
+    @product.balance = @product.quantity
     @product.quantity -= @transaction_detail.quantity
     @product.save
   end

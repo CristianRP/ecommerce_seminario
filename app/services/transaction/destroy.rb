@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class Transaction::Destroy
-  def self.call(params, transaction)
-    new(params, transaction).call
+  def self.call(transaction_detail)
+    new(transaction_detail).call
   end
 
   def call
@@ -11,18 +11,16 @@ class Transaction::Destroy
 
   private
 
-  attr_reader :params
-  def initialize(params, transaction)
-    @params = params
-    @transaction = transaction
-    @transaction_detail = transaction.transaction_details.find(@params[:transaction_detail_id])
+  attr_reader :transaction_detail
+  def initialize(transaction_detail)
+    @transaction_detail = transaction_detail
     # Find product
-    @product = Product.find(@params[:product_id])
+    @product = Product.find(transaction_detail.product_id)
   end
 
   def perform
     destroy_detail
-    return_inventory
+    increment_inventory
   end
 
   def destroy_detail
@@ -30,12 +28,9 @@ class Transaction::Destroy
     @transaction_detail&.destroy
   end
 
-  def return_inventory
-    increment if @transaction_detail.save
-  end
-
-  def increment
-    @product.quantity += @transaction_detail.quantity
+  def increment_inventory
+    @product.quantity = @product.balance
+    @product.balance = @product.quantity
     @product.save
   end
 end
