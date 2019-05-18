@@ -35,7 +35,7 @@
             %td= transaction.dealer.custom_name unless transaction.dealer.nil?
             %td= transaction.parameter.text_value unless transaction.parameter.nil?
             %td= transaction.tracking_number
-            %td= transaction.carrier.name
+            %td= transaction.carrier.name unless transaction.carrier.nil?
             %td
               = bootstrap_button('success', t('helpers.links.show', model: model_class.model_name.human), 'eye', transaction_transaction_details_path(transaction))
               = bootstrap_button('warning', t('helpers.links.edit', model: model_class.model_name.human), 'exclamation-triangle', edit_transaction_path(transaction)) unless transaction.closed?('SALE')

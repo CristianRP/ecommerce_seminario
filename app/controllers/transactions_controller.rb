@@ -30,7 +30,7 @@ class TransactionsController < ApplicationController
     @transaction.dealer_id = current_dealer.id
     respond_to do |format|
       if @transaction.save
-        format.html { redirect_to transaction_transaction_details_path(@transaction), t('forms.created', model: Transaction.model_name.human) }
+        format.html { redirect_to transaction_transaction_details_path(@transaction), notice: t('forms.created', model: Transaction.model_name.human) }
         format.json { render :show, status: :created, location: @transaction }
       else
         format.html { render :new }
