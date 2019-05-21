@@ -35,6 +35,8 @@ gem 'jb'
 gem 'devise'
 # Support for bower
 gem "bower-rails", "~> 0.9.2"
+# Use savon for consume SOAP web services
+gem 'savon', '~> 2.12.0'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
