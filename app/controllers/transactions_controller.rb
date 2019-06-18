@@ -26,8 +26,8 @@ class TransactionsController < ApplicationController
   def create
     @transaction = Transaction.new(transaction_params)
     @transaction.type_id = Parameter.transaction_type_in.first.int_value
-    @transaction.status_id = Status.initial('SALE').first.id
-    @transaction.dealer_id = current_dealer.id
+    @transaction.status = Status.initial('SALE').first
+    @transaction.dealer = current_dealer
     respond_to do |format|
       if @transaction.save
         format.html { redirect_to transaction_transaction_details_path(@transaction), notice: t('forms.created', model: Transaction.model_name.human) }
@@ -63,6 +63,11 @@ class TransactionsController < ApplicationController
 
   # POST /transactions/change_status
   def change_status
+    if @transaction.status.parent == Transaction.find_by_description('EN RUTA')
+      respond_to do |format|
+        format.html { redirect_to delivery_path }
+      end
+    end
     @transaction.status = @transaction.status.parent
     respond_to do |format|
       if @transaction.save
@@ -92,6 +97,9 @@ class TransactionsController < ApplicationController
   # DELETE /transactions/1
   # DELETE /transactions/1.json
   def destroy
+    @transaction.transaction_details.each do |td|
+      Transaction::Destroy.call(td)
+    end
     @transaction.destroy
     respond_to do |format|
       format.html { redirect_to transactions_url, notice: t('forms.deleted', model: Transaction.model_name.human) }

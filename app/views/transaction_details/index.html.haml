@@ -77,7 +77,12 @@
     - if @transaction.open?('SALE')
       = bootstrap_button('primary', t('general.add_products'), 'plus', new_transaction_transaction_detail_path)
       = bootstrap_button('success', t('general.close_order'), 'check', transaction_close_order_path(@transaction), 'post')
-    - else 
-      = bootstrap_button('primary', t('general.change_status', status: @transaction.status.parent.description), 'arrow-right', transaction_change_status_path(@transaction), 'post')
+    - else
+      - if @transaction.status.parent.nil?
+        = bootstrap_button('primary disabled', t('general.change_status', status: @transaction.status.description), 'arrow-right', nil, 'post')
+        = bootstrap_button('primary', t('helpers.links.back'), 'fa-arrow', transactions_path)
+      - else
+        = bootstrap_button('primary', t('general.change_status', status: @transaction.status.parent.description), 'arrow-right', transaction_change_status_path(@transaction), 'post')
+        = bootstrap_button('primary', t('helpers.links.back'), 'fa-arrow', transactions_path)
     - if current_dealer.admin? 
       =# bootstrap_button('warning', t('general.return', status: @transaction.status.parent.description), 'arrow-right', transaction_change_status_path)

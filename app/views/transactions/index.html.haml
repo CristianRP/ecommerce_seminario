@@ -31,7 +31,7 @@
             %td= transaction.address2
             %td= transaction.phone
             %td= transaction.amount
-            %td= transaction.status.description
+            %td= transaction.status.description unless transaction.status.nil?
             %td= transaction.dealer.custom_name unless transaction.dealer.nil?
             %td= transaction.parameter.text_value unless transaction.parameter.nil?
             %td= transaction.tracking_number

@@ -10,7 +10,7 @@ class Status < ApplicationRecord
     where(description: 'CREADA', tag: tag)
   }
 
-  scope :closed, ->(tag) { where(description: 'PROCESADA', tag: tag)}
+  scope :closed, ->(tag) { where(description: 'PROCESADA', tag: tag) }
 
   private
 

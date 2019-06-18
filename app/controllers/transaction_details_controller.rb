@@ -28,7 +28,7 @@ class TransactionDetailsController < ApplicationController
     @transaction_detail = Transaction::Create.call(transaction_detail_params, @transaction)
     respond_to do |format|
       if @transaction_detail
-        format.html { redirect_to transaction_transaction_details_path(@transaction), notice: 'Transaction detail was successfully created.' }
+        format.html { redirect_to transaction_transaction_details_path(@transaction), notice: t('forms.created', model: TransactionDetail.model_name.human) }
         format.json { render :show, status: :created, location: @transaction_detail }
       else
         format.html { render :new }
@@ -42,7 +42,7 @@ class TransactionDetailsController < ApplicationController
   def update
     respond_to do |format|
       if @transaction_detail.update(transaction_detail_params)
-        format.html { redirect_to @transaction_detail, notice: 'Transaction detail was successfully updated.' }
+        format.html { redirect_to @transaction_detail, notice: t('forms.updated', model: TransactionDetail.model_name.human) }
         format.json { render :show, status: :ok, location: @transaction_detail }
       else
         format.html { render :edit }
@@ -56,7 +56,7 @@ class TransactionDetailsController < ApplicationController
   def destroy
     Transaction::Destroy.call(@transaction_detail)
     respond_to do |format|
-      format.html { redirect_to transaction_transaction_details_url, notice: 'Transaction detail was successfully destroyed.' }
+      format.html { redirect_to transaction_transaction_details_url, notice: t('forms.deleted', model: TransactionDetail.model_name.human) }
       format.json { head :no_content }
     end
   end
