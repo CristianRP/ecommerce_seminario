@@ -1,0 +1,1 @@
+Parameter.create(tag: 'PIECE_TYPE', description: 'PAQUETES', int_value: 2, text_value: 'PAQUETES')

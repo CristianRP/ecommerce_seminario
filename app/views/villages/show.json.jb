@@ -1,0 +1,9 @@
+{
+  id: @village.id,
+  cod: @village.cod,
+  name: @village.name,
+  department_id: @village.department_id,
+  municipality_id: @village.municipality_id,
+  created_at: @village.created_at,
+  updated_at: @village.updated_at
+}

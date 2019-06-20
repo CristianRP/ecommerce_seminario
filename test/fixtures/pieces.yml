@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  number: 1
+  type: 
+  weight: 9.99
+  amount_cod: 9.99
+  delivery: one
+
+two:
+  number: 1
+  type: 
+  weight: 9.99
+  amount_cod: 9.99
+  delivery: two

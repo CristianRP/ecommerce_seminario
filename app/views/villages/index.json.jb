@@ -1,0 +1,10 @@
+@villages.map do |village|
+  {
+    id: village.id,
+    cod: village.cod,
+    name: village.name,
+    department_id: village.department_id,
+    municipality_id: village.municipality_id,
+    url: village_url(village, format: :json)
+  }
+end

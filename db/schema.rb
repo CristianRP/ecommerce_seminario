@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_09_035101) do
+ActiveRecord::Schema.define(version: 2019_06_19_230417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,25 @@ ActiveRecord::Schema.define(version: 2019_05_09_035101) do
     t.index ["reset_password_token"], name: "index_dealers_on_reset_password_token", unique: true
   end
 
+  create_table "deliveries", force: :cascade do |t|
+    t.string "recolection_id"
+    t.string "sender_name"
+    t.string "sender_address"
+    t.string "sender_phone"
+    t.string "receiver_name"
+    t.string "receiver_address"
+    t.string "receiver_phone"
+    t.string "receiver_contact"
+    t.string "receiver_nit"
+    t.string "populated_receiver_id"
+    t.string "populated_origin_id"
+    t.string "service_type"
+    t.decimal "secured_amount"
+    t.text "observations"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "parameters", force: :cascade do |t|
     t.string "tag"
     t.string "description"
@@ -88,6 +107,17 @@ ActiveRecord::Schema.define(version: 2019_05_09_035101) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["tag"], name: "index_parameters_on_tag"
+  end
+
+  create_table "pieces", force: :cascade do |t|
+    t.integer "number"
+    t.string "type"
+    t.decimal "weight"
+    t.decimal "amount_cod"
+    t.bigint "delivery_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["delivery_id"], name: "index_pieces_on_delivery_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -128,6 +158,16 @@ ActiveRecord::Schema.define(version: 2019_05_09_035101) do
     t.index ["transaction_id"], name: "index_transaction_details_on_transaction_id"
   end
 
+  create_table "transaction_logs", force: :cascade do |t|
+    t.string "tag"
+    t.string "description"
+    t.string "started_at"
+    t.string "ended_at"
+    t.text "messages"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "transactions", force: :cascade do |t|
     t.string "description"
     t.string "client"
@@ -143,18 +183,31 @@ ActiveRecord::Schema.define(version: 2019_05_09_035101) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "courier_id"
+    t.bigint "delivery_id"
     t.index ["carrier_id"], name: "index_transactions_on_carrier_id"
     t.index ["dealer_id"], name: "index_transactions_on_dealer_id"
+    t.index ["delivery_id"], name: "index_transactions_on_delivery_id"
     t.index ["status_id"], name: "index_transactions_on_status_id"
     t.index ["type_id"], name: "index_transactions_on_type_id"
   end
 
+  create_table "villages", force: :cascade do |t|
+    t.string "cod"
+    t.string "name"
+    t.string "department_id"
+    t.string "municipality_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "pieces", "deliveries"
   add_foreign_key "products", "categories"
   add_foreign_key "products", "characteristics"
   add_foreign_key "transaction_details", "products"
   add_foreign_key "transaction_details", "transactions"
   add_foreign_key "transactions", "carriers"
   add_foreign_key "transactions", "dealers"
+  add_foreign_key "transactions", "deliveries"
   add_foreign_key "transactions", "statuses"
 end

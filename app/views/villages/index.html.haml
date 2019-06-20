@@ -1,0 +1,27 @@
+%h1 Listing villages
+
+%table
+  %thead
+    %tr
+      %th Cod
+      %th Name
+      %th Department
+      %th Municipality
+      %th
+      %th
+      %th
+
+  %tbody
+    - @villages.each do |village|
+      %tr
+        %td= village.cod
+        %td= village.name
+        %td= village.department_id
+        %td= village.municipality_id
+        %td= link_to 'Show', village
+        %td= link_to 'Edit', edit_village_path(village)
+        %td= link_to 'Destroy', village, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Village', new_village_path

@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :pieces
+  resources :villages
+  resources :deliveries
   resources :parameters
   resources :transactions do 
     resources :transaction_details

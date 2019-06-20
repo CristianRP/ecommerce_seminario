@@ -1,0 +1,48 @@
+%p#notice= notice
+
+%p
+  %b Recolection:
+  = @delivery.recolection_id
+%p
+  %b Sender name:
+  = @delivery.sender_name
+%p
+  %b Sender address:
+  = @delivery.sender_address
+%p
+  %b Sender phone:
+  = @delivery.sender_phone
+%p
+  %b Receiver name:
+  = @delivery.receiver_name
+%p
+  %b Receiver address:
+  = @delivery.receiver_address
+%p
+  %b Receiver phone:
+  = @delivery.receiver_phone
+%p
+  %b Receiver contact:
+  = @delivery.receiver_contact
+%p
+  %b Receiver nit:
+  = @delivery.receiver_nit
+%p
+  %b Populated receiver:
+  = @delivery.populated_receiver_id
+%p
+  %b Populated origin:
+  = @delivery.populated_origin_id
+%p
+  %b Service type:
+  = @delivery.service_type
+%p
+  %b Secured amount:
+  = @delivery.secured_amount
+%p
+  %b Observations:
+  = @delivery.observations
+
+= link_to 'Edit', edit_delivery_path(@delivery)
+\|
+= link_to 'Back', deliveries_path

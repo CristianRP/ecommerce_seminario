@@ -1,0 +1,10 @@
+{
+  id: @piece.id,
+  number: @piece.number,
+  type: @piece.type,
+  weight: @piece.weight,
+  amount_cod: @piece.amount_cod,
+  delivery_id: @piece.delivery_id,
+  created_at: @piece.created_at,
+  updated_at: @piece.updated_at
+}

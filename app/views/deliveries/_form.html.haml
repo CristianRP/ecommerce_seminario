@@ -1,0 +1,52 @@
+= form_for @delivery do |f|
+  - if @delivery.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@delivery.errors.count, "error")} prohibited this delivery from being saved:"
+      %ul
+        - @delivery.errors.full_messages.each do |message|
+          %li= message
+
+  .field
+    = f.label :recolection_id
+    = f.text_field :recolection_id
+  .field
+    = f.label :sender_name
+    = f.text_field :sender_name
+  .field
+    = f.label :sender_address
+    = f.text_field :sender_address
+  .field
+    = f.label :sender_phone
+    = f.text_field :sender_phone
+  .field
+    = f.label :receiver_name
+    = f.text_field :receiver_name
+  .field
+    = f.label :receiver_address
+    = f.text_field :receiver_address
+  .field
+    = f.label :receiver_phone
+    = f.text_field :receiver_phone
+  .field
+    = f.label :receiver_contact
+    = f.text_field :receiver_contact
+  .field
+    = f.label :receiver_nit
+    = f.text_field :receiver_nit
+  .field
+    = f.label :populated_receiver_id
+    = f.text_field :populated_receiver_id
+  .field
+    = f.label :populated_origin_id
+    = f.text_field :populated_origin_id
+  .field
+    = f.label :service_type
+    = f.text_field :service_type
+  .field
+    = f.label :secured_amount
+    = f.text_field :secured_amount
+  .field
+    = f.label :observations
+    = f.text_area :observations
+  .actions
+    = f.submit 'Save'

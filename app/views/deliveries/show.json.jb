@@ -1,0 +1,19 @@
+{
+  id: @delivery.id,
+  recolection_id: @delivery.recolection_id,
+  sender_name: @delivery.sender_name,
+  sender_address: @delivery.sender_address,
+  sender_phone: @delivery.sender_phone,
+  receiver_name: @delivery.receiver_name,
+  receiver_address: @delivery.receiver_address,
+  receiver_phone: @delivery.receiver_phone,
+  receiver_contact: @delivery.receiver_contact,
+  receiver_nit: @delivery.receiver_nit,
+  populated_receiver_id: @delivery.populated_receiver_id,
+  populated_origin_id: @delivery.populated_origin_id,
+  service_type: @delivery.service_type,
+  secured_amount: @delivery.secured_amount,
+  observations: @delivery.observations,
+  created_at: @delivery.created_at,
+  updated_at: @delivery.updated_at
+}

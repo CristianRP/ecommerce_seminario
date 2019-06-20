@@ -1,0 +1,11 @@
+@pieces.map do |piece|
+  {
+    id: piece.id,
+    number: piece.number,
+    type: piece.type,
+    weight: piece.weight,
+    amount_cod: piece.amount_cod,
+    delivery_id: piece.delivery_id,
+    url: piece_url(piece, format: :json)
+  }
+end

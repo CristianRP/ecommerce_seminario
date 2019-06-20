@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Number:
+  = @piece.number
+%p
+  %b Type:
+  = @piece.type
+%p
+  %b Weight:
+  = @piece.weight
+%p
+  %b Amount cod:
+  = @piece.amount_cod
+%p
+  %b Delivery:
+  = @piece.delivery
+
+= link_to 'Edit', edit_piece_path(@piece)
+\|
+= link_to 'Back', pieces_path

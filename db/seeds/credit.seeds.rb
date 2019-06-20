@@ -1,0 +1,1 @@
+Parameter.create(tag: 'CREDIT_OWNER', description: 'Código de crédito', int_value: nil, text_value: '0026321')

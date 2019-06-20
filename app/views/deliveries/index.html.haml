@@ -1,0 +1,47 @@
+%h1 Listing deliveries
+
+%table
+  %thead
+    %tr
+      %th Recolection
+      %th Sender name
+      %th Sender address
+      %th Sender phone
+      %th Receiver name
+      %th Receiver address
+      %th Receiver phone
+      %th Receiver contact
+      %th Receiver nit
+      %th Populated receiver
+      %th Populated origin
+      %th Service type
+      %th Secured amount
+      %th Observations
+      %th
+      %th
+      %th
+
+  %tbody
+    - @deliveries.each do |delivery|
+      %tr
+        %td= delivery.recolection_id
+        %td= delivery.sender_name
+        %td= delivery.sender_address
+        %td= delivery.sender_phone
+        %td= delivery.receiver_name
+        %td= delivery.receiver_address
+        %td= delivery.receiver_phone
+        %td= delivery.receiver_contact
+        %td= delivery.receiver_nit
+        %td= delivery.populated_receiver_id
+        %td= delivery.populated_origin_id
+        %td= delivery.service_type
+        %td= delivery.secured_amount
+        %td= delivery.observations
+        %td= link_to 'Show', delivery
+        %td= link_to 'Edit', edit_delivery_path(delivery)
+        %td= link_to 'Destroy', delivery, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Delivery', new_delivery_path

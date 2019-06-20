@@ -1,0 +1,5 @@
+Parameter.create(tag: 'SERVICE_TYPE', description: 'Estándar', int_value: 1, text_value: 'Estándar')
+Parameter.create(tag: 'SERVICE_TYPE', description: 'Collect', int_value: 2, text_value: 'Collect')
+Parameter.create(tag: 'SERVICE_TYPE', description: 'COD', int_value: 3, text_value: 'COD')
+Parameter.create(tag: 'SERVICE_TYPE', description: 'Especial', int_value: 4, text_value: 'Especial')
+Parameter.create(tag: 'SERVICE_TYPE', description: 'Comprobante de entrega', int_value: 5, text_value: 'Comprobante de entrega')

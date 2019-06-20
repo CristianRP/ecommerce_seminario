@@ -6,10 +6,17 @@
     });
     //console.log(transaction_carrier_id)
     $('#transaction_carrier_id').change(function() {
-      if ($(this).find(':selected').data('internal'))
+      var dataInternal = $(this).find(':selected').data('internal');
+      if (dataInternal) {
         $('#courier_group').show();
-      else 
+        $('#cargo_expreso_form').hide();
+      } else if (dataInternal === undefined) {
         $('#courier_group').hide();
+        $('#cargo_expreso_form').hide();
+      } else {
+        $('#courier_group').hide();
+        $('#cargo_expreso_form').show();
+      }
     });
 
     $('#checkSameAddress').change(function() {
@@ -101,6 +108,52 @@
           = f.label t('general.carier')
         .col
           = f.collection_select :courier_id, Dealer.couriers, :id, :name, { prompt: true }, { class: 'form-control' }
+    .form-group#cargo_expreso_form
+      = #{hidden: true}
+      = f.fields_for :delivery do |d|
+        .form-group
+          .row.row-custom
+            .col
+              = d.label t('activerecord.attributes.delivery.receiver_nit')
+            .col
+              = bootstrap_text_field(d, :receiver_nit, Delivery.human_attribute_name(:receiver_nit))
+        .form-group
+          .row.row-custom
+            .col
+              = d.label t('activerecord.attributes.delivery.populated_receiver_id')
+            .col
+              = d.collection_select :populated_receiver_id, Village.all, :cod, :custom_name, { prompt: true }, { class: 'form-control' }
+        .form-group
+          .row.row-custom
+            .col
+              = d.label t('activerecord.attributes.delivery.populated_origin_id')
+            .col
+              = d.collection_select :populated_origin_id, Village.all, :cod, :custom_name, { prompt: true }, { class: 'form-control' }
+        .form-group
+          .row.row-custom
+            .col
+              = d.label t('activerecord.attributes.delivery.service_type')
+            .col
+              = d.collection_select :service_type, Parameter.service_types, :int_value, :text_value, { prompt: true }, { class: 'form-control' }
+        .form-group
+          .row.row-custom
+            .col
+              = d.label t('activerecord.attributes.delivery.secured_amount')
+            .col
+              = bootstrap_text_field(d, :secured_amount, Delivery.human_attribute_name(:secured_amount))
+        .form-group
+          .row.row-custom
+            .col
+              = d.label t('activerecord.attributes.delivery.observations')
+            .col
+              = bootstrap_text_field(d, :observations, Delivery.human_attribute_name(:observations))
+        = d.fields_for :piece do |p|
+          .form-group
+            .row.row-custom
+              .col
+                = p.label t('activerecord.attributes.piece.weight')
+              .col
+                = bootstrap_text_field(p, :weight, Piece.human_attribute_name(:weight))
     .text-right
       %br
       = bootstrap_button('primary', t('helpers.links.back'), 'arrow-left', transactions_path)

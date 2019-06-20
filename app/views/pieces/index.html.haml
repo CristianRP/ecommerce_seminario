@@ -1,0 +1,29 @@
+%h1 Listing pieces
+
+%table
+  %thead
+    %tr
+      %th Number
+      %th Type
+      %th Weight
+      %th Amount cod
+      %th Delivery
+      %th
+      %th
+      %th
+
+  %tbody
+    - @pieces.each do |piece|
+      %tr
+        %td= piece.number
+        %td= piece.type
+        %td= piece.weight
+        %td= piece.amount_cod
+        %td= piece.delivery
+        %td= link_to 'Show', piece
+        %td= link_to 'Edit', edit_piece_path(piece)
+        %td= link_to 'Destroy', piece, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Piece', new_piece_path
