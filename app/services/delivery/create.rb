@@ -34,7 +34,7 @@ class Delivery::Create
 
   def perform
     create_transaction
-    generate_guide
+    generate
     @transaction
   end
 
@@ -68,7 +68,7 @@ class Delivery::Create
   end
 
   def generate
-    generate_guide if @transaction.save && @delivery_params.nil?
+    generate_guide if @transaction.save && @transaction.carrier.internal == false
   end
 
   def generate_guide

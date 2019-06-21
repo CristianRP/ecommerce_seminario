@@ -31,7 +31,7 @@
         %a{href: new_transaction_path, title: t('modules.sale')}
           %em.fa.fa-cart-plus
           %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.sale')
-      %li{:class => "#{'active' if action?('index')}"}
+      %li{:class => "#{'active' if controller?('transactions') && action?('index')}"}
         %a{href: transactions_path, title: t('modules.sale')}
           %em.fa.fa-list-ul
           %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.sales')
@@ -80,7 +80,7 @@
         %a{href: dealers_path, title: t('activerecord.models.dealer').pluralize(I18n.locale)}
           %em.fa.fa-users
           %span{"data-localize" => "sidebar.nav.element.ELEMENTS"}= t('activerecord.models.dealer').pluralize(I18n.locale)
-      %li{:class => "#{'active' if controller?('statuses')}"}
+      %li
         %a{href: destroy_dealer_session_path, title: t('activerecord.models.status').pluralize(I18n.locale), 'data-method': :delete}
           %em.fa.fa-sign-out
           %span{"data-localize" => "sidebar.nav.element.ELEMENTS"}= t('general.sign_out')

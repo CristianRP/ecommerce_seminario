@@ -7,6 +7,7 @@ class TransactionsController < ApplicationController
   # GET /transactions.json
   def index
     @transactions = current_dealer.admin? ? Transaction.all : current_dealer.transactions
+    @transactions = @transactions.order(created_at: :desc)
   end
 
   # GET /transactions/1
@@ -25,65 +26,8 @@ class TransactionsController < ApplicationController
   # POST /transactions.json
   def create
     created = Delivery::Create.call(params, current_dealer, transaction_params)
-    #@transaction = Transaction.new(transaction_params)
-    #@transaction.type_id = Parameter.transaction_type_in.first.int_value
-    #@transaction.status = Status.initial('SALE').first
-    #@transaction.dealer = current_dealer
-    #delivery_params = params[:transaction][:delivery].permit(:recolection_id, :sender_name, :sender_address,
-    #                                                         :sender_phone, :receiver_name, :receiver_address, :receiver_phone, :receiver_contact,
-    #                                                         :receiver_nit, :populated_receiver_id, :populated_origin_id, :service_type,
-    #                                                         :secured_amount, :observations)
-    #unless delivery_params.nil?
-    #  del = Delivery.create(delivery_params)
-    #  del.my_transaction = @transaction
-    #  pieces_params = params[:transaction][:delivery][:piece].permit(:weight)
-    #  unless pieces_params.nil?
-    #    piece = del.pieces.new
-    #    piece.number = 1
-    #    piece.type = 2
-    #    piece.weight = pieces_params[:weight]
-    #    piece.save
-    #  end
-    #end
     respond_to do |format|
       if created
-        
-    
-        #response = client.call(:generar_guia,
-        #                       message: { 'Autenticacion' =>
-        #                        { 'Login' => 'WSCOMERCIALIZADORA',
-        #                          'Password' => '449079bd0fed25041b39edb59d2ab50e' },
-        #                        'ListaRecolecciones' => {
-        #                          'DatosRecoleccion' => {
-        #                            'RecoleccionID' => @transaction.id,
-        #                            'RemitenteNombre' => sender_info.find_by_description('SENDER_NAME').text_value,
-        #                            'RemitenteDireccion' => sender_info.find_by_description('SENDER_ADDRESS').text_value,
-        #                            'RemitenteTelefono' => sender_info.find_by_description('SENDER_PHONE').text_value,
-        #                            'DestinatarioNombre' => @transaction.client,
-        #                            'DestinatarioDireccion' => @transaction.address2,
-        #                            'DestinatarioTelefono' => @transaction.phone,
-        #                            'DestinatarioNit' => del.receiver_nit,
-        #                            'CodigoPobladoDestino' => del.populated_receiver_id,
-        #                            'CodigoPobladoOrigen' => del.populated_origin_id,
-        #                            'TipoServicio' => del.service_type,
-        #                            'CodigoCredito' => 0,
-        #                            'MontoAsegurado' => del.secured_amount,
-        #                            'Observaciones' => del.observations,
-        #                            'Piezas' => {
-        #                              'Pieza' => {
-        #                                'NumeroPieza' => piece.number,
-        #                                'TipoPieza' => piece.type,
-        #                                'PesoPieza' => piece.weight,
-        #                                'MontoCOD' => piece.amount_cod.nil? ? 0 : piece.amount_cod
-        #                              }
-        #                            }
-        #                          }
-        #                        } })
-        #if response.success?
-        #  puts response.to_json
-        #  format.html { redirect_to transaction_transaction_details_path(@transaction), notice: t('forms.created', model: Transaction.model_name.human) }
-        #  format.json { render :show, status: :created, location: @transaction }
-        #end
         format.html { redirect_to transaction_transaction_details_path(created), notice: t('forms.created', model: Transaction.model_name.human) }
         format.json { render :show, status: :created, location: @transaction }
       else

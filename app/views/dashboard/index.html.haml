@@ -1,2 +1,83 @@
 - unless notice.nil?
   = bootstrap_notice(notice, alert.nil? ? 'success' : 'danger')
+
+- content_for :title, 'Dashboard'
+/ START row
+.row
+  .col-lg-3.col-md-6
+    / START panel
+    .panel.panel-warning
+      .panel-heading
+        .row
+          .col-xs-3
+            %em.fa.fa-shopping-cart.fa-4x
+          .col-xs-9.text-right
+            .text-lg= @count_orders
+            %p.m0 Ordenes
+      %a.panel-footer.bg-gray-dark.bt0.clearfix.btn-block{href: transactions_path}
+        %span.pull-left Ver listado
+        %span.pull-right
+          %em.fa.fa-chevron-circle-right
+      / END panel
+  .col-lg-3.col-md-6
+    / START panel
+    .panel.panel-primary
+      .panel-heading
+        .row
+          .col-xs-3
+            %em.fa.fa-tasks.fa-4x
+          .col-xs-9.text-right
+            .text-lg= @count_finished_orders
+            %p.m0 Ordenes finalizadas
+      %a.panel-footer.bg-gray-dark.bt0.clearfix.btn-block{href: transactions_path}
+        %span.pull-left Ver listado
+        %span.pull-right
+          %em.fa.fa-chevron-circle-right
+      / END panel
+  .col-lg-3.col-md-6
+    / START panel
+    .panel.panel-green
+      .panel-heading{style: 'background-color: #37bc9b;border-color: #37bc9b;text-color:#ffff;'}
+        .row{style: 'color: #ffff;'}
+          .col-xs-3
+            %em.fa.fa-money.fa-4x
+          .col-xs-9.text-right
+            .text-lg= number_to_currency(@sum_orders)
+            %p.m0 Total venta
+      %a.panel-footer.bg-gray-dark.bt0.clearfix.btn-block{href: transactions_path}
+        %span.pull-left Ver listado
+        %span.pull-right
+          %em.fa.fa-chevron-circle-right
+      / END panel
+  .col-lg-3.col-md-6
+    / START panel
+    .panel.panel-primary
+      .panel-heading{style: 'background-color: #84949C;border-color: #84949C;text-color:white;'}
+        .row
+          .col-xs-3
+            %em.fa.fa-check.fa-4x
+          .col-xs-9.text-right
+            .text-lg= number_to_currency(@sum_finished_orders)
+            %p.m0 Total venta finalizada
+      %a.panel-footer.bg-gray-dark.bt0.clearfix.btn-block{href: transactions_path}
+        %span.pull-left Ver listado
+        %span.pull-right
+          %em.fa.fa-chevron-circle-right
+      / END panel
+.row
+  .col-lg-10
+    / START table responsive
+    = bootstrap_card t('Productos con poco stock') do
+      .table-responsive
+        %table.table.table-bordered.table-hover.table-striped
+          %thead
+            %tr
+              %th Descripción
+              %th Precio
+              %th Stock
+          %tbody
+            - @products_above_min.each do |p|
+              %tr
+                %td= p.custom_name
+                %td= number_to_currency(p.price)
+                %td= p.quantity
