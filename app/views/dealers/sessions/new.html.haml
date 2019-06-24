@@ -3,9 +3,9 @@
   .panel.panel-dark.panel-flat
     .panel-heading.text-center{style: 'background-color: #3a3f51; border-color: #3a3f51;'}
       %a{:href => "#"}
-        %img.block-center.img-rounded{:alt => "Image", :src => "image_path('angle/logo.png')"}/
+        %img.block-center.img-rounded{:alt => "MayanTech", src: "#{image_path('logo-mt.png')}", style: 'width: 50%; height: 50%; object-fit: contain;'}/
     .panel-body
-      %p.text-center.pv SIGN IN TO CONTINUE.
+      %p.text-center.pv Inicia sesión para continuar
       = form_for(resource, as: resource_name, url: session_path(resource_name)) do |form|
         .form-group.has-feedback
           = form.email_field :email, autofocus: true, autocomplete: 'email', class: 'exampleInputEmail1 form-control', placeholder: 'Ingresa tu email', required: :required
@@ -14,6 +14,6 @@
           = form.password_field :password, autocomplete: 'current-password', class: 'exampleInputPassword1 form-control', placeholder: 'Contraseña', required: :required
           %span.fa.fa-lock.form-control-feedback.text-muted
         .clearfix
-        %button.btn.btn-block.btn-primary.mt-lg{:type => "submit"} Login
+        %button.btn.btn-block.btn-primary.mt-lg{:type => "submit"} Iniciar sesión
       
   / END panel

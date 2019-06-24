@@ -8,11 +8,9 @@
     if ($('#transaction_carrier_id').find(':selected').data('internal')) {
       $('#courier_group').show();
       $('#transaction_courier_id').prop('disabled', true);
-    } else 
+    } else {
       $('#courier_group').hide();
-    /*if ($('#transaction_type_id').val() == 2 || $('#transaction_type_id').text().equals('SALIDA')) {
-      
-    }*/
+    }
   });
 - model_class = Transaction
 = bootstrap_card_collapse t('general.order_parent') do 
@@ -41,12 +39,6 @@
           = f.label :client
         .col
           = bootstrap_text_field(f, :client, model_class.human_attribute_name(:client))
-    .form-group
-      .row.row-custom
-        .col
-          = f.label :address
-        .col
-          = bootstrap_text_field(f, :address, model_class.human_attribute_name(:address))
     .form-group
       .row.row-custom
         .col
