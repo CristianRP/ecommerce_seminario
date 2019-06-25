@@ -40,10 +40,11 @@
             %td= transaction.carrier.name unless transaction.carrier.nil?
             %td
               = bootstrap_button('success', t('helpers.links.show', model: model_class.model_name.human), 'eye', transaction_transaction_details_path(transaction))
-              = bootstrap_button('warning', t('helpers.links.edit', model: model_class.model_name.human), 'exclamation-triangle', edit_transaction_path(transaction)) unless transaction.closed?('SALE')
+              - if transaction.open?('SALE')
+                = bootstrap_button('warning', t('helpers.links.edit', model: model_class.model_name.human), 'exclamation-triangle', edit_transaction_path(transaction)) unless transaction.closed?('SALE')
               - if current_dealer.admin?
                 = bootstrap_button_destroy(transaction)
 
-    - unless current_dealer.grocer?
+    - unless current_dealer.grocer? || current_dealer.courier?
       %br/
       = bootstrap_button('primary', t('helpers.titles.new', model: model_class.model_name.human), 'plus', new_transaction_path)

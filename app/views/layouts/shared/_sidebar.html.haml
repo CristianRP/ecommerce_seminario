@@ -21,7 +21,7 @@
       / Iterates over all sidebar items
       %li.nav-heading
         %span Main Navigation
-      - unless current_dealer.grocer?
+      - unless current_dealer.grocer? || current_dealer.courier?
         %li{:class => "#{'active' if controller?('dashboard')}"}
           %a{href: root_path, title: t('modules.dashboard')}
             %em.icon-speedometer

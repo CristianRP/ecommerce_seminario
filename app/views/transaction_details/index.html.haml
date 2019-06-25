@@ -1,6 +1,6 @@
 :javascript
   $(function() {
-    if (gon.current_dealer.grocer) {
+    if (gon.current_dealer.grocer || gon.current_dealer.courier) {
       $('#dataTable').DataTable({
         paging: true,
         searching: true,

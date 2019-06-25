@@ -21,6 +21,6 @@ class ApplicationController < ActionController::Base
   end
 
   def not_dealer
-    redirect_to transactions_path if current_dealer.grocer?
+    redirect_to transactions_path if current_dealer.grocer? || current_dealer.courier?
   end
 end

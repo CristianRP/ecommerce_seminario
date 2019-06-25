@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TransactionsController < ApplicationController
-  before_action :set_transaction, only: %w[show edit update destroy close_order change_status]
+  before_action :set_transaction, only: %w[show edit update destroy close_order change_status devolucion]
   skip_before_action :not_admin
 
   # GET /transactions
@@ -11,6 +11,8 @@ class TransactionsController < ApplicationController
                       Transaction.all
                     elsif current_dealer.grocer?
                       Transaction.pending_to_packing('SALE')
+                    elsif current_dealer.courier?
+                      Transaction.pending_to_deliver('SALE')
                     else
                       current_dealer.transactions
                     end
@@ -73,6 +75,23 @@ class TransactionsController < ApplicationController
       end
     end
     @transaction.status = @transaction.status.parent
+    respond_to do |format|
+      if @transaction.save
+        format.html { redirect_to transactions_path }
+        format.json { render :show, status: :created, location: @transaction_detail }
+      else
+        format.html { render :new }
+        format.json { render json: @transaction_detail.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # POST /transactions/change_status
+  def devolucion
+    # TODO: THIS CAN BE HANDLE BY A BETTER WAY, GETS THE DESCRIPTION TEXT OF THE BUTTON
+    # AFTER SEND AS A PARAMETER AND GETS IN THIS METHOD
+    # ALSO THIS METHOD CAN BE ELIMINATED AND USE ONLY CHANGE_STATUS
+    @transaction.status = Status.find_by_description('DEVOLUCION')
     respond_to do |format|
       if @transaction.save
         format.html { redirect_to transactions_path }

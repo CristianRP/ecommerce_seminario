@@ -16,4 +16,5 @@ class Transaction < ApplicationRecord
   end
 
   scope :pending_to_packing, ->(tag) { where(status: Status.closed(tag)) }
+  scope :pending_to_deliver, ->(tag) { where(status: Status.on_route(tag)) }
 end

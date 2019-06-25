@@ -3,10 +3,11 @@ Rails.application.routes.draw do
   resources :villages
   resources :deliveries
   resources :parameters
-  resources :transactions do 
+  resources :transactions do
     resources :transaction_details
     post 'close_order', to: 'close_order', as: 'close_order'
     post 'change_status', to: 'change_status', as: 'change_status'
+    post 'devolucion', to: 'devolucion', as: 'devolucion'
   end
   resources :products
   devise_for :dealers, controllers: {
