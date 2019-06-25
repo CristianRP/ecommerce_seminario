@@ -85,8 +85,7 @@
           = f.label t('general.carier')
         .col
           = f.collection_select :courier_id, Dealer.couriers, :id, :name, { prompt: true }, { class: 'form-control' }
-    .form-group#cargo_expreso_form
-      = #{hidden: true}
+    .form-group#cargo_expreso_form{hidden: true}
       = f.fields_for :delivery do |d|
         .form-group
           .row.row-custom

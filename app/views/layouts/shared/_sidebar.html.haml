@@ -21,251 +21,51 @@
       / Iterates over all sidebar items
       %li.nav-heading
         %span Main Navigation
-      %li{:class => "#{'active' if controller?('dashboard')}"}
-        %a{href: root_path, title: t('modules.dashboard')}
-          %em.icon-speedometer
-          %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.dashboard')
-      %li.nav-heading
-        %span= t('modules.management')
-      %li{:class => "#{'active' if action?('new')}"}
-        %a{href: new_transaction_path, title: t('modules.sale')}
-          %em.fa.fa-cart-plus
-          %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.sale')
+      - unless current_dealer.grocer?
+        %li{:class => "#{'active' if controller?('dashboard')}"}
+          %a{href: root_path, title: t('modules.dashboard')}
+            %em.icon-speedometer
+            %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.dashboard')
+        %li.nav-heading
+          %span= t('modules.management')
+          %li{:class => "#{'active' if action?('new')}"}
+            %a{href: new_transaction_path, title: t('modules.sale')}
+              %em.fa.fa-cart-plus
+              %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.sale')
       %li{:class => "#{'active' if controller?('transactions') && action?('index')}"}
         %a{href: transactions_path, title: t('modules.sale')}
           %em.fa.fa-list-ul
           %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.sales')
-      - if false
-        %li{:class => "#{'active' if controller?('widgets') && action?('index')}"}
-          %a{href: "/widgets", title: "Widgets"}
-            .label.label-success.pull-right 30
-            %em.icon-grid
-            %span{"data-localize" => "sidebar.nav.WIDGETS"} Widgets
-        / Layouts
-        %li
-          %a{"data-toggle": "collapse", href: "#layout", title: "Layouts"}
-            %em.icon-layers
-            %span Layouts
-          %ul#layout.nav.sidebar-subnav.collapse
-            %li.sidebar-subnav-header Layouts
-            %li
-              %a{href: "/dashboard/dashboard_h", title: "Dashboard Horizontal"}
-                %span Horizontal
-        / /Layouts
-      %li.nav-heading
-        %span= t('modules.catalog').pluralize(I18n.locale)
-      %li{:class => "#{'active' if controller?('products')}"}
-        %a{href: products_path, title: t('activerecord.models.product').pluralize(I18n.locale)}
-          %em.fa.fa-shopping-basket
-          %span{"data-localize" => "sidebar.nav.element.ELEMENTS"}= t('activerecord.models.product').pluralize(I18n.locale)
-      %li{:class => "#{'active' if controller?('carriers')}"}
-        %a{href: carriers_path, title: t('activerecord.models.carrier').pluralize(I18n.locale)}
-          %em.fa.fa-truck
-          %span{"data-localize" => "sidebar.nav.element.ELEMENTS"}= t('activerecord.models.carrier').pluralize(I18n.locale)
-      %li{:class => "#{'active' if controller?('categories')}"}
-        %a{href: categories_path, title: t('activerecord.models.category').pluralize(I18n.locale)}
-          %em.fa.fa-bookmark-o
-          %span{"data-localize" => "sidebar.nav.element.ELEMENTS"}= t('activerecord.models.category').pluralize(I18n.locale)
-      %li{:class => "#{'active' if controller?('characteristics')}"}
-        %a{href: characteristics_path, title: t('activerecord.models.characteristic').pluralize(I18n.locale)}
-          %em.fa.fa-bars
-          %span{"data-localize" => "sidebar.nav.element.ELEMENTS"}= t('activerecord.models.characteristic').pluralize(I18n.locale)
-      %li{:class => "#{'active' if controller?('statuses')}"}
-        %a{href: statuses_path, title: t('activerecord.models.status').pluralize(I18n.locale)}
-          %em.fa.fa-adjust
-          %span{"data-localize" => "sidebar.nav.element.ELEMENTS"}= t('activerecord.models.status').pluralize(I18n.locale)
-      %li.nav-heading
-        %span= t('modules.security')
-      %li{:class => "#{'active' if controller?('dealers')}"}
-        %a{href: dealers_path, title: t('activerecord.models.dealer').pluralize(I18n.locale)}
-          %em.fa.fa-users
-          %span{"data-localize" => "sidebar.nav.element.ELEMENTS"}= t('activerecord.models.dealer').pluralize(I18n.locale)
+      - if current_dealer.admin?
+        %li.nav-heading
+          %span= t('modules.catalog').pluralize(I18n.locale)
+        %li{:class => "#{'active' if controller?('products')}"}
+          %a{href: products_path, title: t('activerecord.models.product').pluralize(I18n.locale)}
+            %em.fa.fa-shopping-basket
+            %span{"data-localize" => "sidebar.nav.element.ELEMENTS"}= t('activerecord.models.product').pluralize(I18n.locale)
+        %li{:class => "#{'active' if controller?('carriers')}"}
+          %a{href: carriers_path, title: t('activerecord.models.carrier').pluralize(I18n.locale)}
+            %em.fa.fa-truck
+            %span{"data-localize" => "sidebar.nav.element.ELEMENTS"}= t('activerecord.models.carrier').pluralize(I18n.locale)
+        %li{:class => "#{'active' if controller?('categories')}"}
+          %a{href: categories_path, title: t('activerecord.models.category').pluralize(I18n.locale)}
+            %em.fa.fa-bookmark-o
+            %span{"data-localize" => "sidebar.nav.element.ELEMENTS"}= t('activerecord.models.category').pluralize(I18n.locale)
+        %li{:class => "#{'active' if controller?('characteristics')}"}
+          %a{href: characteristics_path, title: t('activerecord.models.characteristic').pluralize(I18n.locale)}
+            %em.fa.fa-bars
+            %span{"data-localize" => "sidebar.nav.element.ELEMENTS"}= t('activerecord.models.characteristic').pluralize(I18n.locale)
+        %li{:class => "#{'active' if controller?('statuses')}"}
+          %a{href: statuses_path, title: t('activerecord.models.status').pluralize(I18n.locale)}
+            %em.fa.fa-adjust
+            %span{"data-localize" => "sidebar.nav.element.ELEMENTS"}= t('activerecord.models.status').pluralize(I18n.locale)
+        %li.nav-heading
+          %span= t('modules.security')
+        %li{:class => "#{'active' if controller?('dealers')}"}
+          %a{href: dealers_path, title: t('activerecord.models.dealer').pluralize(I18n.locale)}
+            %em.fa.fa-users
+            %span{"data-localize" => "sidebar.nav.element.ELEMENTS"}= t('activerecord.models.dealer').pluralize(I18n.locale)
       %li
         %a{href: destroy_dealer_session_path, title: t('activerecord.models.status').pluralize(I18n.locale), 'data-method': :delete}
           %em.fa.fa-sign-out
           %span{"data-localize" => "sidebar.nav.element.ELEMENTS"}= t('general.sign_out')
-      - if false
-        %li{:class => "#{'active' if controller?('forms')}"}
-          %a{"data-toggle": "collapse", href: "#forms", title: "Forms"}
-            %em.icon-note
-            %span{"data-localize" => "sidebar.nav.form.FORM"} Forms
-          %ul#forms.nav.sidebar-subnav.collapse
-            %li.sidebar-subnav-header Forms
-            %li{:class => "#{'active' if controller?('forms') && action?('standard')}"}
-              %a{href: "/forms/standard", title: "Standard"}
-                %span{"data-localize" => "sidebar.nav.form.STANDARD"} Standard
-            %li{:class => "#{'active' if controller?('forms') && action?('extended')}"}
-              %a{href: "/forms/extended", title: "Extended"}
-                %span{"data-localize" => "sidebar.nav.form.EXTENDED"} Extended
-            %li{:class => "#{'active' if controller?('forms') && action?('validation')}"}
-              %a{href: "/forms/validation", title: "Validation"}
-                %span{"data-localize" => "sidebar.nav.form.VALIDATION"} Validation
-            %li{:class => "#{'active' if controller?('forms') && action?('upload')}"}
-              %a{href: "/forms/upload", title: "Upload"}
-                %span Upload
-            %li{:class => "#{'active' if controller?('forms') && action?('wizard')}"}
-              %a{href: "/forms/wizard", title: "Wizard"}
-                %span Wizard
-            %li{:class => "#{'active' if controller?('forms') && action?('xeditable')}"}
-              %a{href: "/forms/xeditable", title: "xEditable"}
-                %span xEditable
-            %li{:class => "#{'active' if controller?('forms') && action?('imgcrop')}"}
-              %a{href: "/forms/imgcrop", title: "Cropper"}
-                %span Cropper
-        %li{:class => "#{'active' if controller?('charts')}"}
-          %a{"data-toggle": "collapse", href: "#charts", title: "Charts"}
-            %em.icon-graph
-            %span{"data-localize" => "sidebar.nav.chart.CHART"} Charts
-          %ul#charts.nav.sidebar-subnav.collapse
-            %li.sidebar-subnav-header Charts
-            %li{:class => "#{'active' if controller?('charts') && action?('flot')}"}
-              %a{href: "/charts/flot", title: "Flot"}
-                %span{"data-localize" => "sidebar.nav.chart.FLOT"} Flot
-            %li{:class => "#{'active' if controller?('charts') && action?('radial')}"}
-              %a{href: "/charts/radial", title: "Radial"}
-                %span{"data-localize" => "sidebar.nav.chart.RADIAL"} Radial
-            %li{:class => "#{'active' if controller?('charts') && action?('chartjs')}"}
-              %a{href: "/charts/chartjs", title: "ChartJS"}
-                %span ChartJS
-            %li{:class => "#{'active' if controller?('charts') && action?('rickshaw')}"}
-              %a{href: "/charts/rickshaw", title: "Rickshaw"}
-                %span Rickshaw
-            %li{:class => "#{'active' if controller?('charts') && action?('morris')}"}
-              %a{href: "/charts/morris", title: "Morris"}
-                %span Morris
-            %li{:class => "#{'active' if controller?('charts') && action?('chartist')}"}
-              %a{href: "/charts/chartist", title: "Chartist"}
-                %span Chartist
-        %li{:class => "#{'active' if controller?('tables')}"}
-          %a{"data-toggle": "collapse", href: "#tables", title: "Tables"}
-            %em.icon-grid
-            %span{"data-localize" => "sidebar.nav.table.TABLE"} Tables
-          %ul#tables.nav.sidebar-subnav.collapse
-            %li.sidebar-subnav-header Tables
-            %li{:class => "#{'active' if controller?('tables') && action?('standard')}"}
-              %a{href: "/tables/standard", title: "Standard"}
-                %span{"data-localize" => "sidebar.nav.table.STANDARD"} Standard
-            %li{:class => "#{'active' if controller?('tables') && action?('extended')}"}
-              %a{href: "/tables/extended", title: "Extended"}
-                %span{"data-localize" => "sidebar.nav.table.EXTENDED"} Extended
-            %li{:class => "#{'active' if controller?('tables') && action?('datatable')}"}
-              %a{href: "/tables/datatable", title: "DataTables"}
-                %span{"data-localize" => "sidebar.nav.table.DATATABLE"} DataTables
-            %li{:class => "#{'active' if controller?('tables') && action?('jqgrid')}"}
-              %a{href: "/tables/jqgrid", title: "jqGrid"}
-                %span jqGrid
-        %li{:class => "#{'active' if controller?('maps')}"}
-          %a{"data-toggle": "collapse", href: "#maps", title: "Maps"}
-            %em.icon-map
-            %span{"data-localize" => "sidebar.nav.map.MAP"} Maps
-          %ul#maps.nav.sidebar-subnav.collapse
-            %li.sidebar-subnav-header Maps
-            %li{:class => "#{'active' if controller?('maps') && action?('google')}"}
-              %a{href: "/maps/google", title: "Google Maps"}
-                %span{"data-localize" => "sidebar.nav.map.GOOGLE"} Google Maps
-            %li{:class => "#{'active' if controller?('maps') && action?('vector')}"}
-              %a{href: "/maps/vector", title: "Vector Maps"}
-                %span{"data-localize" => "sidebar.nav.map.VECTOR"} Vector Maps
-        %li.nav-heading
-          %span More
-        %li{:class => "#{'active' if controller?('pages')}"}
-          %a{"data-toggle": "collapse", href: "#pages", title: "Pages"}
-            %em.icon-doc
-            %span{"data-localize" => "sidebar.nav.pages.PAGES"} Pages
-          %ul#pages.nav.sidebar-subnav.collapse
-            %li.sidebar-subnav-header Pages
-            %li{:class => "#{'active' if controller?('pages') && action?('login')}"}
-              %a{href: "/pages/login", title: "Login"}
-                %span{"data-localize" => "sidebar.nav.pages.LOGIN"} Login
-            %li{:class => "#{'active' if controller?('pages') && action?('register')}"}
-              %a{href: "/pages/register", title: "Sign up"}
-                %span{"data-localize" => "sidebar.nav.pages.REGISTER"} Sign up
-            %li{:class => "#{'active' if controller?('pages') && action?('recover')}"}
-              %a{href: "/pages/recover", title: "Recover Password"}
-                %span{"data-localize" => "sidebar.nav.pages.RECOVER"} Recover Password
-            %li{:class => "#{'active' if controller?('pages') && action?('lock')}"}
-              %a{href: "/pages/lock", title: "Lock"}
-                %span{"data-localize" => "sidebar.nav.pages.LOCK"} Lock
-            %li{:class => "#{'active' if controller?('pages') && action?('template')}"}
-              %a{href: "/pages/template", title: "Starter Template"}
-                %span{"data-localize" => "sidebar.nav.pages.STARTER"} Starter Template
-            %li{:class => "#{'active' if controller?('pages') && action?('notfound')}"}
-              %a{href: "/pages/notfound", title: "notfound"}
-                %span 404
-            %li{:class => "#{'active' if controller?('pages') && action?('error500')}"}
-              %a{href: "/pages/error500", title: "error500"}
-                %span 500
-            %li{:class => "#{'active' if controller?('pages') && action?('maintenance')}"}
-              %a{href: "/pages/maintenance", title: "Maintenance"}
-                %span Maintenance
-        %li{:class => "#{'active' if controller?('extras')}"}
-          %a{"data-toggle": "collapse", href: "#extras", title: "Extras"}
-            %em.icon-cup
-            %span{"data-localize" => "sidebar.nav.extra.EXTRA"} Extras
-          %ul#extras.nav.sidebar-subnav.collapse
-            %li.sidebar-subnav-header Extras
-            %li{:class => "#{'active' if controller?('extras') && action?('contacts')}"}
-              %a{href: "/extras/contacts", title: "contacts"}
-                %span Contacts
-            %li{:class => "#{'active' if controller?('extras') && action?('contact_details')}"}
-              %a{href: "/extras/contact_details", title: "contact-details"}
-                %span Contact Details
-            %li{:class => "#{'active' if controller?('extras') && action?('projects')}"}
-              %a{href: "/extras/projects", title: "projects"}
-                %span Projects
-            %li{:class => "#{'active' if controller?('extras') && action?('project_details')}"}
-              %a{href: "/extras/project_details", title: "project-details"}
-                %span Project Details
-            %li{:class => "#{'active' if controller?('extras') && action?('team_viewer')}"}
-              %a{href: "/extras/team_viewer", title: "team viewer"}
-                %span Team Viewer
-            %li{:class => "#{'active' if controller?('extras') && action?('social_board')}"}
-              %a{href: "/extras/social_board", title: "social board"}
-                %span Social Board
-            %li{:class => "#{'active' if controller?('extras') && action?('vote_links')}"}
-              %a{href: "/extras/vote_links", title: "vote links"}
-                %span Vote Links
-            %li{:class => "#{'active' if controller?('extras') && action?('bug_tracker')}"}
-              %a{href: "/extras/bug_tracker", title: "bug tracker"}
-                %span Bug Tracker
-            %li{:class => "#{'active' if controller?('extras') && action?('faq')}"}
-              %a{href: "/extras/faq", title: "faq"}
-                %span Faq
-            %li{:class => "#{'active' if controller?('extras') && action?('help_center')}"}
-              %a{href: "/extras/help_center", title: "help center"}
-                %span Help Center
-            %li{:class => "#{'active' if controller?('extras') && action?('followers')}"}
-              %a{href: "/extras/followers", title: "followers"}
-                %span Followers
-            %li{:class => "#{'active' if controller?('extras') && action?('settings')}"}
-              %a{href: "/extras/settings", title: "settings"}
-                %span Settings
-            %li{:class => "#{'active' if controller?('extras') && action?('plans')}"}
-              %a{href: "/extras/plans", title: "plans"}
-                %span Plans
-            %li{:class => "#{'active' if controller?('extras') && action?('file_manager')}"}
-              %a{href: "/extras/file_manager", title: "file manager"}
-                %span File Manager
-            %li{:class => "#{'active' if controller?('extras') && action?('mailbox')}"}
-              %a{href: "/extras/mailbox", title: "Mailbox"}
-                %span{"data-localize" => "sidebar.nav.extra.MAILBOX"} Mailbox
-            %li{:class => "#{'active' if controller?('extras') && action?('timeline')}"}
-              %a{href: "/extras/timeline", title: "Timeline"}
-                %span{"data-localize" => "sidebar.nav.extra.TIMELINE"} Timeline
-            %li{:class => "#{'active' if controller?('extras') && action?('calendar')}"}
-              %a{href: "/extras/calendar", title: "Calendar"}
-                %span{"data-localize" => "sidebar.nav.extra.CALENDAR"} Calendar
-            %li{:class => "#{'active' if controller?('extras') && action?('invoice')}"}
-              %a{href: "/extras/invoice", title: "Invoice"}
-                %span{"data-localize" => "sidebar.nav.extra.INVOICE"} Invoice
-            %li{:class => "#{'active' if controller?('extras') && action?('search')}"}
-              %a{href: "/extras/search", title: "Search"}
-                %span{"data-localize" => "sidebar.nav.extra.SEARCH"} Search
-            %li{:class => "#{'active' if controller?('extras') && action?('todo')}"}
-              %a{href: "/extras/todo", title: "Todo List"}
-                %span{"data-localize" => "sidebar.nav.extra.TODO"} Todo List
-            %li{:class => "#{'active' if controller?('extras') && action?('profile')}"}
-              %a{href: "/extras/profile", title: "Profile"}
-                %span{"data-localize" => "sidebar.nav.extra.PROFILE"} Profile
-      / END sidebar nav
-  / END Sidebar (left)

@@ -40,6 +40,9 @@
       = form.label :courier
       = form.check_box :courier
     .form-group
+      = form.label :grocer
+      = form.check_box :grocer
+    .form-group
       = form.label :parent_id
       = form.collection_select :parent_id, Dealer.all, :id, :name, { prompt: true }, { class: 'form-control' }
     .text-right

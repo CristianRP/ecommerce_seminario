@@ -2,11 +2,18 @@
 
 class TransactionsController < ApplicationController
   before_action :set_transaction, only: %w[show edit update destroy close_order change_status]
+  skip_before_action :not_admin
 
   # GET /transactions
   # GET /transactions.json
   def index
-    @transactions = current_dealer.admin? ? Transaction.all : current_dealer.transactions
+    @transactions = if current_dealer.admin?
+                      Transaction.all
+                    elsif current_dealer.grocer?
+                      Transaction.pending_to_packing('SALE')
+                    else
+                      current_dealer.transactions
+                    end
   end
 
   # GET /transactions/1

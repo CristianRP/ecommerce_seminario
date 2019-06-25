@@ -1,0 +1,47 @@
+= bootstrap_card t('.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale))) do
+  .table-responsive
+    %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+      %thead
+        %tr
+          %th= model_class.human_attribute_name(:transaction)
+          %th= model_class.human_attribute_name(:product)
+          - unless current_dealer.grocer?
+            %th= model_class.human_attribute_name(:unit_price)
+          %th= model_class.human_attribute_name(:quantity)
+          - unless current_dealer.grocer?
+            %th= model_class.human_attribute_name(:total)
+          - if @transaction.open?('SALE')
+            %th
+      - unless current_dealer.grocer?
+        %tfoot
+          %tr
+            %th{colspan: 3}
+            %th= model_class.human_attribute_name(:total).upcase
+            %th 
+      %tbody
+        - @transaction_details.each do |transaction_detail|
+          %tr
+            %td= transaction_detail.my_transaction.id
+            %td= transaction_detail.product.description
+            - unless current_dealer.grocer?
+              %td= transaction_detail.unit_price
+            %td= transaction_detail.quantity
+            - unless current_dealer.grocer?
+              %td= transaction_detail.total
+            - if @transaction.open?('SALE')
+              %td
+                = bootstrap_button('warning', t('helpers.links.edit', model: model_class.model_name.human), 'exclamation-triangle', edit_transaction_transaction_detail_path(@transaction, transaction_detail))
+                = link_to '<i class="fa fa-plus"></i>'.html_safe + t('helpers.links.destroy'), transaction_transaction_detail_path(@transaction, transaction_detail), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger"
+    %br/
+    - if @transaction.open?('SALE')
+      = bootstrap_button('primary', t('general.add_products'), 'plus', new_transaction_transaction_detail_path)
+      = bootstrap_button('success', t('general.close_order'), 'check', transaction_close_order_path(@transaction), 'post')
+    - else
+      - if @transaction.status.parent.nil?
+        = bootstrap_button('primary disabled', t('general.change_status', status: @transaction.status.description), 'arrow-right', nil, 'post')
+        = bootstrap_button('primary', t('helpers.links.back'), 'fa-arrow', transactions_path)
+      - else
+        = bootstrap_button('primary', t('general.change_status', status: @transaction.status.parent.description), 'arrow-right', transaction_change_status_path(@transaction), 'post')
+        = bootstrap_button('primary', t('helpers.links.back'), 'fa-arrow', transactions_path)
+      - if current_dealer.admin? 
+        =# bootstrap_button('warning', t('general.return', status: @transaction.status.parent.description), 'arrow-right', transaction_change_status_path)

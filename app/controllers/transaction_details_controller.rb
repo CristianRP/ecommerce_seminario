@@ -6,6 +6,7 @@ class TransactionDetailsController < ApplicationController
   # GET /transaction_details.json
   def index
     @transaction_details = @transaction.transaction_details
+    gon.current_dealer = current_dealer
   end
 
   # GET /transaction_details/1

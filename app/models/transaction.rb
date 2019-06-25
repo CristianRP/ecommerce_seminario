@@ -8,10 +8,12 @@ class Transaction < ApplicationRecord
   belongs_to :parameter, class_name: :Parameter, foreign_key: 'type_id'
 
   def closed?(tag)
-    self.status == Status.closed(tag).first
+    status == Status.closed(tag).first
   end
 
   def open?(tag)
     status == Status.initial(tag).first
   end
+
+  scope :pending_to_packing, ->(tag) { where(status: Status.closed(tag)) }
 end

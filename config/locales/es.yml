@@ -33,6 +33,7 @@ es:
         password: 'Contraseña'
         parent_id: 'Supervisor'
         courier: 'Mensajero?'
+        grocer: 'Bodeguero?'
       carrier:
         name: 'Nombre'
         internal: 'Interno?'
