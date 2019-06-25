@@ -25,6 +25,7 @@ class TransactionsController < ApplicationController
   # GET /transactions/new
   def new
     @transaction = Transaction.new
+    gon.type_param = type_param
   end
 
   # GET /transactions/1/edit
@@ -33,7 +34,7 @@ class TransactionsController < ApplicationController
   # POST /transactions
   # POST /transactions.json
   def create
-    created = Delivery::Create.call(params, current_dealer, transaction_params)
+    created = Delivery::Create.call(params, current_dealer, transaction_params, type_param)
     respond_to do |format|
       if created
         format.html { redirect_to transaction_transaction_details_path(created), notice: t('forms.created', model: Transaction.model_name.human) }
@@ -141,5 +142,9 @@ class TransactionsController < ApplicationController
   def transaction_params
     params.require(:transaction).permit(:description, :client, :address, :address2, :phone, :amount, :status_id, :dealer_id, :type_id, :tracking_number,
                                         :carrier_id, :courier_id, :populated_receiver_id, :populated_origin_id, :service_type)
+  end
+
+  def type_param
+    params.permit(:type)
   end
 end

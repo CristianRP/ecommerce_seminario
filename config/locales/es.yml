@@ -332,6 +332,7 @@ es:
     management: 'Gestiones'
     sale: 'Ingreso de pedido'
     sales: 'Listado de pedidos'
+    returns: 'Devoluciones'
   forms: 
     created: '%{model} creado con éxito.'
     deleted: '%{model} eliminado con éxito.'

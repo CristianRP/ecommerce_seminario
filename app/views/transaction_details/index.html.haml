@@ -58,10 +58,14 @@
   });
 
 - model_class = TransactionDetail
-- content_for :title, model_class.model_name.human.pluralize(I18n.locale).titleize
+- if @transaction.type_id == Parameter.transaction_type_in.first.id
+  - content_for :title, 'Devolución'
+- else
+  - content_for :title, model_class.model_name.human.pluralize(I18n.locale).titleize
 
 - unless notice.nil?
   = bootstrap_notice(notice, alert.nil? ? 'success' : 'danger')
 
-= render 'parent', transaction: @transaction, action: t('helpers.titles.new', model: model_class.model_name.human), model_class: model_class
+- unless @transaction.type_id == Parameter.transaction_type_in.first.id
+  = render 'parent', transaction: @transaction, action: t('helpers.titles.new', model: model_class.model_name.human), model_class: model_class
 = render 'detail', transaction: @transaction, action: t('helpers.titles.new', model: model_class.model_name.human), model_class: model_class
