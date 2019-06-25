@@ -14,4 +14,4 @@
   .text-right
     %br
     = bootstrap_button('primary', t('helpers.links.back'), 'arrow-left', categories_path)
-    = bootstrap_submit_button(f, t('helpers.titles.new_f', model: Category.model_name.human))
+    = bootstrap_submit_button(f, action)

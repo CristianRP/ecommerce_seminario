@@ -25,4 +25,4 @@
     .text-right
       %br
       = bootstrap_button('primary', t('helpers.links.back'), 'arrow-left', statuses_path)
-      = bootstrap_submit_button(form, t('helpers.titles.new', model: Status.model_name.human))
+      = bootstrap_submit_button(form, action)
