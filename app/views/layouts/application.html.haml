@@ -6,6 +6,7 @@
     %meta{:content => "app, responsive, jquery, bootstrap, dashboard, admin", :name => "keywords"}/
     %meta{content: 'Inventory app', name: 'description'}
     %title InventoryMt
+    = Gon::Base.render_data
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag 'base'

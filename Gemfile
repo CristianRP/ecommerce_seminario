@@ -41,6 +41,8 @@ gem 'savon', '~> 2.12.0'
 gem 'seedbank'
 # Use gem for generate fake data
 gem 'faker'
+# Use gon for handle rails variables in js scripts
+gem 'gon'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

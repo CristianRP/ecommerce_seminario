@@ -10,6 +10,7 @@
     %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
       %thead
         %tr
+          %th= model_class.human_attribute_name(:id)
           %th= model_class.human_attribute_name(:description)
           %th= model_class.human_attribute_name(:client)
           %th= model_class.human_attribute_name(:address)
@@ -25,6 +26,7 @@
       %tbody
         - @transactions.each do |transaction|
           %tr
+            %td= transaction.id
             %td= transaction.description
             %td= transaction.client
             %td= transaction.address

@@ -41,7 +41,7 @@ class Delivery::Create
   def create_transaction
     @transaction.type_id = @transaction_type
     @transaction.status = @status
-    @transaction.dealer = @current_dealer
+    @transaction.dealer_id = @current_dealer.id
     if @delivery_params.nil?
       @transaction.save
     else

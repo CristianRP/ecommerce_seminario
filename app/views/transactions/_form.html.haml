@@ -39,10 +39,6 @@
           %ul
             - transaction.errors.full_messages.each do |message|
               %li= message
-    - if false
-      .form-group
-        = f.label :type_id
-        = f.collection_select :type_id, Parameter.transaction_types, :int_value, :text_value, { prompt: true }, { class: 'form-control' }
     .form-group
       .row.row-custom
         .col
@@ -77,25 +73,6 @@
           = f.label :phone
         .col
           = bootstrap_text_field(f, :phone, model_class.human_attribute_name(:phone))
-    - if false
-      .form-group
-        .row.row-custom
-          .col
-            = f.label :status
-          .col
-            = f.collection_select :status_id, Status.all, :id, :description, { prompt: true }, { class: 'form-control' }
-      .form-group
-        .row.row-custom
-          .col
-            = f.label :dealer
-          .col
-            = f.collection_select :dealer_id, Dealer.all, :id, :name, { prompt: true }, { class: 'form-control' }    
-        .form-group
-          .row.row-custom
-            .col
-              = f.label :tracking_number
-            .col
-              = bootstrap_text_field(f, :tracking_number, model_class.human_attribute_name(:tracking_number))
     .form-group
       .row.row-custom
         .col

@@ -68,7 +68,7 @@ class TransactionDetailsController < ApplicationController
     end
 
     def set_transaction
-      @transaction = Transaction.find(params[:transaction_id])
+      gon.transaction = @transaction = Transaction.find(params[:transaction_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

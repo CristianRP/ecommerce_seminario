@@ -7,7 +7,6 @@ class TransactionsController < ApplicationController
   # GET /transactions.json
   def index
     @transactions = current_dealer.admin? ? Transaction.all : current_dealer.transactions
-    @transactions = @transactions.order(created_at: :desc)
   end
 
   # GET /transactions/1
