@@ -16,4 +16,8 @@ class Dealer < ApplicationRecord
   def custom_name
     [id, name, last_name].join(' ')
   end
+
+  def self.grocer?
+    grocer == false
+  end
 end

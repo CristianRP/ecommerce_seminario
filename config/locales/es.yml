@@ -33,6 +33,7 @@ es:
         password: 'Contraseña'
         parent_id: 'Supervisor'
         courier: 'Mensajero?'
+        grocer: 'Bodeguero?'
       carrier:
         name: 'Nombre'
         internal: 'Interno?'
@@ -331,6 +332,7 @@ es:
     management: 'Gestiones'
     sale: 'Ingreso de pedido'
     sales: 'Listado de pedidos'
+    returns: 'Devoluciones'
   forms: 
     created: '%{model} creado con éxito.'
     deleted: '%{model} eliminado con éxito.'

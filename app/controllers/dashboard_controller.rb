@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 class DashboardController < ApplicationController
+  skip_before_action :not_admin
+  before_action :not_dealer
+
   def index
+    redirect_to transactions_path if current_dealer.grocer?
     transaction = Transaction.arel_table
     t_detail = TransactionDetail.arel_table
     product = Product.arel_table
@@ -13,7 +17,5 @@ class DashboardController < ApplicationController
     @sum_orders = orders.sum(:amount)
     @sum_finished_orders = finished_orders.sum(:amount)
     @products_above_min = Product.where(product[:quantity].lteq(product[:min]))
-    join_on = t_detail.create_on(t_detail[:product_id].eq(product[:id]))
-    inner_join = t_detail.create_join(product, join_on)
   end
 end

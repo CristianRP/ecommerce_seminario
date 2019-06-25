@@ -1,12 +1,21 @@
 # frozen_string_literal: true
 
 class TransactionsController < ApplicationController
-  before_action :set_transaction, only: %w[show edit update destroy close_order change_status]
+  before_action :set_transaction, only: %w[show edit update destroy close_order change_status devolucion]
+  skip_before_action :not_admin
 
   # GET /transactions
   # GET /transactions.json
   def index
-    @transactions = current_dealer.admin? ? Transaction.all : current_dealer.transactions
+    @transactions = if current_dealer.admin?
+                      Transaction.all
+                    elsif current_dealer.grocer?
+                      Transaction.pending_to_packing('SALE')
+                    elsif current_dealer.courier?
+                      Transaction.pending_to_deliver('SALE')
+                    else
+                      current_dealer.transactions
+                    end
   end
 
   # GET /transactions/1
@@ -16,6 +25,7 @@ class TransactionsController < ApplicationController
   # GET /transactions/new
   def new
     @transaction = Transaction.new
+    gon.type_param = type_param
   end
 
   # GET /transactions/1/edit
@@ -24,7 +34,7 @@ class TransactionsController < ApplicationController
   # POST /transactions
   # POST /transactions.json
   def create
-    created = Delivery::Create.call(params, current_dealer, transaction_params)
+    created = Delivery::Create.call(params, current_dealer, transaction_params, type_param)
     respond_to do |format|
       if created
         format.html { redirect_to transaction_transaction_details_path(created), notice: t('forms.created', model: Transaction.model_name.human) }
@@ -77,6 +87,23 @@ class TransactionsController < ApplicationController
     end
   end
 
+  # POST /transactions/change_status
+  def devolucion
+    # TODO: THIS CAN BE HANDLE BY A BETTER WAY, GETS THE DESCRIPTION TEXT OF THE BUTTON
+    # AFTER SEND AS A PARAMETER AND GETS IN THIS METHOD
+    # ALSO THIS METHOD CAN BE ELIMINATED AND USE ONLY CHANGE_STATUS
+    @transaction.status = Status.find_by_description('DEVOLUCION')
+    respond_to do |format|
+      if @transaction.save
+        format.html { redirect_to transactions_path }
+        format.json { render :show, status: :created, location: @transaction_detail }
+      else
+        format.html { render :new }
+        format.json { render json: @transaction_detail.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # PATCH/PUT /transactions/1
   # PATCH/PUT /transactions/1.json
   def update
@@ -115,5 +142,9 @@ class TransactionsController < ApplicationController
   def transaction_params
     params.require(:transaction).permit(:description, :client, :address, :address2, :phone, :amount, :status_id, :dealer_id, :type_id, :tracking_number,
                                         :carrier_id, :courier_id, :populated_receiver_id, :populated_origin_id, :service_type)
+  end
+
+  def type_param
+    params.permit(:type)
   end
 end

@@ -1,11 +1,13 @@
 class TransactionDetailsController < ApplicationController
   before_action :set_transaction_detail, only: [:show, :edit, :update, :destroy]
-  before_action :set_transaction, only: %w[index new create edit update destroy close_order]
+  before_action :set_transaction, only: %w[index new create edit update destroy]
+  skip_before_action :not_admin
 
   # GET /transaction_details
   # GET /transaction_details.json
   def index
     @transaction_details = @transaction.transaction_details
+    gon.current_dealer = current_dealer
   end
 
   # GET /transaction_details/1

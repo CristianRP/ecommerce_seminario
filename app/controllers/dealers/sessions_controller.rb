@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Dealers::SessionsController < Devise::SessionsController
-
+  skip_before_action :not_admin
   layout 'pages'
   # before_action :configure_sign_in_params, only: [:create]
 

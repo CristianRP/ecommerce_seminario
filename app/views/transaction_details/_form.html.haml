@@ -13,6 +13,7 @@
       $.get('/products/'+ selectedItem.val(), function(data) {
         console.log(data);
         $('#transaction_detail_unit_price').val(data.price);
+        inputQuantity.val(1).keyup();
       }, 'json');
       $('#transaction_detail_total').val('');
     });
