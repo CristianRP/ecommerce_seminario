@@ -13,4 +13,4 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 # folder are already added.
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
 # Rails.application.config.assets.precompile << /\.(?:svg|eot|woff|woff2|ttf)\z/
-Rails.application.config.assets.precompile += %w[data_table_init.js base.scss base.js jquery/dist/jquery datatables/media/js/dataTables.bootstrap.min.js init.js logo.jpeg]
+Rails.application.config.assets.precompile += %w[data_table_init.js base.scss base.js jquery/dist/jquery datatables/media/js/dataTables.bootstrap.min.js init.js]
