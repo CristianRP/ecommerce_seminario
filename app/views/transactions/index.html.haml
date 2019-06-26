@@ -10,8 +10,8 @@
     %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
       %thead
         %tr
-          %th= model_class.human_attribute_name(:tracking_number)
           %th= model_class.human_attribute_name(:id)
+          %th= model_class.human_attribute_name(:tracking_number)
           %th= model_class.human_attribute_name(:description)
           %th= model_class.human_attribute_name(:client)
           %th= model_class.human_attribute_name(:address2)
@@ -26,8 +26,8 @@
       %tbody
         - @transactions.each do |transaction|
           %tr
-            %td= transaction.tracking_number
             %td= transaction.id
+            %td= transaction.tracking_number
             %td= transaction.description
             %td= transaction.client
             %td= transaction.address2
@@ -36,7 +36,7 @@
               %td= transaction.amount
             %td= transaction.status.description unless transaction.status.nil?
             %td= transaction.dealer.custom_name unless transaction.dealer.nil?
-            %td= transaction.parameter.text_value unless transaction.parameter.nil?
+            %td= transaction.type.text_value #unless transaction.type.nil?
             %td= transaction.carrier.name unless transaction.carrier.nil?
             %td
               = bootstrap_button('success', t('helpers.links.show', model: model_class.model_name.human), 'eye', transaction_transaction_details_path(transaction))

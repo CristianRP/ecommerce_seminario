@@ -14,3 +14,6 @@ Parameter.create(tag: 'TRANSACTION_TYPE',
 Parameter.create(tag: 'TRANSACTION_TYPE',
                  description: 'Identificar el tipo de la transaccion.',
                  int_value: 2, text_value: 'SALIDA')
+Parameter.create(tag: 'TRANSACTION_TYPE',
+                 description: 'Identificar el tipo de la transaccion.',
+                 int_value: 3, text_value: 'DEVOLUCION')

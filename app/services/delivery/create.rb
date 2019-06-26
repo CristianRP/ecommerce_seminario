@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class Delivery::Create
-  def self.call(params, current_dealer, transaction_params, type_param)
-    new(params, current_dealer, transaction_params, type_param).call
+  def self.call(params, current_dealer, transaction_params)
+    new(params, current_dealer, transaction_params).call
   end
 
   def call
@@ -12,27 +12,35 @@ class Delivery::Create
   private
 
   attr_reader :params, :current_dealer, :transaction_params
-  def initialize(params, current_dealer, transaction_params, type_param)
+  def initialize(params, current_dealer, transaction_params)
     @params = params
     @transaction = Transaction.new(transaction_params)
-    @transaction_type = Parameter.transaction_type_in.first.int_value
+    @transaction_type = if transaction_params['type_id'].present? && transaction_params['type_id'].to_i == 3
+                          Parameter.transaction_type_return.first.int_value
+                        elsif !@transaction.courier.nil?
+                          Parameter.transaction_type_out.first.int_value
+                        else
+                          Parameter.transaction_type_in.first.int_value
+                        end
     @status = Status.initial('SALE').first
     @current_dealer = current_dealer
-    unless transaction_params['type_id'].present? && !transaction_params['type_id'].nil?
-      @transaction_type = Parameter.transaction_type_out.first.int_value
-      @delivery_params = params[:transaction][:delivery].permit(:recolection_id, :sender_name, :sender_address,
-                                                                :sender_phone, :receiver_name, :receiver_address, :receiver_phone, :receiver_contact,
-                                                                :receiver_nit, :populated_receiver_id, :populated_origin_id, :service_type,
-                                                                :secured_amount, :observations)
-      @pieces_params = params[:transaction][:delivery][:piece].permit(:weight)
-      @sender_info = Parameter.sender_info
-      @credito = Parameter.where(tag: 'CREDIT_OWNER').first.text_value
-      @sender_name = @sender_info.find_by_description('SENDER_NAME').text_value
-      @sender_address = @sender_info.find_by_description('SENDER_ADDRESS').text_value
-      @sender_phone = @sender_info.find_by_description('SENDER_PHONE').text_value
-      @auth = Parameter.auth
-      @client = Savon.client(wsdl: @auth.find_by_description('WSDL').text_value, log: true)
-    end
+    initialize_delivery if @transaction.courier.nil? && @transaction_type != 3
+  end
+
+  def initialize_delivery
+    @transaction_type = Parameter.transaction_type_out.first.int_value
+    @delivery_params = params[:transaction][:delivery].permit(:recolection_id, :sender_name, :sender_address,
+                                                              :sender_phone, :receiver_name, :receiver_address, :receiver_phone, :receiver_contact,
+                                                              :receiver_nit, :populated_receiver_id, :populated_origin_id, :service_type,
+                                                              :secured_amount, :observations)
+    @pieces_params = params[:transaction][:delivery][:piece].permit(:weight)
+    @sender_info = Parameter.sender_info
+    @credito = Parameter.where(tag: 'CREDIT_OWNER').first.text_value
+    @sender_name = @sender_info.find_by_description('SENDER_NAME').text_value
+    @sender_address = @sender_info.find_by_description('SENDER_ADDRESS').text_value
+    @sender_phone = @sender_info.find_by_description('SENDER_PHONE').text_value
+    @auth = Parameter.auth
+    @client = Savon.client(wsdl: @auth.find_by_description('WSDL').text_value, log: true)
   end
 
   def perform

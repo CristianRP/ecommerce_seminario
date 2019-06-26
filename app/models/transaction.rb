@@ -5,7 +5,7 @@ class Transaction < ApplicationRecord
   belongs_to :dealer
   belongs_to :carrier, class_name: :Carrier, foreign_key: :carrier_id, optional: true
   belongs_to :courier, class_name: :Dealer, foreign_key: :courier_id, optional: true
-  belongs_to :parameter, class_name: :Parameter, foreign_key: 'type_id'
+  belongs_to :type, -> { where tag: 'TRANSACTION_TYPE' }, class_name: :Parameter, foreign_key: 'type_id', primary_key: 'int_value'
 
   def closed?(tag)
     status == Status.closed(tag).first

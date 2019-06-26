@@ -4,6 +4,7 @@
       theme: "bootstrap"
     });
     $('input[type=text]').prop('disabled', true);
+    console.log(gon.transaction.carrier_id)
     $('#transaction_carrier_id').val(gon.transaction.carrier_id);
     $('#transaction_carrier_id').prop('disabled', true);
     if ($('#transaction_carrier_id').find(':selected').data('internal')) {

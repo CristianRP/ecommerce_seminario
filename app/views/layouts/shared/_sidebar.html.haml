@@ -38,7 +38,7 @@
           %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.sales')
       - if false
         %li{:class => "#{'active' if controller?('transactions') && action?('index')}"}
-          %a{href: new_transaction_path + "?type=1", title: t('modules.returns')}
+          %a{href: new_transaction_path + "?type=3", title: t('modules.returns')}
             %em.fa.fa-undo
             %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.returns')
       - if current_dealer.admin?
