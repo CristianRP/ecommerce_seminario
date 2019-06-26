@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class TransactionDetailsController < ApplicationController
-  before_action :set_transaction_detail, only: [:show, :edit, :update, :destroy]
+  before_action :set_transaction_detail, only: %i[show edit update destroy]
   before_action :set_transaction, only: %w[index new create edit update destroy]
   skip_before_action :not_admin
 
@@ -8,21 +10,27 @@ class TransactionDetailsController < ApplicationController
   def index
     @transaction_details = @transaction.transaction_details
     gon.current_dealer = current_dealer
+    @title = if @transaction.type_id == Parameter.transaction_type_return.first.int_value
+               Parameter.transaction_type_return.first.text_value
+             elsif @transaction.type_id == Parameter.transaction_type_in.first.int_value
+               I18n.t('modules.restock')
+             else
+               I18n.t('activerecord.models.transaction')
+             end
   end
 
   # GET /transaction_details/1
   # GET /transaction_details/1.json
-  def show
-  end
+  def show; end
 
   # GET /transaction_details/new
   def new
     @transaction_detail = @transaction.transaction_details.new
+    gon.transaction_type = @transaction.type_id
   end
 
   # GET /transaction_details/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /transaction_details
   # POST /transaction_details.json
@@ -64,17 +72,18 @@ class TransactionDetailsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_transaction_detail
-      @transaction_detail = TransactionDetail.find(params[:id])
-    end
 
-    def set_transaction
-      gon.transaction = @transaction = Transaction.find(params[:transaction_id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_transaction_detail
+    @transaction_detail = TransactionDetail.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def transaction_detail_params
-      params.require(:transaction_detail).permit(:transaction_id, :product_id, :unit_price, :quantity, :total)
-    end
+  def set_transaction
+    gon.transaction = @transaction = Transaction.find(params[:transaction_id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def transaction_detail_params
+    params.require(:transaction_detail).permit(:transaction_id, :product_id, :unit_price, :quantity, :total)
+  end
 end

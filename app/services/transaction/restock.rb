@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class Transaction::Restock
-  def self.call(params, transaction)
-    new(params, transaction).call
+  def self.call(transaction)
+    new(transaction).call
   end
 
   def call
@@ -12,34 +12,24 @@ class Transaction::Restock
   private
 
   attr_reader :params
-  def initialize(params, transaction)
-    @params = params
+  def initialize(transaction)
     @transaction = transaction
-    # Find product
-    @product = Product.find(@params[:product_id])
+    @transaction_details = transaction.transaction_details
   end
 
   def perform
-    create_detail
     increment_inventory
   end
 
-  def create_detail
-    # Create the detail line
-    @transaction_detail = TransactionDetail.new(@params)
-    @transaction_detail.transaction_id = @transaction.id
-    @transaction_detail.product_id = @product.id
-    @transaction_detail.unit_price = @product.price
-    @transaction_detail.total = (@product.price * @params[:quantity].to_f)
-  end
-
   def increment_inventory
-    increment if @transaction_detail.save
+    @transaction_details.each do |transaction_detail|
+      increment(transaction_detail, transaction_detail.product)
+    end
   end
 
-  def increment
-    @product.balance = @product.quantity
-    @product.quantity += @transaction_detail.quantity
-    @product.save
+  def increment(transaction_detail, product)
+    product.quantity += transaction_detail.quantity
+    product.balance = 0
+    product.save
   end
 end

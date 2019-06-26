@@ -24,7 +24,7 @@ class Delivery::Create
                         end
     @status = Status.initial('SALE').first
     @current_dealer = current_dealer
-    initialize_delivery if @transaction.courier.nil? && @transaction_type != 3
+    initialize_delivery if @transaction.courier.nil? && (@transaction_type != 3 && @transaction_type != 1)
   end
 
   def initialize_delivery

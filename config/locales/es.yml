@@ -324,6 +324,7 @@ es:
     carier: 'Mensajero'
     change_status: '%{status}'
     return: 'Devolución'
+    close: 'Cerrar %{obj}'
   modules:
     dashboard: 'Dashboard'
     catalog: 'Catalogo'
@@ -333,6 +334,7 @@ es:
     sale: 'Ingreso de pedido'
     sales: 'Listado de pedidos'
     returns: 'Devoluciones'
+    restock: 'Reabastecimiento'
   forms: 
     created: '%{model} creado con éxito.'
     deleted: '%{model} eliminado con éxito.'

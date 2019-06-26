@@ -21,7 +21,8 @@ class Transaction::Create
 
   def perform
     create_detail
-    reduce_inventory
+    reduce_inventory if @transaction.type_id == Parameter.transaction_type_out.first.int_value
+    @transaction_detail
   end
 
   def create_detail
@@ -31,6 +32,8 @@ class Transaction::Create
     @transaction_detail.product_id = @product.id
     @transaction_detail.unit_price = @product.price
     @transaction_detail.total = (@product.price * @params[:quantity].to_f)
+    @transaction_detail.save
+    @transaction_detail
   end
 
   def reduce_inventory

@@ -4,6 +4,7 @@
     const inputQuantity = $('#transaction_detail_quantity');
     const inputUnitPrice = $('#transaction_detail_unit_price');
     const inputTotal = $('#transaction_detail_total');
+    console.log(gon.transaction_type)
     selectProduct.select2();
     selectProduct.on('change', function() {
       const selectedItem = selectProduct.find(':selected');
@@ -23,23 +24,25 @@
       var total = unitPrice * quantity;
       $('#transaction_detail_total').val(total);
     });
-    inputQuantity.keyup(function() {
-      var selectedProductId = selectProduct.find(':selected').val();
-      $.get("#{api_v1_product_availability_path}", 
-            { productId: selectedProductId }, 
-            function(data) {
-              $('#lblError').remove();
-              if (data.quantity < parseInt(inputQuantity.val())) {
-                $('input[type=submit]').prop('disabled', true);
-                inputQuantity.after('<label style="color: red;" id="lblError"><br/>La cantidad solicitada no esta disponible. En stock: ' + parseInt(data.quantity) + '</label>');
-                $('#formGroupQty').addClass('has-warning');
-              } else {
+    if (gon.transaction_type == 2) {
+      inputQuantity.keyup(function() {
+        var selectedProductId = selectProduct.find(':selected').val();
+        $.get("#{api_v1_product_availability_path}", 
+              { productId: selectedProductId }, 
+              function(data) {
                 $('#lblError').remove();
-                $('#formGroupQty').removeClass('has-warning');
-                $('input[type=submit]').prop('disabled', false);
-              }
-            });
-    });
+                if (data.quantity < parseInt(inputQuantity.val())) {
+                  $('input[type=submit]').prop('disabled', true);
+                  inputQuantity.after('<label style="color: red;" id="lblError"><br/>La cantidad solicitada no esta disponible. En stock: ' + parseInt(data.quantity) + '</label>');
+                  $('#formGroupQty').addClass('has-warning');
+                } else {
+                  $('#lblError').remove();
+                  $('#formGroupQty').removeClass('has-warning');
+                  $('input[type=submit]').prop('disabled', false);
+                }
+              });
+      });
+    }
   });
 
 - model_class = Transaction

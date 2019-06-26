@@ -59,13 +59,15 @@
 
 - model_class = TransactionDetail
 - if @transaction.type_id == Parameter.transaction_type_return.first.int_value
-  - content_for :title, 'Devolución'
+  - content_for :title, t('modules.returns')
+- elsif @transaction.type_id == Parameter.transaction_type_in.first.int_value
+  - content_for :title, t('modules.restock')
 - else
   - content_for :title, model_class.model_name.human.pluralize(I18n.locale).titleize
 
 - unless notice.nil?
   = bootstrap_notice(notice, alert.nil? ? 'success' : 'danger')
 
-- unless @transaction.type_id == Parameter.transaction_type_return.first.int_value
+- unless @transaction.type_id == Parameter.transaction_type_return.first.int_value || @transaction.type_id == Parameter.transaction_type_in.first.int_value
   = render 'parent', transaction: @transaction, action: t('helpers.titles.new', model: model_class.model_name.human), model_class: model_class
-= render 'detail', transaction: @transaction, action: t('helpers.titles.new', model: model_class.model_name.human), model_class: model_class
+= render 'detail', transaction: @transaction, action: t('helpers.titles.new', model: model_class.model_name.human), model_class: model_class, title: @title
