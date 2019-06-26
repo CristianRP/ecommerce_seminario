@@ -101,26 +101,47 @@ class Delivery::Create
                                            'DestinatarioNombre' => @transaction.client,
                                            'DestinatarioDireccion' => @transaction.address2,
                                            'DestinatarioTelefono' => @transaction.phone,
-                                           'DestinatarioNit' => @del.receiver_nit,
+                                           'DestinatarioContacto' => nil,
+                                           'DestinatarioNIT' => @del.receiver_nit,
+                                           'ReferenciaCliente1' => nil,
+                                           'ReferenciaCliente2' => nil,
                                            'CodigoPobladoDestino' => @del.populated_receiver_id,
                                            'CodigoPobladoOrigen' => @del.populated_origin_id,
                                            'TipoServicio' => @del.service_type,
+                                           'MontoCOD' => 0,
+                                           'FormatoImpresion' => nil,
                                            'CodigoCredito' => @credito,
                                            'MontoAsegurado' => @del.secured_amount,
                                            'Observaciones' => @del.observations,
+                                           'CodigoReferencia' => 0,
                                            'Piezas' => {
                                              'Pieza' => {
                                                'NumeroPieza' => @piece.number,
                                                'TipoPieza' => @piece.type,
                                                'PesoPieza' => @piece.weight,
-                                               'MontoCOD' => @piece.amount_cod.nil? ? 0 : @piece.amount_cod
+                                               'MontoCOD' => @piece.amount_cod.nil? ? 0 : @piece.amount_cod,
+                                               'TarifaPorPieza' => 0
                                              }
                                            }
                                          }
                                        } })
 
+    if response.success?
+      response_json = JSON.parse(response.to_json)
+      if response_json['generar_guia_response']['resultado_generar_guia']['resultado_operacion_multiple']['resultado_exitoso']
+        save_tracking_number(response_json['generar_guia_response']['resultado_generar_guia'])
+      end
+    end
     transaction_log.ended_at = DateTime.now
     transaction_log.messages = response.body
     transaction_log.save
+  end
+
+  def save_tracking_number(response_body)
+    tracking_number = response_body['lista_recolecciones']['datos_recoleccion']['numero_guia']
+    return if tracking_number.nil?
+
+    @transaction.tracking_number = tracking_number
+    @transaction.save
   end
 end
