@@ -84,6 +84,7 @@ class Delivery::Create
 
   def generate_guide
     require 'savon'
+    @auth = Parameter.auth
     transaction_log = TransactionLog.new
     transaction_log.tag = 'GENERA_GUIA'
     transaction_log.description = 'Generación guia pedido'
