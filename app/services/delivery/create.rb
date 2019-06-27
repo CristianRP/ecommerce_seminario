@@ -19,6 +19,8 @@ class Delivery::Create
                           Parameter.transaction_type_return.first.int_value
                         elsif !@transaction.courier.nil?
                           Parameter.transaction_type_out.first.int_value
+                        elsif @transaction.courier.nil?
+                          Parameter.transaction_type_out.first.int_value
                         else
                           Parameter.transaction_type_in.first.int_value
                         end
@@ -84,7 +86,6 @@ class Delivery::Create
 
   def generate_guide
     require 'savon'
-    @auth = Parameter.auth
     transaction_log = TransactionLog.new
     transaction_log.tag = 'GENERA_GUIA'
     transaction_log.description = 'Generación guia pedido'
