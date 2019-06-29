@@ -1,0 +1,9 @@
+{
+  id: @municipality.id,
+  cod: @municipality.cod,
+  name: @municipality.name,
+  deptarment_id: @municipality.deptarment_id,
+  header_id: @municipality.header_id,
+  created_at: @municipality.created_at,
+  updated_at: @municipality.updated_at
+}

@@ -1,0 +1,10 @@
+@municipalities.map do |municipality|
+  {
+    id: municipality.id,
+    cod: municipality.cod,
+    name: municipality.name,
+    deptarment_id: municipality.deptarment_id,
+    header_id: municipality.header_id,
+    url: municipality_url(municipality, format: :json)
+  }
+end

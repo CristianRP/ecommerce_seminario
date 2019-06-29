@@ -1,0 +1,9 @@
+@villages.map do |village|
+  {
+    id: village.cod,
+    cod: village.cod,
+    text: village.custom_name,
+    department_id: village.department_id,
+    municipality_id: village.municipality_id
+  }
+end

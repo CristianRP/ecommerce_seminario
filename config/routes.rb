@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
+  resources :municipalities
+  get 'municipalities_list', to: 'municipalities#list', as: 'municipalities_by_department'
+  resources :departments
   resources :pieces
   resources :villages
+  get 'villages_list', to: 'villages#list', as: 'villages_by_municipality'
   resources :deliveries
   resources :parameters
   resources :transactions do

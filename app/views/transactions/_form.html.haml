@@ -27,6 +27,26 @@
       }
     });
 
+    const department_select = $('#transaction_delivery_departments');
+    const municipalities_select = $('#transaction_delivery_municipalities');
+    department_select.change(function () {
+      $.get('/municipalities_list/', { department_id: $(this).find(':selected').val() }, function(data) {
+        municipalities_select.val(null).trigger('change');
+        municipalities_select.empty();
+        municipalities_select.select2({data: data});
+      });
+    });
+
+    const village_select = $('#transaction_delivery_populated_receiver_id');
+    municipalities_select.change(function() {
+      console.log($(this).find(':selected').val());
+      $.get('/villages_list/', { department_id: department_select.find(':selected').val(),  municipality_id: $(this).find(':selected').val() }, function(data) {
+        village_select.val(null).trigger('change');
+        village_select.empty();
+        village_select.select2({data: data});
+      });
+    })
+
   });
 - model_class = Transaction
 = bootstrap_card_collapse t('general.datos') do 
@@ -99,15 +119,21 @@
           .form-group
             .row.row-custom
               .col
-                = d.label t('activerecord.attributes.delivery.populated_receiver_id')
+                = d.label t('activerecord.attributes.delivery.department')
               .col
-                = d.collection_select :populated_receiver_id, Village.all, :cod, :custom_name, { prompt: true }, { class: 'form-control' }
+                = d.collection_select :departments, Department.all, :cod, :custom_name, { prompt: true }, { class: 'form-control' }
           .form-group
             .row.row-custom
               .col
-                = d.label t('activerecord.attributes.delivery.populated_origin_id')
+                = d.label t('activerecord.attributes.delivery.municipality')
               .col
-                = d.collection_select :populated_origin_id, Village.all, :cod, :custom_name, { prompt: true }, { class: 'form-control' }
+                = d.collection_select :municipalities, [], :cod, :text, { prompt: true }, { class: 'form-control' }
+          .form-group
+            .row.row-custom
+              .col
+                = d.label t('activerecord.attributes.delivery.populated_receiver_id')
+              .col
+                = d.collection_select :populated_receiver_id, [], :cod, :text, { prompt: true }, { class: 'form-control' }
           .form-group
             .row.row-custom
               .col

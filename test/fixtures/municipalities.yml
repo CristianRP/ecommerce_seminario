@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  cod: MyString
+  name: MyString
+  deptarment_id: MyString
+  header_id: MyString
+
+two:
+  cod: MyString
+  name: MyString
+  deptarment_id: MyString
+  header_id: MyString

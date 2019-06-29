@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Cod:
+  = @department.cod
+%p
+  %b Name:
+  = @department.name
+
+= link_to 'Edit', edit_department_path(@department)
+\|
+= link_to 'Back', departments_path

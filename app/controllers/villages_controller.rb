@@ -1,5 +1,6 @@
 class VillagesController < ApplicationController
   before_action :set_village, only: [:show, :edit, :update, :destroy]
+  before_action :list_params, only: %w[list]
 
   # GET /villages
   # GET /villages.json
@@ -61,6 +62,10 @@ class VillagesController < ApplicationController
     end
   end
 
+  def list
+    @villages = Village.where(department_id: list_params[:department_id], municipality_id: list_params[:municipality_id])
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_village
@@ -70,5 +75,9 @@ class VillagesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def village_params
       params.require(:village).permit(:cod, :name, :department_id, :municipality_id)
+    end
+
+    def list_params
+      params.permit(:department_id, :municipality_id)
     end
 end

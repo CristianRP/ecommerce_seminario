@@ -1,0 +1,9 @@
+@municipalities.map do |municipality|
+  {
+    id: municipality.cod,
+    cod: municipality.cod,
+    text: municipality.custom_name,
+    deptarment_id: municipality.department_id,
+    header_id: municipality.header_id
+  }
+end

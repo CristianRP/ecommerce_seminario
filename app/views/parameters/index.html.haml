@@ -1,26 +1,31 @@
-%h1 Listing parameters
+= javascript_include_tag 'data_table_init'
 
-%table
-  %thead
-    %tr
-      %th Tag
-      %th Description
-      %th Int value
-      %th Text value
-      %th
-      %th
-      %th
+- model_class = Parameter
+- content_for :title, model_class.model_name.human.pluralize(I18n.locale).titleize
 
-  %tbody
-    - @parameters.each do |parameter|
+- unless notice.nil?
+  = bootstrap_notice(notice, alert.nil? ? 'success' : 'danger')
+= bootstrap_card t('.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale))) do
+  .table-responsive
+    %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
       %tr
-        %td= parameter.tag
-        %td= parameter.description
-        %td= parameter.int_value
-        %td= parameter.text_value
-        %td= link_to 'Show', parameter
-        %td= link_to 'Edit', edit_parameter_path(parameter)
-        %td= link_to 'Destroy', parameter, method: :delete, data: { confirm: 'Are you sure?' }
+        %th Tag
+        %th Description
+        %th Int value
+        %th Text value
+        %th
+        %th
+        %th
+      %tbody
+        - @parameters.each do |parameter|
+          %tr
+            %td= parameter.tag
+            %td= parameter.description
+            %td= parameter.int_value
+            %td= parameter.text_value
+            %td= link_to 'Show', parameter
+            %td= link_to 'Edit', edit_parameter_path(parameter)
+            %td= link_to 'Destroy', parameter, method: :delete, data: { confirm: 'Are you sure?' }
 
 %br
 

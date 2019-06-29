@@ -1,0 +1,22 @@
+= form_for @municipality do |f|
+  - if @municipality.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@municipality.errors.count, "error")} prohibited this municipality from being saved:"
+      %ul
+        - @municipality.errors.full_messages.each do |message|
+          %li= message
+
+  .field
+    = f.label :cod
+    = f.text_field :cod
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :deptarment_id
+    = f.text_field :deptarment_id
+  .field
+    = f.label :header_id
+    = f.text_field :header_id
+  .actions
+    = f.submit 'Save'

@@ -19,7 +19,7 @@ es:
       product: 'Producto'
       transaction: 'Pedido'
       transaction_detail: 'Productos'
-      parameters: 'Parámetros'
+      parameter: 'Parámetros'
       delivery: 'Envío'
       pice: 'Pieza'
     attributes:
@@ -90,6 +90,8 @@ es:
         service_type: 'Tipo de servicio'
         secured_amount: 'Monto asegurado'
         observations: 'Observaciones'
+        department: 'Departamento'
+        municipality: 'Municipio'
       piece:
         number: 'Número pieza'
         type: 'Tipo'

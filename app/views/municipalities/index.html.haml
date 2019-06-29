@@ -1,0 +1,27 @@
+%h1 Listing municipalities
+
+%table
+  %thead
+    %tr
+      %th Cod
+      %th Name
+      %th Deptarment
+      %th Header
+      %th
+      %th
+      %th
+
+  %tbody
+    - @municipalities.each do |municipality|
+      %tr
+        %td= municipality.cod
+        %td= municipality.name
+        %td= municipality.department_id
+        %td= municipality.header_id
+        %td= link_to 'Show', municipality
+        %td= link_to 'Edit', edit_municipality_path(municipality)
+        %td= link_to 'Destroy', municipality, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Municipality', new_municipality_path

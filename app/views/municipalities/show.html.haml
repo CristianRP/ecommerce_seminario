@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Cod:
+  = @municipality.cod
+%p
+  %b Name:
+  = @municipality.name
+%p
+  %b Deptarment:
+  = @municipality.deptarment_id
+%p
+  %b Header:
+  = @municipality.header_id
+
+= link_to 'Edit', edit_municipality_path(@municipality)
+\|
+= link_to 'Back', municipalities_path

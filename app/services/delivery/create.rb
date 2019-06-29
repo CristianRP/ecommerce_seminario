@@ -41,6 +41,7 @@ class Delivery::Create
     @sender_name = @sender_info.find_by_description('SENDER_NAME').text_value
     @sender_address = @sender_info.find_by_description('SENDER_ADDRESS').text_value
     @sender_phone = @sender_info.find_by_description('SENDER_PHONE').text_value
+    @sender_village = @sender_info.find_by_description('SENDER_VILLAGE_COD').text_value
     @auth = Parameter.auth
     @client = Savon.client(wsdl: @auth.find_by_description('WSDL').text_value, log: true)
   end
@@ -108,7 +109,7 @@ class Delivery::Create
                                            'ReferenciaCliente1' => nil,
                                            'ReferenciaCliente2' => nil,
                                            'CodigoPobladoDestino' => @del.populated_receiver_id,
-                                           'CodigoPobladoOrigen' => @del.populated_origin_id,
+                                           'CodigoPobladoOrigen' => @sender_village,
                                            'TipoServicio' => @del.service_type,
                                            'MontoCOD' => 0,
                                            'FormatoImpresion' => nil,
