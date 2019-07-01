@@ -7,14 +7,12 @@
           - unless current_dealer.grocer? || current_dealer.courier?
             %th= model_class.human_attribute_name(:unit_price)
           %th= model_class.human_attribute_name(:quantity)
-          - unless current_dealer.grocer? || current_dealer.courier?
-            %th= model_class.human_attribute_name(:total)
+          %th= model_class.human_attribute_name(:total)
           - if @transaction.open?('SALE')
             %th
-      - unless current_dealer.grocer? || current_dealer.courier?
         %tfoot
           %tr
-            %th{colspan: 2}
+            %th
             %th= model_class.human_attribute_name(:total).upcase
             %th
       %tbody
@@ -24,8 +22,7 @@
             - unless current_dealer.grocer? || current_dealer.courier?
               %td= transaction_detail.unit_price
             %td= transaction_detail.quantity
-            - unless current_dealer.grocer? || current_dealer.courier?
-              %td= transaction_detail.total
+            %td= transaction_detail.total
             - if @transaction.open?('SALE')
               %td
                 - if false

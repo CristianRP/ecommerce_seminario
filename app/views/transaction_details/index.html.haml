@@ -16,7 +16,23 @@
           info: 'Mostrando _START_ de _END_ registros',
           lengthMenu: 'Mostrar _MENU_ registros'
         },
-        "footerCallback": null
+        "footerCallback": function (row, data, start, end, display) {
+          var api = this.api();
+ 
+          api.columns(2, {
+            page: 'current'
+          }).every(function() {
+            var sum = this
+              .data()
+              .reduce(function(a, b) {
+                var x = parseFloat(a) || 0;
+                var y = parseFloat(b) || 0;
+                return x + y;
+              }, 0);
+            //console.log(sum); //alert(sum);
+            $(this.footer()).html('Q ' + sum.toFixed(2));
+          });
+        }
       });
     } else {
       $('#dataTable').DataTable({
@@ -48,7 +64,7 @@
                 return x + y;
               }, 0);
             //console.log(sum); //alert(sum);
-            $(this.footer()).html('Q ' + sum);
+            $(this.footer()).html('Q ' + sum.toFixed(2));
           });
         }
       });
