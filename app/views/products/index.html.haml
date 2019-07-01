@@ -16,22 +16,26 @@
           %th= model_class.human_attribute_name(:active)
           %th= model_class.human_attribute_name(:quantity)
           %th= model_class.human_attribute_name(:price)
-          %th= model_class.human_attribute_name(:cost)
+          - if current_dealer.admin?
+            %th= model_class.human_attribute_name(:cost)
           %th= model_class.human_attribute_name(:characteristic)
-          %th= t '.actions', :default => t("helpers.actions")
+          - if current_dealer.admin?
+            %th= t '.actions', :default => t("helpers.actions")
       %tbody
         - @products.each do |product|
           %tr
             %td= product.description
             %td= product.sku
             %td= product.category.name
-            %td= product.active
+            %td= active(product.active)
             %td= product.quantity
             %td= product.price
-            %td= product.cost
+            - if current_dealer.admin?
+              %td= product.cost
             %td= product.characteristic.name
-            %td
-              = bootstrap_button('warning', t('helpers.links.edit'), 'exclamation-triangle', edit_product_path(product))
-              = bootstrap_button_destroy(product)
+            - if current_dealer.admin?
+              %td
+                = bootstrap_button('warning', t('helpers.links.edit'), 'exclamation-triangle', edit_product_path(product))
+                = bootstrap_button_destroy(product)
     %br/
     = bootstrap_button('primary', t('helpers.titles.new', model: model_class.model_name.human), 'plus', new_product_path)

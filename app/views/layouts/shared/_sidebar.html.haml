@@ -44,13 +44,14 @@
           %a{href: new_transaction_path + "?type=1", title: t('modules.returns')}
             %em.fa.fa-cart-plus
             %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.restock')
-      - if current_dealer.admin?
+      - if current_dealer.admin? || (!current_dealer.courier? && !current_dealer.grocer?)
         %li.nav-heading
           %span= t('modules.catalog').pluralize(I18n.locale)
         %li{:class => "#{'active' if controller?('products')}"}
           %a{href: products_path, title: t('activerecord.models.product').pluralize(I18n.locale)}
             %em.fa.fa-shopping-basket
             %span{"data-localize" => "sidebar.nav.element.ELEMENTS"}= t('activerecord.models.product').pluralize(I18n.locale)
+      - if current_dealer.admin?
         %li{:class => "#{'active' if controller?('carriers')}"}
           %a{href: carriers_path, title: t('activerecord.models.carrier').pluralize(I18n.locale)}
             %em.fa.fa-truck
