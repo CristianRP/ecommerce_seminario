@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     post 'close_order', to: 'close_order', as: 'close_order'
     post 'change_status', to: 'change_status', as: 'change_status'
     post 'devolucion', to: 'devolucion', as: 'devolucion'
+    post 'not_delivery', to: 'not_delivery', as: 'not_delivery'
   end
   resources :products
   devise_for :dealers, controllers: {

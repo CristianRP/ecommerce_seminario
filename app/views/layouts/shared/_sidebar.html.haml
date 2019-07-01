@@ -28,7 +28,7 @@
             %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.dashboard')
         %li.nav-heading
           %span= t('modules.management')
-          %li{:class => "#{'active' if action?('new')}"}
+          %li
             %a{href: new_transaction_path, title: t('modules.sale')}
               %em.fa.fa-cart-arrow-down
               %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.sale')
@@ -36,11 +36,11 @@
         %a{href: transactions_path, title: t('modules.sale')}
           %em.fa.fa-list-ul
           %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.sales')
-        %li{:class => "#{'active' if controller?('transactions') && action?('index')}"}
+        %li
           %a{href: new_transaction_path + "?type=3", title: t('modules.returns')}
             %em.fa.fa-undo
             %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.returns')
-        %li{:class => "#{'active' if controller?('transactions') && action?('index')}"}
+        %li
           %a{href: new_transaction_path + "?type=1", title: t('modules.returns')}
             %em.fa.fa-cart-plus
             %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.restock')

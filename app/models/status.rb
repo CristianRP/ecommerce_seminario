@@ -12,6 +12,7 @@ class Status < ApplicationRecord
 
   scope :closed, ->(tag) { where(description: 'PROCESADA', tag: tag) }
   scope :on_route, ->(tag) { where(description: 'EN RUTA', tag: tag) }
+  scope :not_delivery, ->(tag) { where(description: 'NO ENTREGADA', tag: tag) }
 
   private
 

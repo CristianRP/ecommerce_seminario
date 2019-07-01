@@ -12,7 +12,10 @@
             %th
         %tfoot
           %tr
-            %th
+            - if current_dealer.grocer? || current_dealer.courier?
+              %th
+            - else
+              %th{colspan: 2}
             %th= model_class.human_attribute_name(:total).upcase
             %th
       %tbody
@@ -38,7 +41,9 @@
         = bootstrap_button('primary disabled', t('general.change_status', status: @transaction.status.description), 'arrow-right', nil, 'post')
       - else
         = bootstrap_button('primary', t('general.change_status', status: @transaction.status.parent.description), 'arrow-right', transaction_change_status_path(@transaction), 'post')
-      - if current_dealer.courier?
+      - if current_dealer.admin? && @transaction.on_route?('SALE') || current_dealer.admin? && @transaction.not_delivery?('SALE')
         = bootstrap_button('primary', t('general.change_status', status: 'DEVOLUCIÓN'), 'arrow-right', transaction_devolucion_path(@transaction), 'post')
+      - if current_dealer.courier?
+        = bootstrap_button('primary', t('general.change_status', status: 'NO ENTREGADA'), 'arrow-right', transaction_not_delivery_path(@transaction), 'post')
       - if current_dealer.admin?
         =# bootstrap_button('warning', t('general.return', status: @transaction.status.parent.description), 'arrow-right', transaction_change_status_path)

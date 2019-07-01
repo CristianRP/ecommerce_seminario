@@ -3,7 +3,7 @@ $(function() {
     $('#dataTable').DataTable({
       paging: true,
       searching: true,
-      order: [[ 0, 'desc']],
+      order: [[ 1, 'desc']],
       language: {
         search: 'Buscar',
         paginate: {
