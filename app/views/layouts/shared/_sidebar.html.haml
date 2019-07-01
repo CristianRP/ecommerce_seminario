@@ -36,6 +36,11 @@
         %a{href: transactions_path, title: t('modules.sale')}
           %em.fa.fa-list-ul
           %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.sales')
+      - if current_dealer.courier?
+        %li
+          %a{href: delivered_path, title: t('modules.delivered')}
+            %em.fa.fa-check
+            %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.delivered')
         %li
           %a{href: new_transaction_path + "?type=3", title: t('modules.returns')}
             %em.fa.fa-undo

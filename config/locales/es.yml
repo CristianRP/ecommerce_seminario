@@ -336,6 +336,7 @@ es:
     management: 'Gestiones'
     sale: 'Ingreso de pedido'
     sales: 'Listado de pedidos'
+    delivered: 'Pedidos Entregados'
     returns: 'Devoluciones'
     restock: 'Reabastecimiento'
   forms: 

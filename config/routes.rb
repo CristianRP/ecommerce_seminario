@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     post 'devolucion', to: 'devolucion', as: 'devolucion'
     post 'not_delivery', to: 'not_delivery', as: 'not_delivery'
   end
+  get '/delivered', to: 'transactions#delivered', as: 'delivered'
   resources :products
   devise_for :dealers, controllers: {
     sessions: 'dealers/sessions'

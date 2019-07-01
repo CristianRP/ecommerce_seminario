@@ -124,6 +124,10 @@ class TransactionsController < ApplicationController
     end
   end
 
+  def delivered
+    @transactions = Transaction.delivered('SALE')
+  end
+
   # PATCH/PUT /transactions/1
   # PATCH/PUT /transactions/1.json
   def update

@@ -23,6 +23,11 @@ class Transaction < ApplicationRecord
     status == Status.not_delivery(tag).first
   end
 
+  def delivered?(tag)
+    status == Status.delivered(tag).first
+  end
+
   scope :pending_to_packing, ->(tag) { where(status: Status.closed(tag)) }
   scope :pending_to_deliver, ->(tag) { where(status: Status.on_route(tag)) }
+  scope :delivered, ->(tag) { where(status: [Status.not_delivery(tag).first, Status.delivered(tag).first]) }
 end
