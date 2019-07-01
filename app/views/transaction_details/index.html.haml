@@ -35,23 +35,21 @@
           lengthMenu: 'Mostrar _MENU_ registros'
         },
         "footerCallback": function (row, data, start, end, display) {
-          var api = this.api(),
-          intVal = function (i) {
-                return typeof i === 'string' ?
-                    i.replace(/[, Rs]|(\.\d{2})/g,"")* 1 :
-                    typeof i === 'number' ?
-                    i : 0;
-          },
-          total2 = api
-              .column(4)
+          var api = this.api();
+ 
+          api.columns(3, {
+            page: 'current'
+          }).every(function() {
+            var sum = this
               .data()
-              .reduce(function (a, b) {
-                  return intVal(a) + intVal(b);
+              .reduce(function(a, b) {
+                var x = parseFloat(a) || 0;
+                var y = parseFloat(b) || 0;
+                return x + y;
               }, 0);
-    
-          $(api.column(4).footer()).html(
-              '  Q.' + total2
-          );
+            //console.log(sum); //alert(sum);
+            $(this.footer()).html('Q ' + sum);
+          });
         }
       });
     }
