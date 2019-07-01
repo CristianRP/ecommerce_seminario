@@ -36,19 +36,25 @@
         %a{href: transactions_path, title: t('modules.sale')}
           %em.fa.fa-list-ul
           %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.sales')
-      - if current_dealer.courier?
-        %li
-          %a{href: delivered_path, title: t('modules.delivered')}
-            %em.fa.fa-check
-            %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.delivered')
-        %li
-          %a{href: new_transaction_path + "?type=3", title: t('modules.returns')}
-            %em.fa.fa-undo
-            %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.returns')
-        %li
-          %a{href: new_transaction_path + "?type=1", title: t('modules.returns')}
-            %em.fa.fa-cart-plus
-            %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.restock')
+        - if current_dealer.courier?
+          %li
+            %a{href: delivered_path, title: t('modules.delivered')}
+              %em.fa.fa-check
+              %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.delivered')
+        - if current_dealer.admin?
+          %li
+            %a{href: pendings_path, title: t('modules.finished')}
+              %em.fa.fa-check
+              %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.finished')
+        - unless current_dealer.courier?
+          %li
+            %a{href: new_transaction_path + "?type=3", title: t('modules.returns')}
+              %em.fa.fa-undo
+              %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.returns')
+          %li
+            %a{href: new_transaction_path + "?type=1", title: t('modules.returns')}
+              %em.fa.fa-cart-plus
+              %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.restock')
       - if current_dealer.admin? || (!current_dealer.courier? && !current_dealer.grocer?)
         %li.nav-heading
           %span= t('modules.catalog').pluralize(I18n.locale)

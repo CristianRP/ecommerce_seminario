@@ -339,6 +339,7 @@ es:
     delivered: 'Pedidos Entregados'
     returns: 'Devoluciones'
     restock: 'Reabastecimiento'
+    finished: 'Pendientes de liquidar'
   forms: 
     created: '%{model} creado con éxito.'
     deleted: '%{model} eliminado con éxito.'

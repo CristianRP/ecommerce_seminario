@@ -1,0 +1,50 @@
+= javascript_include_tag 'data_table_init'
+
+- model_class = Transaction
+- content_for :title, model_class.model_name.human.pluralize(I18n.locale).titleize
+
+- unless notice.nil?
+  = bootstrap_notice(notice, alert.nil? ? 'success' : 'danger')
+= bootstrap_card t('.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale))) do
+  .table-responsive
+    %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+      %thead
+        %tr
+          %th= t '.actions', :default => t("helpers.actions")
+          %th= model_class.human_attribute_name(:id)
+          %th= model_class.human_attribute_name(:tracking_number)
+          %th= model_class.human_attribute_name(:description)
+          %th= model_class.human_attribute_name(:client)
+          %th= model_class.human_attribute_name(:address2)
+          %th= model_class.human_attribute_name(:phone)
+          - unless current_dealer.grocer?
+            %th= model_class.human_attribute_name(:amount)
+          %th= model_class.human_attribute_name(:status)
+          %th= model_class.human_attribute_name(:dealer)
+          %th= model_class.human_attribute_name(:type)
+          %th= model_class.human_attribute_name(:carrier)
+      %tbody
+        - @transactions.each do |transaction|
+          %tr
+            %td
+              = bootstrap_button('success', nil, 'eye', transaction_transaction_details_path(transaction))
+              - if transaction.open?('SALE')
+                = bootstrap_button('warning', nil, 'exclamation-triangle', edit_transaction_path(transaction)) unless transaction.closed?('SALE')
+              - if current_dealer.admin? && transaction.open?('SALE')
+                = bootstrap_button_destroy(transaction)
+            %td= transaction.id
+            %td= transaction.tracking_number
+            %td= transaction.description
+            %td= transaction.client
+            %td= transaction.address2
+            %td= transaction.phone
+            - unless current_dealer.grocer?
+              %td= transaction.amount
+            %td= transaction.status.description unless transaction.status.nil?
+            %td= transaction.dealer.custom_name unless transaction.dealer.nil?
+            %td= transaction.type.text_value #unless transaction.type.nil?
+            %td= transaction.carrier.name unless transaction.carrier.nil?
+
+    - unless current_dealer.grocer? || current_dealer.courier?
+      %br/
+      = bootstrap_button('primary', t('helpers.titles.new', model: model_class.model_name.human), 'plus', new_transaction_path)

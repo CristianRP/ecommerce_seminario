@@ -128,6 +128,10 @@ class TransactionsController < ApplicationController
     @transactions = Transaction.delivered('SALE')
   end
 
+  def pendings
+    @transactions = Transaction.delivered('SALE')
+  end
+
   # PATCH/PUT /transactions/1
   # PATCH/PUT /transactions/1.json
   def update
