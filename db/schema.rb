@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_29_185200) do
+ActiveRecord::Schema.define(version: 2019_07_01_035743) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(version: 2019_06_29_185200) do
     t.decimal "balance"
     t.decimal "min"
     t.decimal "max"
+    t.decimal "weight"
     t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["characteristic_id"], name: "index_products_on_characteristic_id"
   end

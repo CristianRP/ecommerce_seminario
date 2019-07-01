@@ -70,6 +70,9 @@
       = f.label :quantity
       = bootstrap_text_field f, :quantity
     .form-group
+      = f.label :weight
+      = bootstrap_text_field f, :weight
+    .form-group
       = f.label :characteristic
       = f.collection_select :characteristic_id, Characteristic.all, :id, :name, { prompt: true }, { class: 'form-control' }
     .form-group

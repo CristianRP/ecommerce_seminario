@@ -7,4 +7,8 @@ class Product < ApplicationRecord
   def custom_name
     [sku, description].join(' | ')
   end
+
+  def custom_name_order
+    [description, characteristic.name].join(' | ')
+  end
 end

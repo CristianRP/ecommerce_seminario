@@ -58,6 +58,7 @@ es:
         min: 'Cantidad miníma en inventario'
         max: 'Cantidad máxima en inventario'
         balance: 'Saldo'
+        weight: 'Peso'
       transaction:
         description: 'Descripción'
         client: 'Cliente'
