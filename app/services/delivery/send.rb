@@ -103,8 +103,10 @@ class Delivery::Send
   def save_tracking_number(response_body)
     tracking_number = response_body['lista_recolecciones']['datos_recoleccion']['numero_guia']
     return if tracking_number.nil?
-
+    
     @transaction.tracking_number = tracking_number
+    @transaction.url_recolection = response_body['lista_recolecciones']['datos_recoleccion']['url_recoleccion']
+    @transaction.url_reference = response_body['lista_recolecciones']['datos_recoleccion']['url_consulta']
     @transaction.save
   end
 end

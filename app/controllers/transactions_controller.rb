@@ -61,6 +61,7 @@ class TransactionsController < ApplicationController
         delivery_ok = Delivery::Send.call(@transaction)
         @transaction.amount = TransactionDetail.get_total_order(@transaction.id).first.total_order
         @transaction.status = @transaction.status.parent
+        @transaction.save
         respond_to do |format|
           if delivery_ok
             format.html { redirect_to transactions_path }

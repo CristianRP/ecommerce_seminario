@@ -13,6 +13,13 @@
     } else {
       $('#courier_group').hide();
     }
+    $('#downloadBtn').click(function() {
+      if (gon.closed) {
+        $.post('/transactions/' + gon.transaction.id + '/change_status', function(data) {
+          console.log('done');
+        });
+      }
+    });
   });
 - model_class = Transaction
 = bootstrap_card_collapse t('general.order_parent') do 
@@ -56,6 +63,15 @@
             = f.label :tracking_number
           .col
             = bootstrap_text_field(f, :tracking_number, model_class.human_attribute_name(:tracking_number))
+      - unless transaction.open?('SALE')
+        .form-group
+          .row.row-custom
+            .col
+              Descargar guía
+            .col
+              %a{id: :downloadBtn, href: "#{transaction.url_reference}", target: :blank} 
+                %span
+                  %i.fa.fa-download
     .form-group
       .row.row-custom
         .col

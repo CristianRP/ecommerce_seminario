@@ -27,6 +27,7 @@
       }
     });
 
+    const serviceTypeSelect = $('#transaction_delivery_service_type');
     const department_select = $('#transaction_delivery_departments');
     const municipalities_select = $('#transaction_delivery_municipalities');
     department_select.change(function () {
@@ -34,6 +35,8 @@
         municipalities_select.val(null).trigger('change');
         municipalities_select.empty();
         municipalities_select.select2({data: data});
+        municipalities_select.val(1).trigger('change');
+        serviceTypeSelect.val(3).trigger('change');
       });
     });
 
@@ -44,6 +47,7 @@
         village_select.val(null).trigger('change');
         village_select.empty();
         village_select.select2({data: data});
+        village_select.val(1).trigger('change');
       });
     })
 

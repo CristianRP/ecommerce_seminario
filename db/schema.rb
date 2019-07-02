@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_02_172104) do
+ActiveRecord::Schema.define(version: 2019_07_02_195828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -202,6 +202,8 @@ ActiveRecord::Schema.define(version: 2019_07_02_172104) do
     t.datetime "updated_at", null: false
     t.integer "courier_id"
     t.bigint "delivery_id"
+    t.text "url_reference"
+    t.text "url_recolection"
     t.index ["carrier_id"], name: "index_transactions_on_carrier_id"
     t.index ["dealer_id"], name: "index_transactions_on_dealer_id"
     t.index ["delivery_id"], name: "index_transactions_on_delivery_id"

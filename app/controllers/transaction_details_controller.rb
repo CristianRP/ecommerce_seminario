@@ -80,6 +80,7 @@ class TransactionDetailsController < ApplicationController
 
   def set_transaction
     gon.transaction = @transaction = Transaction.find(params[:transaction_id])
+    gon.closed = @transaction.closed?('SALE')
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
