@@ -140,12 +140,13 @@
                 = d.label t('activerecord.attributes.delivery.service_type')
               .col
                 = d.collection_select :service_type, Parameter.service_types, :int_value, :text_value, { prompt: true }, { class: 'form-control' }
-          .form-group
-            .row.row-custom
-              .col
-                = d.label t('activerecord.attributes.delivery.secured_amount')
-              .col
-                = bootstrap_text_field(d, :secured_amount, Delivery.human_attribute_name(:secured_amount))
+          - if false
+            .form-group
+              .row.row-custom
+                .col
+                  = d.label t('activerecord.attributes.delivery.secured_amount')
+                .col
+                  = bootstrap_text_field(d, :secured_amount, Delivery.human_attribute_name(:secured_amount))
           .form-group
             .row.row-custom
               .col
@@ -153,7 +154,7 @@
               .col
                 = bootstrap_text_field(d, :observations, Delivery.human_attribute_name(:observations))
           = d.fields_for :piece do |p|
-            .form-group
+            .form-group{hidden: true}
               .row.row-custom
                 .col
                   = p.label t('activerecord.attributes.piece.weight')

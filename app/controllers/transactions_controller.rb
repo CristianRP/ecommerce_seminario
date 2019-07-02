@@ -57,6 +57,20 @@ class TransactionsController < ApplicationController
       if @transaction.type_id == Parameter.transaction_type_in.first.int_value
         Transaction::Restock.call(@transaction)
       end
+      if @transaction.type_id == Parameter.transaction_type_out.first.int_value && @transaction.courier.nil?
+        delivery_ok = Delivery::Send.call(@transaction)
+        @transaction.amount = TransactionDetail.get_total_order(@transaction.id).first.total_order
+        @transaction.status = @transaction.status.parent
+        respond_to do |format|
+          if delivery_ok
+            format.html { redirect_to transactions_path }
+            format.json { render :show, status: :created, location: @transaction_detail }
+          else
+            format.html { redirect_to transaction_transaction_details_path(@transaction), notice: 'Error generando la guía a cargo expreso.', alert: true }
+            format.json { render json: @transaction_detail.errors, status: :unprocessable_entity }
+          end
+        end and return
+      end
       @transaction.amount = TransactionDetail.get_total_order(@transaction.id).first.total_order
       @transaction.status = @transaction.status.parent
       respond_to do |format|

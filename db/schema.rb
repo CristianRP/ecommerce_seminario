@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_01_035743) do
+ActiveRecord::Schema.define(version: 2019_07_02_172104) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,13 +127,13 @@ ActiveRecord::Schema.define(version: 2019_07_01_035743) do
   end
 
   create_table "pieces", force: :cascade do |t|
-    t.integer "number"
-    t.string "type"
     t.decimal "weight"
     t.decimal "amount_cod"
     t.bigint "delivery_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "number_p"
+    t.string "type_p"
     t.index ["delivery_id"], name: "index_pieces_on_delivery_id"
   end
 
@@ -151,7 +151,7 @@ ActiveRecord::Schema.define(version: 2019_07_01_035743) do
     t.decimal "balance"
     t.decimal "min"
     t.decimal "max"
-    t.decimal "weight"
+    t.decimal "weight", default: "0.0"
     t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["characteristic_id"], name: "index_products_on_characteristic_id"
   end
