@@ -17,19 +17,19 @@ class Delivery::Create
     @transaction = Transaction.new(transaction_params)
     @transaction_type = if transaction_params['type_id'].present? && transaction_params['type_id'].to_i == 3
                           Parameter.transaction_type_return.first.int_value
-                        elsif !@transaction.courier.nil?
-                          Parameter.transaction_type_out.first.int_value
-                        elsif @transaction.courier.nil?
-                          Parameter.transaction_type_out.first.int_value
-                        else
+                        elsif transaction_params['type_id'].present? && transaction_params['type_id'].to_i == 1
                           Parameter.transaction_type_in.first.int_value
+                        else
+                          Parameter.transaction_type_out.first.int_value
                         end
     @status = Status.initial('SALE').first
     @current_dealer = current_dealer
-    @delivery_params = params[:transaction][:delivery].permit(:recolection_id, :sender_name, :sender_address,
-                                                              :sender_phone, :receiver_name, :receiver_address, :receiver_phone, :receiver_contact,
-                                                              :receiver_nit, :populated_receiver_id, :populated_origin_id, :service_type,
-                                                              :secured_amount, :observations)
+    if @transaction_type == Parameter.transaction_type_out.first.int_value # && @transaction.courier.nil?
+      @delivery_params = params[:transaction][:delivery].permit(:recolection_id, :sender_name, :sender_address,
+                                                                :sender_phone, :receiver_name, :receiver_address, :receiver_phone, :receiver_contact,
+                                                                :receiver_nit, :populated_receiver_id, :populated_origin_id, :service_type,
+                                                                :secured_amount, :observations)
+    end
     @sender_info = Parameter.sender_info
     @sender_name = @sender_info.find_by_description('SENDER_NAME').text_value
     @sender_address = @sender_info.find_by_description('SENDER_ADDRESS').text_value
