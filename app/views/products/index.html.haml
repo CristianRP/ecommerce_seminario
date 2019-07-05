@@ -32,7 +32,7 @@
             %td= product.price
             - if current_dealer.admin?
               %td= product.cost
-            %td= product.characteristic.name
+            %td= product.characteristic.nil? ? '' : product.characteristic.name
             - if current_dealer.admin?
               %td
                 = bootstrap_button('warning', t('helpers.links.edit'), 'exclamation-triangle', edit_product_path(product))
