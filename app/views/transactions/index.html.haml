@@ -1,5 +1,16 @@
 = javascript_include_tag 'data_table_init'
 
+:javascript
+  $(function() {
+    $('#downloadBtn').click(function() {
+      if (gon.closed) {
+        $.post('/transactions/' + gon.transaction.id + '/change_status', function(data) {
+          console.log('done');
+        });
+      }
+    });
+  });
+
 - model_class = Transaction
 - content_for :title, model_class.model_name.human.pluralize(I18n.locale).titleize
 
@@ -30,6 +41,10 @@
               = bootstrap_button('success', nil, 'eye', transaction_transaction_details_path(transaction))
               - if transaction.open?('SALE')
                 = bootstrap_button('warning', nil, 'exclamation-triangle', edit_transaction_path(transaction)) unless transaction.closed?('SALE')
+              - if transaction.closed?('SALE') && transaction.type.int_value == 2
+                = bootstrap_button_id('downloadBtn', 'warning', nil, 'download', transaction_view_tracking_path(transaction))
+              - elsif transaction.type.int_value == 2
+                = bootstrap_button_id('downloadBtn', 'primary', nil, 'download', transaction.url_reference)
               - if current_dealer.admin? && transaction.open?('SALE')
                 = bootstrap_button_destroy(transaction)
             %td= transaction.id

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TransactionsController < ApplicationController
-  before_action :set_transaction, only: %w[show edit update destroy close_order change_status devolucion not_delivery]
+  before_action :set_transaction, only: %w[show edit update destroy close_order change_status devolucion not_delivery view_tracking]
   skip_before_action :not_admin
 
   # GET /transactions
@@ -145,6 +145,24 @@ class TransactionsController < ApplicationController
 
   def pendings
     @transactions = Transaction.delivered('SALE')
+  end
+  
+  def view_tracking
+    if @transaction.status.parent == Transaction.find_by_description('EN RUTA')
+      respond_to do |format|
+        format.html { redirect_to delivery_path }
+      end
+    end
+    @transaction.status = @transaction.status.parent
+    respond_to do |format|
+      if @transaction.save
+        format.html { redirect_to @transaction.url_reference }
+        format.json { render :show, status: :created, location: @transaction_detail }
+      else
+        format.html { render :new }
+        format.json { render json: @transaction_detail.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # PATCH/PUT /transactions/1

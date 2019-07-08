@@ -1,8 +1,9 @@
 class Product < ApplicationRecord
   include Active
   has_many_attached :images
-  belongs_to :category
-  belongs_to :characteristic
+  belongs_to :category, optional: false
+  belongs_to :characteristic, optional: false
+  validates_presence_of %w[price weight], on: :create, message: "No puede estar vacío."
 
   def custom_name
     [sku, description].join(' | ')

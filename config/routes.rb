@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     post 'change_status', to: 'change_status', as: 'change_status'
     post 'devolucion', to: 'devolucion', as: 'devolucion'
     post 'not_delivery', to: 'not_delivery', as: 'not_delivery'
+    get '/view_tracking', to: 'transactions#view_tracking', as: 'view_tracking'
   end
   get '/delivered', to: 'transactions#delivered', as: 'delivered'
   get '/pendings', to: 'transactions#pendings', as: 'pendings'
