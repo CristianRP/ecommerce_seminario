@@ -43,7 +43,7 @@
                 = bootstrap_button('warning', nil, 'exclamation-triangle', edit_transaction_path(transaction)) unless transaction.closed?('SALE')
               - if transaction.closed?('SALE') && transaction.type.int_value == 2
                 = bootstrap_button_id('downloadBtn', 'warning', nil, 'download', transaction_view_tracking_path(transaction))
-              - elsif transaction.type.int_value == 2
+              - elsif transaction.type.int_value == 2 && !transaction.open?('SALE')
                 = bootstrap_button_id('downloadBtn', 'primary', nil, 'download', transaction.url_reference)
               - if current_dealer.admin? && transaction.open?('SALE')
                 = bootstrap_button_destroy(transaction)
