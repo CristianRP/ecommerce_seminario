@@ -68,7 +68,7 @@ class Delivery::Send
                                            'CodigoPobladoOrigen' => @delivery.populated_origin_id,
                                            'TipoServicio' => @delivery.service_type,
                                            'MontoCOD' => @amount,
-                                           'FormatoImpresion' => nil,
+                                           'FormatoImpresion' => 1,
                                            'CodigoCredito' => @credito,
                                            'MontoAsegurado' => @amount,
                                            'Observaciones' => @delivery.observations,
