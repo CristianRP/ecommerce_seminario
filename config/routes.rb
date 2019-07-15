@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   end
   get '/delivered', to: 'transactions#delivered', as: 'delivered'
   get '/pendings', to: 'transactions#pendings', as: 'pendings'
+  get '/on_route', to: 'transactions#on_route', as: 'on_route'
   resources :products
   devise_for :dealers, controllers: {
     sessions: 'dealers/sessions'

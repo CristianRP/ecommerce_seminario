@@ -340,6 +340,7 @@ es:
     returns: 'Devoluciones'
     restock: 'Reabastecimiento'
     finished: 'Pendientes de liquidar'
+    on_route: 'Pedidos en ruta'
   forms: 
     created: '%{model} creado con éxito.'
     deleted: '%{model} eliminado con éxito.'

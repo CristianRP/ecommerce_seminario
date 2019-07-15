@@ -146,6 +146,10 @@ class TransactionsController < ApplicationController
   def pendings
     @transactions = Transaction.delivered('SALE')
   end
+
+  def on_route
+    @pending_to_deliver = Transaction.pending_to_deliver('SALE')
+  end
   
   def view_tracking
     if @transaction.status.parent == Transaction.find_by_description('EN RUTA')
@@ -156,7 +160,7 @@ class TransactionsController < ApplicationController
     @transaction.status = @transaction.status.parent
     respond_to do |format|
       if @transaction.save
-        format.html { redirect_to @transaction.url_reference }
+        format.html { redirect_to @transaction.url_reference.nil? ? transactions_path : @transaction.url_reference }
         format.json { render :show, status: :created, location: @transaction_detail }
       else
         format.html { render :new }

@@ -22,7 +22,6 @@
       %thead
         %tr
           %th= t '.actions', :default => t("helpers.actions")
-          %th= model_class.human_attribute_name(:id)
           %th= model_class.human_attribute_name(:tracking_number)
           %th= model_class.human_attribute_name(:description)
           %th= model_class.human_attribute_name(:client)
@@ -32,7 +31,6 @@
             %th= model_class.human_attribute_name(:amount)
           %th= model_class.human_attribute_name(:status)
           %th= model_class.human_attribute_name(:dealer)
-          %th= model_class.human_attribute_name(:type)
           %th= model_class.human_attribute_name(:carrier)
       %tbody
         - @transactions.each do |transaction|
@@ -47,7 +45,6 @@
                 = bootstrap_button_id('downloadBtn', 'primary', nil, 'download', transaction.url_reference)
               - if current_dealer.admin? && transaction.open?('SALE')
                 = bootstrap_button_destroy(transaction)
-            %td= transaction.id
             %td= transaction.tracking_number
             %td= transaction.description
             %td= transaction.client
@@ -57,7 +54,6 @@
               %td= transaction.amount
             %td= transaction.status.description unless transaction.status.nil?
             %td= transaction.dealer.custom_name unless transaction.dealer.nil?
-            %td= transaction.type.text_value #unless transaction.type.nil?
             %td= transaction.carrier.name unless transaction.carrier.nil?
 
     - unless current_dealer.grocer? || current_dealer.courier?

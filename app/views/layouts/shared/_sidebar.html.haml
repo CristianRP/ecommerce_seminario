@@ -46,7 +46,7 @@
             %a{href: pendings_path, title: t('modules.finished')}
               %em.fa.fa-check
               %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.finished')
-        - unless current_dealer.courier?
+        - if current_dealer.admin? || (!current_dealer.courier? && !current_dealer.grocer?)
           %li
             %a{href: new_transaction_path + "?type=3", title: t('modules.returns')}
               %em.fa.fa-undo
@@ -55,6 +55,11 @@
             %a{href: new_transaction_path + "?type=1", title: t('modules.returns')}
               %em.fa.fa-cart-plus
               %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.restock')
+      - if current_dealer.grocer?
+        %li
+          %a{href: on_route_path, title: t('modules.on_route')}
+            %em.fa.fa-car
+            %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.on_route')
       - if current_dealer.admin? || (!current_dealer.courier? && !current_dealer.grocer?)
         %li.nav-heading
           %span= t('modules.catalog').pluralize(I18n.locale)

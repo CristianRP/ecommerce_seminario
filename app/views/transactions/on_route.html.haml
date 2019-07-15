@@ -10,7 +10,6 @@
     %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
       %thead
         %tr
-          %th= t '.actions', :default => t("helpers.actions")
           %th= model_class.human_attribute_name(:tracking_number)
           %th= model_class.human_attribute_name(:description)
           %th= model_class.human_attribute_name(:client)
@@ -22,14 +21,8 @@
           %th= model_class.human_attribute_name(:dealer)
           %th= model_class.human_attribute_name(:carrier)
       %tbody
-        - @transactions.each do |transaction|
+        - @pending_to_deliver.each do |transaction|
           %tr
-            %td
-              = bootstrap_button('success', nil, 'eye', transaction_transaction_details_path(transaction))
-              - if transaction.open?('SALE')
-                = bootstrap_button('warning', nil, 'exclamation-triangle', edit_transaction_path(transaction)) unless transaction.closed?('SALE')
-              - if current_dealer.admin? && transaction.open?('SALE')
-                = bootstrap_button_destroy(transaction)
             %td= transaction.tracking_number
             %td= transaction.description
             %td= transaction.client
@@ -40,7 +33,3 @@
             %td= transaction.status.description unless transaction.status.nil?
             %td= transaction.dealer.custom_name unless transaction.dealer.nil?
             %td= transaction.carrier.name unless transaction.carrier.nil?
-
-    - unless current_dealer.grocer? || current_dealer.courier?
-      %br/
-      = bootstrap_button('primary', t('helpers.titles.new', model: model_class.model_name.human), 'plus', new_transaction_path)
