@@ -26,10 +26,16 @@ class TransactionsController < ApplicationController
   def new
     @transaction = Transaction.new
     gon.type_param = type_param
+    gon.is_grocer = current_dealer.grocer?
   end
 
   # GET /transactions/1/edit
-  def edit; end
+  def edit
+    gon.type_param = @transaction.type
+    gon.is_grocer = current_dealer.grocer?
+    gon.internal_delivery = @transaction.carrier.internal
+    gon.carrier_id = @transaction.carrier_id
+  end
 
   # POST /transactions
   # POST /transactions.json
@@ -58,16 +64,15 @@ class TransactionsController < ApplicationController
         Transaction::Restock.call(@transaction)
       end
       if @transaction.type_id == Parameter.transaction_type_out.first.int_value && @transaction.courier.nil?
-        delivery_ok = Delivery::Send.call(@transaction)
         @transaction.amount = TransactionDetail.get_total_order(@transaction.id).first.total_order
         @transaction.status = @transaction.status.parent
-        @transaction.save
+        #@transaction.save
         respond_to do |format|
-          if delivery_ok
+          if @transaction.save
             format.html { redirect_to transactions_path }
             format.json { render :show, status: :created, location: @transaction_detail }
           else
-            format.html { redirect_to transaction_transaction_details_path(@transaction), notice: 'Error generando la guía a cargo expreso.', alert: true }
+            format.html {close_orderclose_orderclose_orderclose_order redirect_to transaction_transaction_details_path(@transaction), notice: 'Error generando la guía a cargo expreso.', alert: true }
             format.json { render json: @transaction_detail.errors, status: :unprocessable_entity }
           end
         end and return
@@ -172,8 +177,25 @@ class TransactionsController < ApplicationController
   # PATCH/PUT /transactions/1
   # PATCH/PUT /transactions/1.json
   def update
+    if @transaction.carrier.id == 1
+      delivery_ok = Delivery::Send.call(@transaction, params)
+      if @transaction.type_id == Parameter.transaction_type_out.first.int_value && @transaction.courier.nil?
+        @transaction.amount = TransactionDetail.get_total_order(@transaction.id).first.total_order
+        @transaction.status = @transaction.status.parent
+        @transaction.save
+      end
+      respond_to do |format|
+        if delivery_ok
+          format.html { redirect_to transactions_path, notice: t('forms.updated', model: Transaction.model_name.human) }
+          format.json { render :show, status: :ok, location: @transaction }
+        else
+          format.html { render :edit }
+          format.json { render json: @transaction.errors, status: :unprocessable_entity }
+        end
+      end and return
+    end
     respond_to do |format|
-      if @transaction.update(transaction_params)
+      if @transaction.update(transacti.on_params)
         format.html { redirect_to transactions_path, notice: t('forms.updated', model: Transaction.model_name.human) }
         format.json { render :show, status: :ok, location: @transaction }
       else

@@ -1,17 +1,18 @@
 # frozen_string_literal: true
 
 class Delivery::Send
-  def self.call(transaction)
-    new(transaction).call
+  def self.call(transaction, params)
+    new(transaction, params).call
   end
 
   def call
     perform
   end
 
-  def initialize(transaction)
+  def initialize(transaction, params)
     @transaction = transaction
-    initialize_delivery #if @transaction.courier.nil? && (@transaction_type != 3 && @transaction_type != 1)
+    @params = params
+    initialize_delivery # if @transaction.courier.nil? && (@transaction_type != 3 && @transaction_type != 1)
   end
 
   def initialize_delivery
@@ -25,8 +26,27 @@ class Delivery::Send
     @transaction.transaction_details.each do |t|
       @weight += (t.product.weight * t.quantity)
       @amount += t.product.price.nil? ? 0 : t.product.price
-      #@ref1 += [' ] ', t.product.custom_name_order].join('[')
+      # @ref1 += [' ] ', t.product.custom_name_order].join('[')
     end
+    @transaction_type = if @transaction.type_id.present? && @transaction.type_id.to_i == 3
+                          Parameter.transaction_type_return.first.int_value
+                        elsif @transaction.type_id.present? && @transaction.type_id.to_i == 1
+                          Parameter.transaction_type_in.first.int_value
+                        else
+                          Parameter.transaction_type_out.first.int_value
+                        end
+    if @transaction_type == Parameter.transaction_type_out.first.int_value # && @transaction.courier.nil?
+      @delivery_params = @params[:transaction][:delivery].permit(:recolection_id, :sender_name, :sender_address,
+                                                                :sender_phone, :receiver_name, :receiver_address, :receiver_phone, :receiver_contact,
+                                                                :receiver_nit, :populated_receiver_id, :populated_origin_id, :service_type,
+                                                                :secured_amount, :observations)
+    end
+    @status = Status.initial('SALE').first
+    @sender_info = Parameter.sender_info
+    @sender_name = @sender_info.find_by_description('SENDER_NAME').text_value
+    @sender_address = @sender_info.find_by_description('SENDER_ADDRESS').text_value
+    @sender_phone = @sender_info.find_by_description('SENDER_PHONE').text_value
+    @sender_village = @sender_info.find_by_description('SENDER_VILLAGE_COD').text_value
     @ref1 = @transaction.transaction_details.first.product.custom_name_order
     @ref2 = @transaction.transaction_details.second.nil? ? '' : @transaction.transaction_details.second.product.custom_name_order
   end
@@ -42,6 +62,21 @@ class Delivery::Send
   end
 
   def generate_guide
+    @transaction.status = @status.parent
+    @transaction.save
+    @del = Delivery.create(@delivery_params)
+    @del.sender_name = @sender_name
+    @del.sender_address = @sender_address
+    @del.sender_phone = @sender_phone
+    @del.receiver_name = @transaction.client
+    @del.receiver_address = @transaction.address2
+    @del.receiver_phone = @transaction.phone
+    @del.my_transaction = @transaction
+    @del.populated_origin_id = @sender_village
+    @transaction.save
+    @del.recolection_id = @transaction.id
+    @del.save
+    @delivery = @transaction.delivery
     require 'savon'
     transaction_log = TransactionLog.new
     transaction_log.tag = 'GENERA_GUIA'
@@ -103,7 +138,7 @@ class Delivery::Send
   def save_tracking_number(response_body)
     tracking_number = response_body['lista_recolecciones']['datos_recoleccion']['numero_guia']
     return if tracking_number.nil?
-    
+
     @transaction.tracking_number = tracking_number
     @transaction.url_recolection = response_body['lista_recolecciones']['datos_recoleccion']['url_recoleccion']
     @transaction.url_reference = response_body['lista_recolecciones']['datos_recoleccion']['url_consulta']

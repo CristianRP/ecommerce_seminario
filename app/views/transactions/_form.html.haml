@@ -4,9 +4,25 @@
       theme: "bootstrap",
       width: '100%'
     });
-    $('#transaction_type_id').val(gon.type_param.type);
+    if (gon.is_grocer)
+      $('#transaction_type_id').val(gon.type_param);
+    else
+      $('#transaction_type_id').val(gon.type_param.type);
+    $('#checkSameAddress').change(function() {
+      if ($(this).is(':checked')) {
+        $('#transaction_address2').val($('#transaction_address').val());
+      } else {
+        $('#transaction_address2').val('').prop('disabled', false);
+      }
+    });
+    if (!gon.is_grocer) { return; }
+    $('#transaction_carrier_id').val(gon.carrier_id);
     $('#transaction_carrier_id').change(function() {
       var dataInternal = $(this).find(':selected').data('internal');
+      if (gon.internal_delivery) {
+        $('#courier_group').show();
+        $('#cargo_expreso_form').hide();
+      }
       if (dataInternal) {
         $('#courier_group').show();
         $('#cargo_expreso_form').hide();
@@ -16,14 +32,6 @@
       } else {
         $('#courier_group').hide();
         $('#cargo_expreso_form').show();
-      }
-    });
-
-    $('#checkSameAddress').change(function() {
-      if ($(this).is(':checked')) {
-        $('#transaction_address2').val($('#transaction_address').val());
-      } else {
-        $('#transaction_address2').val('').prop('disabled', false);
       }
     });
 
@@ -49,7 +57,9 @@
         village_select.select2({data: data});
         village_select.val(1).trigger('change');
       });
-    })
+    });
+
+    $('#transaction_carrier_id').trigger('change');
 
   });
 - model_class = Transaction
@@ -167,5 +177,8 @@
     .text-right
       %br
       = bootstrap_button('primary', t('helpers.links.back'), 'arrow-left', transactions_path)
-      = bootstrap_submit_button(f, t('helpers.links.next'))
+      - if current_dealer.grocer?
+        = bootstrap_submit_button(f, t('helpers.submit.update', model: model_class.name))
+      - else
+        = bootstrap_submit_button(f, t('helpers.links.next'))
     

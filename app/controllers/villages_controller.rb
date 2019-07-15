@@ -1,6 +1,7 @@
 class VillagesController < ApplicationController
   before_action :set_village, only: [:show, :edit, :update, :destroy]
   before_action :list_params, only: %w[list]
+  skip_before_action :not_admin
 
   # GET /villages
   # GET /villages.json

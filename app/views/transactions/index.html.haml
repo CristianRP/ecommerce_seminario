@@ -22,6 +22,7 @@
       %thead
         %tr
           %th= t '.actions', :default => t("helpers.actions")
+          %th= model_class.human_attribute_name(:id)
           %th= model_class.human_attribute_name(:tracking_number)
           %th= model_class.human_attribute_name(:description)
           %th= model_class.human_attribute_name(:client)
@@ -37,14 +38,16 @@
           %tr
             %td
               = bootstrap_button('success', nil, 'eye', transaction_transaction_details_path(transaction))
+              = bootstrap_button('warning', nil, 'exclamation-triangle', edit_transaction_path(transaction)) if current_dealer.grocer?
               - if transaction.open?('SALE')
                 = bootstrap_button('warning', nil, 'exclamation-triangle', edit_transaction_path(transaction)) unless transaction.closed?('SALE')
-              - if transaction.closed?('SALE') && transaction.type.int_value == 2
+              - if transaction.closed?('SALE') && transaction.type.int_value == 2 && !transaction.carrier.internal? && !transaction.url_reference.nil?
                 = bootstrap_button_id('downloadBtn', 'warning', nil, 'download', transaction_view_tracking_path(transaction))
-              - elsif transaction.type.int_value == 2 && !transaction.open?('SALE')
+              - elsif transaction.type.int_value == 2 && !transaction.open?('SALE') && !transaction.carrier.internal? && !transaction.url_reference.nil?
                 = bootstrap_button_id('downloadBtn', 'primary', nil, 'download', transaction.url_reference)
               - if current_dealer.admin? && transaction.open?('SALE')
                 = bootstrap_button_destroy(transaction)
+            %td= transaction.id
             %td= transaction.tracking_number
             %td= transaction.description
             %td= transaction.client
