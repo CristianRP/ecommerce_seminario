@@ -46,7 +46,7 @@
             %a{href: pendings_path, title: t('modules.finished')}
               %em.fa.fa-check
               %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.finished')
-        - if current_dealer.admin? || (!current_dealer.courier? && !current_dealer.grocer?)
+        - if current_dealer.admin? #|| (!current_dealer.courier? && !current_dealer.grocer?)
           %li
             %a{href: new_transaction_path + "?type=3", title: t('modules.returns')}
               %em.fa.fa-undo

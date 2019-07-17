@@ -38,7 +38,7 @@
           %tr
             %td
               = bootstrap_button('success', nil, 'eye', transaction_transaction_details_path(transaction))
-              = bootstrap_button('warning', nil, 'exclamation-triangle', edit_transaction_path(transaction)) if current_dealer.grocer?
+              = bootstrap_button('warning', nil, 'exclamation-triangle', edit_transaction_path(transaction)) if current_dealer.grocer? && transaction.url_reference.nil?
               - if transaction.open?('SALE')
                 = bootstrap_button('warning', nil, 'exclamation-triangle', edit_transaction_path(transaction)) unless transaction.closed?('SALE')
               - if transaction.closed?('SALE') && transaction.type.int_value == 2 && !transaction.carrier.internal? && !transaction.url_reference.nil?
@@ -49,7 +49,9 @@
                 = bootstrap_button_destroy(transaction)
             %td= transaction.id
             %td= transaction.tracking_number
-            %td= transaction.description
+            %td
+              - transaction.transaction_details.each do |td|
+                %span= [td.product.custom_name_order, td.quantity].join(' | ')
             %td= transaction.client
             %td= transaction.address2
             %td= transaction.phone

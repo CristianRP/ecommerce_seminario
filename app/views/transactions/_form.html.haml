@@ -15,17 +15,18 @@
         $('#transaction_address2').val('').prop('disabled', false);
       }
     });
-    if (!gon.is_grocer) { return; }
     $('#transaction_carrier_id').val(gon.carrier_id);
     $('#transaction_carrier_id').change(function() {
       var dataInternal = $(this).find(':selected').data('internal');
-      if (gon.internal_delivery) {
+      if (gon.internal_delivery && gon.is_grocer) {
         $('#courier_group').show();
         $('#cargo_expreso_form').hide();
       }
       if (dataInternal) {
-        $('#courier_group').show();
-        $('#cargo_expreso_form').hide();
+        if (gon.is_grocer) {
+          $('#courier_group').show();
+          $('#cargo_expreso_form').hide();
+        }
       } else if (dataInternal === undefined) {
         $('#courier_group').hide();
         $('#cargo_expreso_form').hide();

@@ -63,16 +63,17 @@ class TransactionsController < ApplicationController
       if @transaction.type_id == Parameter.transaction_type_in.first.int_value
         Transaction::Restock.call(@transaction)
       end
-      if @transaction.type_id == Parameter.transaction_type_out.first.int_value && @transaction.courier.nil?
+      if @transaction.type_id == Parameter.transaction_type_out.first.int_value && !@transaction.courier.nil?
         @transaction.amount = TransactionDetail.get_total_order(@transaction.id).first.total_order
         @transaction.status = @transaction.status.parent
-        #@transaction.save
+        @transaction.save
+        delivery_ok = Delivery::Send.call(@transaction)
         respond_to do |format|
-          if @transaction.save
+          if delivery_ok
             format.html { redirect_to transactions_path }
             format.json { render :show, status: :created, location: @transaction_detail }
           else
-            format.html {close_orderclose_orderclose_orderclose_order redirect_to transaction_transaction_details_path(@transaction), notice: 'Error generando la guía a cargo expreso.', alert: true }
+            format.html { redirect_to transaction_transaction_details_path(@transaction), notice: 'Error generando la guía a cargo expreso.', alert: true }
             format.json { render json: @transaction_detail.errors, status: :unprocessable_entity }
           end
         end and return
@@ -177,25 +178,11 @@ class TransactionsController < ApplicationController
   # PATCH/PUT /transactions/1
   # PATCH/PUT /transactions/1.json
   def update
-    if @transaction.carrier.id == 1
-      delivery_ok = Delivery::Send.call(@transaction, params)
-      if @transaction.type_id == Parameter.transaction_type_out.first.int_value && @transaction.courier.nil?
-        @transaction.amount = TransactionDetail.get_total_order(@transaction.id).first.total_order
+    respond_to do |format|
+      if @transaction.update(transaction_params)
+        @transaction.type_id = 2
         @transaction.status = @transaction.status.parent
         @transaction.save
-      end
-      respond_to do |format|
-        if delivery_ok
-          format.html { redirect_to transactions_path, notice: t('forms.updated', model: Transaction.model_name.human) }
-          format.json { render :show, status: :ok, location: @transaction }
-        else
-          format.html { render :edit }
-          format.json { render json: @transaction.errors, status: :unprocessable_entity }
-        end
-      end and return
-    end
-    respond_to do |format|
-      if @transaction.update(transacti.on_params)
         format.html { redirect_to transactions_path, notice: t('forms.updated', model: Transaction.model_name.human) }
         format.json { render :show, status: :ok, location: @transaction }
       else
