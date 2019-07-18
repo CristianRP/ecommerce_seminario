@@ -21,10 +21,14 @@
       if (gon.internal_delivery && gon.is_grocer) {
         $('#courier_group').show();
         $('#cargo_expreso_form').hide();
+      } else {
+        $('#cargo_expreso_form').hide();
       }
       if (dataInternal) {
         if (gon.is_grocer) {
           $('#courier_group').show();
+          $('#cargo_expreso_form').hide();
+        } else {
           $('#cargo_expreso_form').hide();
         }
       } else if (dataInternal === undefined) {
