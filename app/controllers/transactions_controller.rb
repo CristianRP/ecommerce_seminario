@@ -12,7 +12,7 @@ class TransactionsController < ApplicationController
                     elsif current_dealer.grocer?
                       Transaction.pending_to_packing('SALE')
                     elsif current_dealer.courier?
-                      Transaction.pending_to_deliver('SALE')
+                      Transaction.pending_to_deliver('SALE', current_dealer.id)
                     else
                       current_dealer.transactions
                     end

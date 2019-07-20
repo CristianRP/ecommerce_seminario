@@ -20,6 +20,7 @@
           - unless current_dealer.grocer?
             %th= model_class.human_attribute_name(:amount)
           %th= model_class.human_attribute_name(:status)
+          %th= t('activerecord.attributes.dealer.courier_custom')
           %th= model_class.human_attribute_name(:dealer)
           %th= model_class.human_attribute_name(:type)
           %th= model_class.human_attribute_name(:carrier)
@@ -40,6 +41,7 @@
             - unless current_dealer.grocer?
               %td= transaction.amount
             %td= transaction.status.description unless transaction.status.nil?
+            %td= transaction.courier.custom_name unless transaction.courier.nil?
             %td= transaction.dealer.custom_name unless transaction.dealer.nil?
             %td= transaction.type.text_value #unless transaction.type.nil?
             %td= transaction.carrier.name unless transaction.carrier.nil?

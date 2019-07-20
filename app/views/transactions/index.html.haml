@@ -31,6 +31,7 @@
           - unless current_dealer.grocer?
             %th= model_class.human_attribute_name(:amount)
           %th= model_class.human_attribute_name(:status)
+          %th= t('activerecord.attributes.dealer.courier_custom')
           %th= model_class.human_attribute_name(:dealer)
           %th= model_class.human_attribute_name(:carrier)
       %tbody
@@ -58,9 +59,9 @@
             - unless current_dealer.grocer?
               %td= transaction.amount
             %td= transaction.status.description unless transaction.status.nil?
+            %td= transaction.courier.custom_name unless transaction.courier.nil?
             %td= transaction.dealer.custom_name unless transaction.dealer.nil?
             %td= transaction.carrier.name unless transaction.carrier.nil?
-
     - unless current_dealer.grocer? || current_dealer.courier?
       %br/
       = bootstrap_button('primary', t('helpers.titles.new', model: model_class.model_name.human), 'plus', new_transaction_path)
