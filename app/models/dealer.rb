@@ -14,7 +14,7 @@ class Dealer < ApplicationRecord
   scope :couriers, -> { where(courier: true) }
 
   def custom_name
-    [id, name, last_name].join(' ')
+    [id, [name, last_name].join(' ')].join(' | ')
   end
 
   def self.grocer?
