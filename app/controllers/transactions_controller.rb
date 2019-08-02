@@ -154,9 +154,9 @@ class TransactionsController < ApplicationController
   end
 
   def on_route
-    @pending_to_deliver = Transaction.pending_to_deliver('SALE')
+    @pending_to_deliver = Transaction.pending_to_deliver('SALE', current_dealer.id)
   end
-  
+
   def view_tracking
     if @transaction.status.parent == Transaction.find_by_description('EN RUTA')
       respond_to do |format|
