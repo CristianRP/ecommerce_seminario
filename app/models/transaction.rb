@@ -30,7 +30,7 @@ class Transaction < ApplicationRecord
 
   scope :pending_to_packing, ->(tag) { where(status: Status.closed(tag), type_id: 2) }
   scope :pending_to_deliver, ->(tag, courier_id) { where(status: Status.on_route(tag), courier_id: courier_id) }
-  scope :watching_to_deliver, ->(tag, courier_id) { where(status: Status.on_route(tag), dealear_id: courier_id) }
+  scope :watching_to_deliver, ->(tag, courier_id) { where(status: Status.on_route(tag), dealer_id: courier_id) }
   scope :delivered, ->(tag) { where(status: [Status.not_delivery(tag).first, Status.delivered(tag).first]) }
   scope :pending_to_close, ->(tag) { where(status: Status.finished(tag)) }
 end
