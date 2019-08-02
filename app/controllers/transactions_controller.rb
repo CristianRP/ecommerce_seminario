@@ -154,7 +154,7 @@ class TransactionsController < ApplicationController
   end
 
   def on_route
-    @pending_to_deliver = Transaction.pending_to_deliver('SALE', current_dealer.id)
+    @pending_to_deliver = Transaction.watching_to_deliver('SALE', current_dealer.id)
   end
 
   def view_tracking
