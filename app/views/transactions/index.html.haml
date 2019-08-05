@@ -27,6 +27,7 @@
           %th= model_class.human_attribute_name(:description)
           %th= model_class.human_attribute_name(:client)
           %th= model_class.human_attribute_name(:address2)
+          %th= model_class.human_attribute_name(:created_at)
           %th= model_class.human_attribute_name(:phone)
           - unless current_dealer.grocer?
             %th= model_class.human_attribute_name(:amount)
@@ -55,6 +56,7 @@
                 %span= [td.product.custom_name_order, td.quantity].join(' | ')
             %td= transaction.client
             %td= transaction.address2
+            %td= transaction.created_at.strftime('%d/%m/%Y')
             %td= transaction.phone
             - unless current_dealer.grocer?
               %td= transaction.amount

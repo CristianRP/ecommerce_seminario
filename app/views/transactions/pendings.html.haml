@@ -1,4 +1,40 @@
-= javascript_include_tag 'data_table_init'
+=# javascript_include_tag 'data_table_init'
+
+:javascript
+  $(function() {
+    $('#dataTable').DataTable({
+      paging: true,
+      searching: true,
+      ordering: true,
+      language: {
+        search: 'Buscar',
+        paginate: {
+          first: 'Primero',
+          previous: 'Anterior',
+          next: 'Siguiente',
+          last: 'Último'
+        },
+        info: 'Mostrando _START_ de _END_ registros',
+        lengthMenu: 'Mostrar _MENU_ registros'
+      },
+      "footerCallback": function (row, data, start, end, display) {
+        var api = this.api();
+        api.columns(8, {
+          page: 'current'
+          }).every(function() {
+            var sum = this
+              .data()
+              .reduce(function(a, b) {
+                var x = parseFloat(a) || 0;
+                var y = parseFloat(b) || 0;
+                return x + y;
+              }, 0);
+            //console.log(sum); //alert(sum);
+            $(this.footer()).html('Q ' + sum.toFixed(2));
+          });
+        }
+      });
+  });
 
 - model_class = Transaction
 - content_for :title, model_class.model_name.human.pluralize(I18n.locale).titleize
@@ -11,16 +47,26 @@
       %thead
         %tr
           %th= t '.actions', :default => t("helpers.actions")
+          %th= model_class.human_attribute_name(:id)
           %th= model_class.human_attribute_name(:tracking_number)
           %th= model_class.human_attribute_name(:description)
           %th= model_class.human_attribute_name(:client)
           %th= model_class.human_attribute_name(:address2)
+          %th= model_class.human_attribute_name(:created_at)
           %th= model_class.human_attribute_name(:phone)
           - unless current_dealer.grocer?
             %th= model_class.human_attribute_name(:amount)
           %th= model_class.human_attribute_name(:status)
           %th= model_class.human_attribute_name(:dealer)
           %th= model_class.human_attribute_name(:carrier)
+        %tfoot
+          %tr
+            - if current_dealer.grocer? || current_dealer.courier?
+              %th
+            - else
+              %th{colspan: 7}
+            %th= model_class.human_attribute_name(:total).upcase
+            %th
       %tbody
         - @transactions.each do |transaction|
           %tr
@@ -30,16 +76,21 @@
                 = bootstrap_button('warning', nil, 'exclamation-triangle', edit_transaction_path(transaction)) unless transaction.closed?('SALE')
               - if current_dealer.admin? && transaction.open?('SALE')
                 = bootstrap_button_destroy(transaction)
+            %td= transaction.id
             %td= transaction.tracking_number
             %td= transaction.description
             %td= transaction.client
             %td= transaction.address2
+            %td= transaction.created_at.strftime('%d/%m/%Y')
             %td= transaction.phone
             - unless current_dealer.grocer?
               %td= transaction.amount
             %td= transaction.status.description unless transaction.status.nil?
             %td= transaction.dealer.custom_name unless transaction.dealer.nil?
-            %td= transaction.carrier.name unless transaction.carrier.nil?
+            - if transaction.carrier.internal?
+              %td= transaction.courier.custom_name
+            - else
+              %td= transaction.carrier.name unless transaction.carrier.nil?
 
     - unless current_dealer.grocer? || current_dealer.courier?
       %br/

@@ -8,7 +8,7 @@ es:
           has_many: No se puede eliminar el registro porque existen %{record} dependientes
         foreign_key:
           violation:
-            has_dependencies: 'No se puede borrar este registro, por que tiene dependencias.' 
+            has_dependencies: 'No se puede borrar este registro, por que tiene dependencias.'
         must_have_child: 'Debes agregar al menos un producto a la orden.'
     models:
       dealer: 'Vendedor'
@@ -39,7 +39,7 @@ es:
         name: 'Nombre'
         internal: 'Interno?'
       category:
-        name: 'Nombre'  
+        name: 'Nombre'
       characteristic:
         name: 'Nombre'
       status:
@@ -73,6 +73,7 @@ es:
         tracking_number: 'No. Seguimiento'
         carrier: 'Transportista'
         same_address: 'Usar la misma dirección para entrega?'
+        created_at: 'Fecha pedido'
       transaction_detail:
         product_id: 'Producto'
         unit_price: 'Precio unitario'
@@ -113,7 +114,7 @@ es:
     - vie
     - sáb
     abbr_month_names:
-    - 
+    -
     - ene
     - feb
     - mar
@@ -139,7 +140,7 @@ es:
       long: "%-d de %B de %Y"
       short: "%-d de %b"
     month_names:
-    - 
+    -
     - enero
     - febrero
     - marzo
@@ -342,7 +343,7 @@ es:
     restock: 'Reabastecimiento'
     finished: 'Pendientes de liquidar'
     on_route: 'Pedidos en ruta'
-  forms: 
+  forms:
     created: '%{model} creado con éxito.'
     deleted: '%{model} eliminado con éxito.'
     updated: '%{model} actualizado con éxito.'
