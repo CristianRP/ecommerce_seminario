@@ -13,15 +13,16 @@
  * require_tree .
  * require_self
  * --- Angle Main Stylesheet
- * 
+ *
  *= require angle/app
  *
- * --- Assets paths redefinition 
- * 
+ * --- Assets paths redefinition
+ *
  *= require fonts
  *= require vendor.assets
  *= require select2/dist/css/select2.css
  *= require select2-bootstrap-theme/dist/select2-bootstrap.css
+ *= require jquery-ui/datepicker
  */
 @import '../../../vendor/assets/stylesheets/css/datatables/dataTables.bootstrap4.min';
 .row-custom {

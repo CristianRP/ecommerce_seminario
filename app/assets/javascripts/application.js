@@ -31,3 +31,4 @@ $(function() {
 });
 
 //= require turbolinks
+//= require jquery-ui

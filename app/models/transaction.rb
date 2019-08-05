@@ -33,4 +33,8 @@ class Transaction < ApplicationRecord
   scope :watching_to_deliver, ->(tag) { where(status: Status.on_route(tag)) }
   scope :delivered, ->(tag) { where(status: [Status.not_delivery(tag).first, Status.delivered(tag).first]) }
   scope :pending_to_close, ->(tag) { where(status: Status.finished(tag)) }
+
+  ransacker :created_at do
+    Arel.sql('date(created_at)')
+  end
 end

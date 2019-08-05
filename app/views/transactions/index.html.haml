@@ -16,6 +16,34 @@
 
 - unless notice.nil?
   = bootstrap_notice(notice, alert.nil? ? 'success' : 'danger')
+
+= bootstrap_card 'Filtros' do
+  = search_form_for @transactions_query, url: transactions_path, html: {method: :get, class: 'form-inline'} do |f|
+    .form-group
+      .row.row-custom
+        .col
+          = f.label :client
+        .col
+          = bootstrap_text_field(f, :client_cont, model_class.human_attribute_name(:client))
+    .form-group
+      .row.row-custom
+        .col
+          = f.label :created_at
+        .col
+          = bootstrap_text_field(f, :created_at_date_equals, model_class.human_attribute_name(:created_at))
+    .form-group
+      .row.row-custom
+        .col
+          = f.label ''
+        .col
+          = bootstrap_submit_button(f, 'Buscar')
+    .form-group
+      .row.row-custom
+        .col
+          = f.label ''
+        .col
+          = bootstrap_button('primary', 'Borrar filtros', 'trash', transactions_path)
+
 = bootstrap_card t('.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale))) do
   .table-responsive
     %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}

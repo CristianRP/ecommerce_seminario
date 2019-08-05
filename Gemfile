@@ -43,6 +43,10 @@ gem 'seedbank'
 gem 'faker'
 # Use gon for handle rails variables in js scripts
 gem 'gon'
+# USe ransack for search functinality
+gem 'ransack'
+# Use jquery ui
+gem 'jquery-ui-rails'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

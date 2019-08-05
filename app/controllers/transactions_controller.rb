@@ -7,15 +7,16 @@ class TransactionsController < ApplicationController
   # GET /transactions
   # GET /transactions.json
   def index
-    @transactions = if current_dealer.admin?
-                      Transaction.all
-                    elsif current_dealer.grocer?
-                      Transaction.pending_to_packing('SALE')
-                    elsif current_dealer.courier?
-                      Transaction.pending_to_deliver('SALE', current_dealer.id)
-                    else
-                      current_dealer.transactions
-                    end
+    @transactions_query = if current_dealer.admin?
+                            Transaction.all.ransack(params[:q])
+                          elsif current_dealer.grocer?
+                            Transaction.pending_to_packing('SALE').ransack(params[:q])
+                          elsif current_dealer.courier?
+                            Transaction.pending_to_deliver('SALE', current_dealer.id).ransack(params[:q])
+                          else
+                            current_dealer.transactions.ransack(params[:q])
+                          end
+    @transactions = @transactions_query.result(distinct: true)
   end
 
   # GET /transactions/1
@@ -76,7 +77,7 @@ class TransactionsController < ApplicationController
             format.html { redirect_to transaction_transaction_details_path(@transaction), notice: 'Error generando la guía a cargo expreso.', alert: true }
             format.json { render json: @transaction_detail.errors, status: :unprocessable_entity }
           end
-        end and return
+        end && return
       end
       @transaction.amount = TransactionDetail.get_total_order(@transaction.id).first.total_order
       @transaction.status = @transaction.status.parent
@@ -99,10 +100,15 @@ class TransactionsController < ApplicationController
         format.html { redirect_to delivery_path }
       end
     end
+    @transaction_liq = @transaction.status.parent
     @transaction.status = @transaction.status.parent
     respond_to do |format|
       if @transaction.save
-        format.html { redirect_to transactions_path }
+        if !@transaction_liq.nil? && @transaction_liq.description == 'LIQUIDADA'
+          format.html { redirect_to pendings_path }
+        else
+          format.html { redirect_to transactions_path }
+        end
         format.json { render :show, status: :created, location: @transaction_detail }
       else
         format.html { render :new }
@@ -150,7 +156,8 @@ class TransactionsController < ApplicationController
   end
 
   def pendings
-    @transactions = Transaction.delivered('SALE')
+    @transactions_query = Transaction.delivered('SALE').ransack(params[:q])
+    @transactions = @transactions_query.result(distinct: true)
   end
 
   def on_route
