@@ -152,7 +152,8 @@ class TransactionsController < ApplicationController
   end
 
   def delivered
-    @transactions = Transaction.delivered('SALE')
+    @transactions_query = Transaction.delivered_courier('SALE', current_dealer.id).ransack(params[:q])
+    @transactions = @transactions_query.result(distinct: true)
   end
 
   def pendings
