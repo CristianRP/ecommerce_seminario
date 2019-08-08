@@ -61,6 +61,7 @@ es:
         balance: 'Saldo'
         weight: 'Peso'
       transaction:
+        id: 'Id Pedido'
         description: 'Descripción'
         client: 'Cliente'
         address: 'Dirección'

@@ -25,7 +25,7 @@
       $('#transaction_detail_total').val(total);
     });
     if (gon.transaction_type == 2) {
-      inputQuantity.keyup(function() {
+      inputQuantity.keydown(function() {
         var selectedProductId = selectProduct.find(':selected').val();
         $.get("#{api_v1_product_availability_path}", 
               { productId: selectedProductId }, 

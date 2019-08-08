@@ -17,5 +17,7 @@ module InventoryMt
     # the framework and any gems in your application.
     config.i18n.available_locales = %w[en es]
     config.i18n.default_locale = :es
+    config.active_record.default_timezone = :local
+    config.time_zone = 'America/Guatemala'
   end
 end

@@ -22,6 +22,12 @@
     .form-group
       .row.row-custom
         .col
+          = f.label :id
+        .col
+          = bootstrap_text_field(f, :id_eq, model_class.human_attribute_name(:id))
+    .form-group
+      .row.row-custom
+        .col
           = f.label :client
         .col
           = bootstrap_text_field(f, :client_cont, model_class.human_attribute_name(:client))
@@ -31,6 +37,12 @@
           = f.label :created_at
         .col
           = bootstrap_text_field(f, :created_at_date_equals, model_class.human_attribute_name(:created_at))
+    .form-group
+      .row.row-custom
+        .col
+          = f.label :created_at
+        .col
+          = bootstrap_text_field(f, :courier_name_cont, model_class.human_attribute_name(:mensajero))
     .form-group
       .row.row-custom
         .col
@@ -67,6 +79,13 @@
         - @transactions.each do |transaction|
           %tr
             %td
+              - unless transaction.type.int_value == 1
+                - if transaction.status.parent.nil?
+                  = bootstrap_button('primary disabled', t('general.change_status', status: transaction.status.description), 'arrow-right', nil, 'post')
+              - else
+                - unless current_dealer.courier? && transaction.delivered?('SALE')
+                  - unless transaction.status.parent.nil?
+                    = bootstrap_button('primary', t('general.change_status', status: transaction.status.parent.description), 'arrow-right', transaction_change_status_path(transaction), 'post')
               = bootstrap_button('success', nil, 'eye', transaction_transaction_details_path(transaction))
               = bootstrap_button('warning', nil, 'exclamation-triangle', edit_transaction_path(transaction)) if current_dealer.grocer? && transaction.url_reference.nil?
               - if transaction.open?('SALE')
