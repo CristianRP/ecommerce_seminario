@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TransactionsController < ApplicationController
-  before_action :set_transaction, only: %w[show edit update destroy close_order change_status devolucion not_delivery view_tracking]
+  before_action :set_transaction, only: %w[show edit update destroy close_order change_status devolucion not_delivery view_tracking asign_courier]
   skip_before_action :not_admin
 
   # GET /transactions
@@ -147,6 +147,18 @@ class TransactionsController < ApplicationController
       else
         format.html { render :new }
         format.json { render json: @transaction_detail.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def asign_courier
+    courier = Dealer.find_by_id(transaction_params[:courier_id])
+    @transaction.courier = courier
+    respond_to do |format|
+      if @transaction.save
+        format.html { redirect_to transactions_path, turbolinks: false }
+      else
+        format.json { render json: courier.to_json, status: :not_found }
       end
     end
   end

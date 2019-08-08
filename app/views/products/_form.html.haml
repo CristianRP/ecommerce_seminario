@@ -56,10 +56,10 @@
       = f.check_box :active, checked: true
     .form-group
       = f.label :price
-      = bootstrap_text_field f, :price
+      = f.number_field :price, class: 'form-control', step: :any, min: 0
     .form-group
       = f.label :cost
-      = bootstrap_text_field f, :cost
+      = f.number_field :cost, class: 'form-control', step: :any, min: 0
     .form-group{id: 'formGroupMin'}
       = f.label :min
       = f.number_field :min, class: 'form-control', step: :any, min: 0

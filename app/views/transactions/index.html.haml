@@ -9,6 +9,15 @@
         });
       }
     });
+    $('select').select2();
+    $('select').change(function(data) {
+      console.log($(this)[0].id);
+      $.ajax('/asign_courier/', {type: 'POST', data: { transaction_id: $(this)[0].id, transaction: { courier_id: $(this).val() }}}
+      ).done(function() {
+        const url_path = '/transactions/';
+        document.location.href = url_path;
+      });
+    });
   });
 
 - model_class = Transaction
@@ -40,7 +49,7 @@
     .form-group
       .row.row-custom
         .col
-          = f.label :created_at
+          = f.label :mensajero
         .col
           = bootstrap_text_field(f, :courier_name_cont, model_class.human_attribute_name(:mensajero))
     .form-group
@@ -79,13 +88,11 @@
         - @transactions.each do |transaction|
           %tr
             %td
-              - unless transaction.type.int_value == 1
-                - if transaction.status.parent.nil?
+              - if transaction.type.int_value == 2
+                - if transaction.courier.nil? && transaction.carrier.internal
+                  = collection_select 'couriers', :courier_id, Dealer.couriers, :id, :custom_name, { prompt: true }, { class: 'form-control', id: transaction.id }
+                - elsif transaction.status.parent.nil?
                   = bootstrap_button('primary disabled', t('general.change_status', status: transaction.status.description), 'arrow-right', nil, 'post')
-              - else
-                - unless current_dealer.courier? && transaction.delivered?('SALE')
-                  - unless transaction.status.parent.nil?
-                    = bootstrap_button('primary', t('general.change_status', status: transaction.status.parent.description), 'arrow-right', transaction_change_status_path(transaction), 'post')
               = bootstrap_button('success', nil, 'eye', transaction_transaction_details_path(transaction))
               = bootstrap_button('warning', nil, 'exclamation-triangle', edit_transaction_path(transaction)) if current_dealer.grocer? && transaction.url_reference.nil?
               - if transaction.open?('SALE')
@@ -101,7 +108,7 @@
             %td
               - transaction.transaction_details.each do |td|
                 %span= [td.product.custom_name_order, td.quantity].join(' | ')
-            %td= transaction.client
+            %td= transaction.type.description
             %td= transaction.address2
             %td= transaction.created_at.strftime('%d/%m/%Y')
             %td= transaction.phone
