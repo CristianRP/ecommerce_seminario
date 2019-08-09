@@ -154,6 +154,7 @@ class TransactionsController < ApplicationController
   def asign_courier
     courier = Dealer.find_by_id(transaction_params[:courier_id])
     @transaction.courier = courier
+    @transaction.status = @transaction.status.parent
     respond_to do |format|
       if @transaction.save
         format.html { redirect_to transactions_path, turbolinks: false }

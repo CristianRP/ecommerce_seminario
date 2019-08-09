@@ -37,7 +37,7 @@ class TransactionDetailsController < ApplicationController
   def create
     @transaction_detail = Transaction::Create.call(transaction_detail_params, @transaction)
     respond_to do |format|
-      if @transaction_detail
+      if @transaction_detail.errors.nil?
         format.html { redirect_to transaction_transaction_details_path(@transaction), notice: t('forms.created', model: TransactionDetail.model_name.human) }
         format.json { render :show, status: :created, location: @transaction_detail }
       else
