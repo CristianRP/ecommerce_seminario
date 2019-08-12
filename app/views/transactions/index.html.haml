@@ -89,7 +89,7 @@
           %tr
             %td
               - if transaction.type.int_value == 2
-                - if transaction.courier.nil? && transaction.carrier.internal
+                - if transaction.courier.nil? && !transaction.carrier.nil? transaction.carrier.internal
                   = collection_select 'couriers', :courier_id, Dealer.couriers, :id, :custom_name, { prompt: true }, { class: 'form-control', id: transaction.id }
                 - elsif transaction.status.parent.nil?
                   = bootstrap_button('primary disabled', t('general.change_status', status: transaction.status.description), 'arrow-right', nil, 'post')
