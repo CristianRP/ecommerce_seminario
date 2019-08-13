@@ -91,7 +91,7 @@
               - if transaction.type.int_value == 2
                 - if transaction.courier.nil? && !transaction.carrier.nil? && transaction.carrier.internal
                   = collection_select 'couriers', :courier_id, Dealer.couriers, :id, :custom_name, { prompt: true }, { class: 'form-control', id: transaction.id }
-                - elsif transaction.status.parent.nil?
+                - if transaction.status.parent.nil?
                   = bootstrap_button('primary disabled', t('general.change_status', status: transaction.status.description), 'arrow-right', nil, 'post')
               = bootstrap_button('success', nil, 'eye', transaction_transaction_details_path(transaction))
               = bootstrap_button('warning', nil, 'exclamation-triangle', edit_transaction_path(transaction)) if current_dealer.grocer? && transaction.url_reference.nil?
