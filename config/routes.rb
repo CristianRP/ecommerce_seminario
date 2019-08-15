@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   end
   get '/delivered', to: 'transactions#delivered', as: 'delivered'
   get '/pendings', to: 'transactions#pendings', as: 'pendings'
+  get '/pendings_not', to: 'transactions#pendings_not', as: 'pendings_not_delivered'
   get '/on_route', to: 'transactions#on_route', as: 'on_route'
   post '/asign_courier', to: 'transactions#asign_courier', as: 'asign_courier'
   resources :products

@@ -46,6 +46,10 @@
             %a{href: pendings_path, title: t('modules.finished')}
               %em.fa.fa-check
               %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.finished')
+          %li
+            %a{href: pendings_not_delivered_path, title: t('modules.finished_not_delivered')}
+              %em.fa.fa-close
+              %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.finished_not_delivered')
         - if current_dealer.admin? #|| (!current_dealer.courier? && !current_dealer.grocer?)
           %li
             %a{href: new_transaction_path + "?type=3", title: t('modules.returns')}

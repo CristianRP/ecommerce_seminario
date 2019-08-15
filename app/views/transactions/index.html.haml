@@ -89,10 +89,13 @@
           %tr
             %td
               - if transaction.type.int_value == 2 && !transaction.amount.nil? && transaction.amount > 0
-                - if transaction.courier.nil? && !transaction.carrier.nil? && transaction.carrier.internal
-                  = collection_select 'couriers', :courier_id, Dealer.couriers, :id, :custom_name, { prompt: true }, { class: 'form-control', id: transaction.id }
-                - unless transaction.status.parent.nil?
-                  = bootstrap_button('primary', t('general.change_status', status: transaction.status.parent.description), 'arrow-right', transaction_change_status_path(transaction), 'post')
+                - if !transaction.status.parent.nil?
+                  - if transaction.courier.nil? && !transaction.carrier.nil? && transaction.carrier.internal
+                    = collection_select 'couriers', :courier_id, Dealer.couriers, :id, :custom_name, { prompt: true }, { class: 'form-control', id: transaction.id }
+                  - else
+                    = bootstrap_button('primary', t('general.change_status', status: transaction.status.parent.description), 'arrow-right', transaction_change_status_path(transaction), 'post')
+                  - if current_dealer.courier?
+                    = bootstrap_button('primary', t('general.change_status', status: 'NO ENTREGADA'), 'arrow-right', transaction_not_delivery_path(transaction), 'post')
               = bootstrap_button('success', nil, 'eye', transaction_transaction_details_path(transaction))
               = bootstrap_button('warning', nil, 'exclamation-triangle', edit_transaction_path(transaction)) if current_dealer.grocer? && transaction.url_reference.nil?
               - if transaction.open?('SALE')

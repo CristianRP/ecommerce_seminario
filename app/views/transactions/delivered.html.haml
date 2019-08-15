@@ -48,6 +48,12 @@
     .form-group
       .row.row-custom
         .col
+          = f.label :id
+        .col
+          = bootstrap_text_field(f, :id_eq, model_class.human_attribute_name(:id))
+    .form-group
+      .row.row-custom
+        .col
           = f.label :client
         .col
           = bootstrap_text_field(f, :client_cont, model_class.human_attribute_name(:client))

@@ -170,8 +170,22 @@ class TransactionsController < ApplicationController
   end
 
   def pendings
-    @transactions_query = Transaction.delivered('SALE').ransack(params[:q])
+    @transactions_query = Transaction.delivered_liq('SALE').ransack(params[:q])
     @transactions = @transactions_query.result(distinct: true)
+    @not_pendings = false
+    unless params[:q].present?
+      @transactions = @transactions.where('DATE(CREATED_AT) = ?', Date.today)
+    end
+  end
+
+  def pendings_not
+    @transactions_query = Transaction.not_delivered_liq('SALE').ransack(params[:q])
+    @transactions = @transactions_query.result(distinct: true)
+    unless params[:q].present?
+      @transactions = @transactions.where('DATE(CREATED_AT) = ?', Date.today)
+    end
+    @not_pendings = true
+    render :pendings
   end
 
   def on_route

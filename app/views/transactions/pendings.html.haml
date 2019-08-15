@@ -37,13 +37,22 @@
   });
 
 - model_class = Transaction
-- content_for :title, model_class.model_name.human.pluralize(I18n.locale).titleize
+- if @not_pendings
+  - content_for :title, "Paquetes no entregados: #{@transactions.count}"
+- else
+  - content_for :title, model_class.model_name.human.pluralize(I18n.locale).titleize
 
 - unless notice.nil?
   = bootstrap_notice(notice, alert.nil? ? 'success' : 'danger')
 
 = bootstrap_card 'Filtros' do
   = search_form_for @transactions_query, url: pendings_path, html: {method: :get, class: 'form-inline'} do |f|
+    .form-group
+      .row.row-custom
+        .col
+          = f.label :id
+        .col
+          = bootstrap_text_field(f, :id_eq, model_class.human_attribute_name(:id))
     .form-group
       .row.row-custom
         .col
@@ -59,6 +68,12 @@
     .form-group
       .row.row-custom
         .col
+          = f.label :mensajero
+        .col
+          = bootstrap_text_field(f, :courier_name_cont, model_class.human_attribute_name(:mensajero))
+    .form-group
+      .row.row-custom
+        .col
           = f.label ''
         .col
           = bootstrap_submit_button(f, 'Buscar')
@@ -67,7 +82,11 @@
         .col
           = f.label ''
         .col
-          = bootstrap_button('primary', 'Borrar filtros', 'trash', pendings_path)
+          - if @not_pendings
+            = bootstrap_button('primary', 'Borrar filtros', 'trash', pendings_not_delivered_path)
+          - else
+            = bootstrap_button('primary', 'Borrar filtros', 'trash', pendings_path)
+
 
 = bootstrap_card t('.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale))) do
   .table-responsive
@@ -99,6 +118,9 @@
         - @transactions.each do |transaction|
           %tr
             %td
+              - if transaction.type.int_value == 2 && !transaction.amount.nil? && transaction.amount > 0
+                - unless transaction.status.parent.nil?
+                  = bootstrap_button('primary', t('general.change_status', status: transaction.status.parent.description), 'arrow-right', transaction_change_status_path(transaction), 'post')
               = bootstrap_button('success', nil, 'eye', transaction_transaction_details_path(transaction))
               - if transaction.open?('SALE')
                 = bootstrap_button('warning', nil, 'exclamation-triangle', edit_transaction_path(transaction)) unless transaction.closed?('SALE')
@@ -106,7 +128,9 @@
                 = bootstrap_button_destroy(transaction)
             %td= transaction.id
             %td= transaction.tracking_number
-            %td= transaction.description
+            %td
+              - transaction.transaction_details.each do |td|
+                %span= [td.product.custom_name_order, td.quantity].join(' | ')
             %td= transaction.client
             %td= transaction.address2
             %td= transaction.created_at.strftime('%d/%m/%Y')

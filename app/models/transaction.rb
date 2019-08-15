@@ -30,9 +30,11 @@ class Transaction < ApplicationRecord
 
   scope :pending_to_packing, ->(tag) { where(status: Status.closed(tag), type_id: 2) }
   scope :pending_to_deliver, ->(tag, courier_id) { where(status: Status.on_route(tag), courier_id: courier_id) }
-  scope :delivered_courier, ->(tag, courier_id) { where(status: Status.on_route(tag), courier_id: courier_id) }
+  scope :delivered_courier, ->(tag, courier_id) { where(status: [Status.not_delivery(tag).first, Status.delivered(tag).first], courier_id: courier_id) }
   scope :watching_to_deliver, ->(tag) { where(status: Status.on_route(tag)) }
   scope :delivered, ->(tag) { where(status: [Status.not_delivery(tag).first, Status.delivered(tag).first]) }
+  scope :delivered_liq, ->(tag) { where(status: Status.delivered(tag).first) }
+  scope :not_delivered_liq, ->(tag) { where(status: Status.not_delivery(tag).first) }
   scope :pending_to_close, ->(tag) { where(status: Status.finished(tag)) }
 
   ransacker :created_at do
