@@ -62,6 +62,12 @@
     .form-group
       .row.row-custom
         .col
+          = f.label :tracking_number
+        .col
+          = bootstrap_text_field(f, :tracking_number_cont, model_class.human_attribute_name(:tracking_number))
+    .form-group
+      .row.row-custom
+        .col
           = f.label :created_at
         .col
           = bootstrap_text_field(f, :created_at_date_equals, model_class.human_attribute_name(:created_at))

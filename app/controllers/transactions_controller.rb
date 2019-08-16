@@ -189,7 +189,8 @@ class TransactionsController < ApplicationController
   end
 
   def on_route
-    @pending_to_deliver = Transaction.watching_to_deliver('SALE')
+    @transactions_query = Transaction.watching_to_deliver('SALE').ransack(params[:q])
+    @pending_to_deliver = @transactions_query.result(distinct: true)
   end
 
   def view_tracking

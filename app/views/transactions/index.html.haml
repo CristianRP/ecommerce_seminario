@@ -43,6 +43,12 @@
     .form-group
       .row.row-custom
         .col
+          = f.label :tracking_number
+        .col
+          = bootstrap_text_field(f, :tracking_number_cont, model_class.human_attribute_name(:tracking_number))
+    .form-group
+      .row.row-custom
+        .col
           = f.label :created_at
         .col
           = bootstrap_text_field(f, :created_at_date_equals, model_class.human_attribute_name(:created_at))
@@ -78,8 +84,7 @@
           %th= model_class.human_attribute_name(:address2)
           %th= model_class.human_attribute_name(:created_at)
           %th= model_class.human_attribute_name(:phone)
-          - unless current_dealer.grocer?
-            %th= model_class.human_attribute_name(:amount)
+          %th= model_class.human_attribute_name(:amount)
           %th= model_class.human_attribute_name(:status)
           %th= t('activerecord.attributes.dealer.courier_custom')
           %th= model_class.human_attribute_name(:dealer)
@@ -90,9 +95,9 @@
             %td
               - if transaction.type.int_value == 2 && !transaction.amount.nil? && transaction.amount > 0
                 - if !transaction.status.parent.nil?
-                  - if transaction.courier.nil? && !transaction.carrier.nil? && transaction.carrier.internal
+                  - if transaction.courier.nil? && !transaction.carrier.nil? && transaction.carrier.internal && current_dealer.grocer?
                     = collection_select 'couriers', :courier_id, Dealer.couriers, :id, :custom_name, { prompt: true }, { class: 'form-control', id: transaction.id }
-                  - else
+                  - elsif current_dealer.courier? || current_dealer.grocer? || current_dealer.admin?
                     = bootstrap_button('primary', t('general.change_status', status: transaction.status.parent.description), 'arrow-right', transaction_change_status_path(transaction), 'post')
                   - if current_dealer.courier?
                     = bootstrap_button('primary', t('general.change_status', status: 'NO ENTREGADA'), 'arrow-right', transaction_not_delivery_path(transaction), 'post')
@@ -111,12 +116,11 @@
             %td
               - transaction.transaction_details.each do |td|
                 %span= [td.product.custom_name_order, td.quantity].join(' | ')
-            %td= transaction.type.description
+            %td= transaction.client
             %td= transaction.address2
             %td= transaction.created_at.strftime('%d/%m/%Y')
             %td= transaction.phone
-            - unless current_dealer.grocer?
-              %td= transaction.amount
+            %td= transaction.amount
             %td= transaction.status.description unless transaction.status.nil?
             %td= transaction.courier.custom_name unless transaction.courier.nil?
             %td= transaction.dealer.custom_name unless transaction.dealer.nil?
