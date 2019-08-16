@@ -40,6 +40,13 @@ module ApplicationHelper
     }
   end
 
+  def bootstrap_button_ids(id, css_class, text, icon, action = '', method = '')
+    content_tag(:a, nil, class: "btn btn-sm btn-#{css_class}", href: action, 'data-method': method, id: id) {
+      content_tag(:i, nil, class: "fa fa-#{icon}") +
+      content_tag(:span, text, class: 'text')
+    }
+  end
+
   def bootstrap_button_destroy(model)
     content_tag(:a, nil, class: "btn btn-sm btn-danger", 
       'data-method': :delete, rel: 'no-follow', href: url_for(model), 

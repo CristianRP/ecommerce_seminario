@@ -22,3 +22,4 @@
 //= require angle/modules/panels
 //= require flot/jquery.flot
 //= require flot.tooltip/js/jquery.flot.tooltip.min
+//= require jquery-ui

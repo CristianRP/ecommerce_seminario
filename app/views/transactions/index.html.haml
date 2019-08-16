@@ -4,19 +4,39 @@
   $(function() {
     $('#downloadBtn').click(function() {
       if (gon.closed) {
-        $.post('/transactions/' + gon.transaction.id + '/change_status', function(data) {
-          console.log('done');
-        });
+        if (confirm('Quiere cambiar de estado esta orden?')) {
+          $.post('/transactions/' + gon.transaction.id + '/change_status', function(data) {
+            console.log('done');
+          });
+        } else {
+          return;
+        }
       }
     });
     $('select').select2();
     $('select').change(function(data) {
-      console.log($(this)[0].id);
-      $.ajax('/asign_courier/', {type: 'POST', data: { transaction_id: $(this)[0].id, transaction: { courier_id: $(this).val() }}}
-      ).done(function() {
-        const url_path = '/transactions/';
-        document.location.href = url_path;
-      });
+      console.log($(this).select2('data')[0].text);
+      console.log($("#dialog-confirm"));
+      if ($(this).select2('data')[0].text == 'Por favor seleccione') return;
+      if(confirm("Quiere asignar esta orden al vendedor: " + $(this).select2('data')[0].text + "?")) {
+        $.ajax('/asign_courier/', {type: 'POST', data: { transaction_id: $(this)[0].id, transaction: { courier_id: $(this).val() }}}
+        ).done(function() {
+          const url_path = '/transactions/';
+          document.location.href = url_path;
+        });
+      } else {
+        return;
+      }
+    });
+    $('.change_status').click(function(e) {
+      console.log(e);
+      if (confirm('Esta seguro que quiere cambiar de estado esta orden?')) {
+        console.log('success');
+      } else {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
     });
   });
 
@@ -95,12 +115,12 @@
             %td
               - if transaction.type.int_value == 2 && !transaction.amount.nil? && transaction.amount > 0
                 - if !transaction.status.parent.nil?
-                  - if transaction.courier.nil? && !transaction.carrier.nil? && transaction.carrier.internal && current_dealer.grocer?
+                  - if transaction.courier.nil? && !transaction.carrier.nil? && transaction.carrier.internal && (current_dealer.grocer? || current_dealer.admin?)
                     = collection_select 'couriers', :courier_id, Dealer.couriers, :id, :custom_name, { prompt: true }, { class: 'form-control', id: transaction.id }
                   - elsif current_dealer.courier? || current_dealer.grocer? || current_dealer.admin?
-                    = bootstrap_button('primary', t('general.change_status', status: transaction.status.parent.description), 'arrow-right', transaction_change_status_path(transaction), 'post')
+                    = bootstrap_button_ids('change_status', 'primary change_status', t('general.change_status', status: transaction.status.parent.description), 'arrow-right', transaction_change_status_path(transaction), 'post')
                   - if current_dealer.courier?
-                    = bootstrap_button('primary', t('general.change_status', status: 'NO ENTREGADA'), 'arrow-right', transaction_not_delivery_path(transaction), 'post')
+                    = bootstrap_button_ids('change_status', 'primary change_status', t('general.change_status', status: 'NO ENTREGADA'), 'arrow-right', transaction_not_delivery_path(transaction), 'post')
               = bootstrap_button('success', nil, 'eye', transaction_transaction_details_path(transaction))
               = bootstrap_button('warning', nil, 'exclamation-triangle', edit_transaction_path(transaction)) if current_dealer.grocer? && transaction.url_reference.nil?
               - if transaction.open?('SALE')
