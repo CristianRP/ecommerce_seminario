@@ -118,9 +118,12 @@
                   - if transaction.courier.nil? && !transaction.carrier.nil? && transaction.carrier.internal && (current_dealer.grocer? || current_dealer.admin?)
                     = collection_select 'couriers', :courier_id, Dealer.couriers, :id, :custom_name, { prompt: true }, { class: 'form-control', id: transaction.id }
                   - elsif current_dealer.courier? || current_dealer.grocer? || current_dealer.admin?
-                    = bootstrap_button_ids('change_status', 'primary change_status', t('general.change_status', status: transaction.status.parent.description), 'arrow-right', transaction_change_status_path(transaction), 'post')
+                    - unless transaction.status.parent.description == 'LIQUIDADA (NO ENTREGADA)'
+                      = bootstrap_button_ids('change_status', 'primary change_status', t('general.change_status', status: transaction.status.parent.description), 'arrow-right', transaction_change_status_path(transaction), 'post')
                   - if current_dealer.courier?
                     = bootstrap_button_ids('change_status', 'primary change_status', t('general.change_status', status: 'NO ENTREGADA'), 'arrow-right', transaction_not_delivery_path(transaction), 'post')
+                  - if !(current_dealer.courier? || current_dealer.grocer?) && !transaction.carrier.internal
+                    = bootstrap_button_ids('change_status', 'primary change_status', t('general.change_status', status: transaction.status.parent.description), 'arrow-right', transaction_change_status_path(transaction), 'post')
               = bootstrap_button('success', nil, 'eye', transaction_transaction_details_path(transaction))
               = bootstrap_button('warning', nil, 'exclamation-triangle', edit_transaction_path(transaction)) if current_dealer.grocer? && transaction.url_reference.nil?
               - if transaction.open?('SALE')
@@ -131,6 +134,8 @@
                 = bootstrap_button_id('downloadBtn', 'primary', nil, 'download', transaction.url_reference)
               - if current_dealer.admin? && transaction.open?('SALE')
                 = bootstrap_button_destroy(transaction)
+              - if current_dealer.admin? && transaction.not_delivery?('SALE') && !transaction.status.parent.nil?
+                = bootstrap_button_ids('change_status', 'primary change_status', 'Regresar a stock', 'arrow-right', transaction_return_to_stock_path(transaction), 'post')
             %td= transaction.id
             %td= transaction.tracking_number
             %td

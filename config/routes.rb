@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     post 'devolucion', to: 'devolucion', as: 'devolucion'
     post 'not_delivery', to: 'not_delivery', as: 'not_delivery'
     get '/view_tracking', to: 'transactions#view_tracking', as: 'view_tracking'
+    post '/return_stock', to: 'transactions#return_to_stock', as: 'return_to_stock'
   end
   get '/delivered', to: 'transactions#delivered', as: 'delivered'
   get '/pendings', to: 'transactions#pendings', as: 'pendings'

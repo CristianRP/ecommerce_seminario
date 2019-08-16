@@ -29,7 +29,7 @@ class Transaction::Destroy
   end
 
   def increment_inventory
-    @product.quantity = @product.balance
+    @product.quantity += @transaction_detail.quantity
     @product.balance = @product.quantity
     @product.save
   end

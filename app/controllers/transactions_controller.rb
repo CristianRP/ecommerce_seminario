@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TransactionsController < ApplicationController
-  before_action :set_transaction, only: %w[show edit update destroy close_order change_status devolucion not_delivery view_tracking asign_courier]
+  before_action :set_transaction, only: %w[show edit update destroy close_order change_status devolucion not_delivery view_tracking asign_courier return_to_stock]
   skip_before_action :not_admin
 
   # GET /transactions
@@ -191,6 +191,27 @@ class TransactionsController < ApplicationController
   def on_route
     @transactions_query = Transaction.watching_to_deliver('SALE').ransack(params[:q])
     @pending_to_deliver = @transactions_query.result(distinct: true)
+  end
+
+  def return_to_stock
+    @transaction.transaction_details.each do |td|
+      product = Product.find(td.product.id)
+      product.quantity += td.quantity
+      product.balance = product.quantity
+      product.save
+    end
+    @transaction.status = @transaction.status.parent
+    respond_to do |format|
+      if @transaction.save
+        format.html { redirect_to transactions_path }
+      else
+        format.html { redirect_to transactions_path, alert: 'Hubo un error' }
+      end
+    end
+  end
+
+  def change_status_expreso
+    # TODO VALIDACION
   end
 
   def view_tracking
