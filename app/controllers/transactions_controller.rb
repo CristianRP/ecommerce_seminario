@@ -8,7 +8,7 @@ class TransactionsController < ApplicationController
   # GET /transactions.json
   def index
     @transactions_query = if current_dealer.admin?
-                            Transaction.all.ransack(params[:q])
+                            Transaction.where(type: Parameter.transaction_type_out).ransack(params[:q])
                           elsif current_dealer.grocer?
                             Transaction.pending_to_packing('SALE').ransack(params[:q])
                           elsif current_dealer.courier?
@@ -208,6 +208,11 @@ class TransactionsController < ApplicationController
         format.html { redirect_to transactions_path, alert: 'Hubo un error' }
       end
     end
+  end
+
+  def restocks
+    @transactions_query = Transaction.where(type: Parameter.transaction_type_in).ransack(params[:q])
+    @transactions = @transactions_query.result(distinct: true)
   end
 
   def change_status_expreso

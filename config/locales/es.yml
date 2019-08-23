@@ -342,6 +342,7 @@ es:
     delivered: 'Pedidos Entregados'
     returns: 'Devoluciones'
     restock: 'Reabastecimiento'
+    restocks: 'Listado de Reabastecimientos'
     finished: 'Pendientes de liquidar (ENTREGADAS)'
     finished_not_delivered: 'Pendientes de liquidar (NO ENTREGADAS)'
     on_route: 'Pedidos en ruta'

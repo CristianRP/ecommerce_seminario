@@ -59,6 +59,10 @@
             %a{href: new_transaction_path + "?type=1", title: t('modules.returns')}
               %em.fa.fa-cart-plus
               %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.restock')
+          %li
+            %a{href: restocks_path, title: t('modules.returns')}
+              %em.fa.fa-cart-plus
+              %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.restocks')
       - if current_dealer.grocer?
         %li
           %a{href: on_route_path, title: t('modules.on_route')}

@@ -1,0 +1,107 @@
+=# javascript_include_tag 'data_table_init'
+
+:javascript
+  $(function() {
+    $('#dataTable').DataTable({
+      paging: true,
+      searching: true,
+      order: [[ 0, 'desc']],
+      language: {
+        search: 'Buscar',
+        paginate: {
+          first: 'Primero',
+          previous: 'Anterior',
+          next: 'Siguiente',
+          last: 'Último'
+        },
+        info: 'Mostrando _START_ de _END_ registros',
+        lengthMenu: 'Mostrar _MENU_ registros'
+      },
+      "footerCallback": function (row, data, start, end, display) {
+        var api = this.api();
+        api.columns(4, {
+          page: 'current'
+          }).every(function() {
+            var sum = this
+              .data()
+              .reduce(function(a, b) {
+                var x = parseFloat(a) || 0;
+                var y = parseFloat(b) || 0;
+                return x + y;
+              }, 0);
+            //console.log(sum); //alert(sum);
+            $(this.footer()).html('Q ' + sum.toFixed(2));
+          });
+        }
+      });
+  });
+
+- model_class = Transaction
+- content_for :title, 'Reabastecimientos'
+
+- unless notice.nil?
+  = bootstrap_notice(notice, alert.nil? ? 'success' : 'danger')
+
+= bootstrap_card 'Filtros' do
+  = search_form_for @transactions_query, url: restocks_path, html: {method: :get, class: 'form-inline'} do |f|
+    .form-group
+      .row.row-custom
+        .col
+          = f.label :id
+        .col
+          = bootstrap_text_field(f, :id_eq, model_class.human_attribute_name(:id))
+    .form-group
+      .row.row-custom
+        .col
+          = f.label :created_at
+        .col
+          = bootstrap_text_field(f, :created_at_date_equals, model_class.human_attribute_name(:created_at))
+    .form-group
+      .row.row-custom
+        .col
+          = f.label ''
+        .col
+          = bootstrap_submit_button(f, 'Buscar')
+    .form-group
+      .row.row-custom
+        .col
+          = f.label ''
+        .col
+          = bootstrap_button('primary', 'Borrar filtros', 'trash', restocks_path)
+
+
+= bootstrap_card t('.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale))) do
+  .table-responsive
+    %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
+      %thead
+        %tr
+          %th= model_class.human_attribute_name(:id)
+          %th= model_class.human_attribute_name(:tracking_number)
+          %th= model_class.human_attribute_name(:description)
+          %th= model_class.human_attribute_name(:created_at)
+          - unless current_dealer.grocer?
+            %th= model_class.human_attribute_name(:amount)
+          %th= model_class.human_attribute_name(:dealer)
+        %tfoot
+          %tr
+            - if current_dealer.grocer? || current_dealer.courier?
+              %th
+            - else
+              %th{colspan: 3}
+            %th= model_class.human_attribute_name(:total).upcase
+            %th
+      %tbody
+        - @transactions.each do |transaction|
+          %tr
+            %td= transaction.id
+            %td= transaction.tracking_number
+            %td
+              - transaction.transaction_details.each do |td|
+                %span= [td.product.custom_name_order, td.quantity].join(' | ')
+            %td= transaction.created_at.strftime('%d/%m/%Y')
+            %td= transaction.amount
+            %td= transaction.dealer.custom_name unless transaction.dealer.nil?
+
+    - unless current_dealer.grocer? || current_dealer.courier?
+      %br/
+      = bootstrap_button('primary', t('helpers.titles.new', model: model_class.model_name.human), 'plus', new_transaction_path)

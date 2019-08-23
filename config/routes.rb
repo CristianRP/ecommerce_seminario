@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   get '/pendings_not', to: 'transactions#pendings_not', as: 'pendings_not_delivered'
   get '/on_route', to: 'transactions#on_route', as: 'on_route'
   post '/asign_courier', to: 'transactions#asign_courier', as: 'asign_courier'
+  get '/restocks', to: 'transactions#restocks', as: 'restocks'
   resources :products
   devise_for :dealers, controllers: {
     sessions: 'dealers/sessions'
