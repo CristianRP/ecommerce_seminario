@@ -28,6 +28,14 @@ class TransactionsController < ApplicationController
     @transaction = Transaction.new
     gon.type_param = type_param
     gon.is_grocer = current_dealer.grocer?
+    if type_param[:type].to_i == Parameter.transaction_type_in.first.int_value
+      @transaction.status = Status.initial('SALE').first
+      @transaction.type = Parameter.transaction_type_in.first
+      @transaction.dealer = current_dealer
+      if @transaction.save
+        redirect_to transaction_transaction_details_path(@transaction)
+      end
+    end
   end
 
   # GET /transactions/1/edit

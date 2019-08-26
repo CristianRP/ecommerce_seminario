@@ -4,6 +4,7 @@
     const inputQuantity = $('#transaction_detail_quantity');
     const inputUnitPrice = $('#transaction_detail_unit_price');
     const inputTotal = $('#transaction_detail_total');
+    const inputCost = $('#product_cost');
     console.log(gon.transaction_type);
     selectProduct.select2();
     selectProduct.on('change', function() {
@@ -14,11 +15,18 @@
       $.get('/products/'+ selectedItem.val(), function(data) {
         console.log(data);
         $('#transaction_detail_unit_price').val(data.price);
+        $('#product_cost').val(data.cost);
         inputQuantity.val(1).keyup();
       }, 'json');
       $('#transaction_detail_total').val('');
     });
     inputQuantity.keyup(function() {
+      var unitPrice = $('#transaction_detail_unit_price').val();
+      var quantity = inputQuantity.val();
+      var total = unitPrice * quantity;
+      $('#transaction_detail_total').val(total);
+    });
+    inputUnitPrice.keyup(function() {
       var unitPrice = $('#transaction_detail_unit_price').val();
       var quantity = inputQuantity.val();
       var total = unitPrice * quantity;
@@ -59,9 +67,17 @@
     .form-group
       = f.label :product_id
       = f.collection_select :product_id, Product.active, :id, :custom_name_order, { prompt: true }, { class: 'form-control' }
-    .form-group
-      = f.label :unit_price
-      = f.text_field :unit_price, class: 'form-control', disabled: true
+    - if transaction.type == Parameter.transaction_type_in.first
+      .form-group
+        = f.label :costo
+        = text_field '', 'product_cost', class: 'form-control'
+      .form-group
+        = f.label :unit_price
+        = f.text_field :unit_price, class: 'form-control'
+    - else
+      .form-group
+        = f.label :unit_price
+        = f.text_field :unit_price, class: 'form-control', disabled: true
     .form-group{class: 'formGroupQty'}
       = f.label :quantity
       = f.number_field :quantity, class: 'form-control', step: :any, 'data-parsley-type': :number, onkeypress: 'return event.charCode >= 48 && event.charCode <= 57', min: 1, required: true

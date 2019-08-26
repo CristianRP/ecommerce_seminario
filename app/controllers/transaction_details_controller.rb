@@ -85,6 +85,6 @@ class TransactionDetailsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def transaction_detail_params
-    params.require(:transaction_detail).permit(:transaction_id, :product_id, :unit_price, :quantity, :total)
+    params.require(:transaction_detail).permit(:transaction_id, :product_id, :unit_price, :quantity, :total).merge(product_cost: params[:product_cost])
   end
 end

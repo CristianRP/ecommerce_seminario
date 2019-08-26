@@ -27,11 +27,11 @@ class Transaction::Create
 
   def create_detail
     # Create the detail line
-    @transaction_detail = TransactionDetail.new(@params)
+    @transaction_detail = TransactionDetail.new(@params.except(:product_cost))
     @transaction_detail.transaction_id = @transaction.id
     @transaction_detail.product_id = @product.id
-    @transaction_detail.unit_price = @product.price
-    @transaction_detail.total = (@product.price * @params[:quantity].to_f)
+    @transaction_detail.unit_price = @params[:unit_price]
+    @transaction_detail.total = (@params[:unit_price].to_f * @params[:quantity].to_f)
   end
 
   def reduce_inventory
@@ -55,6 +55,10 @@ class Transaction::Create
   def increment
     @product.quantity += @transaction_detail.quantity
     @product.balance = @product.quantity
+    @product.old_price = @product.price
+    @product.old_cost = @product.cost
+    @product.price = @params[:unit_price]
+    @product.cost = @params[:product_cost]
     @product.save
   end
 end
