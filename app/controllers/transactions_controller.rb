@@ -69,9 +69,6 @@ class TransactionsController < ApplicationController
         format.json { render json: @transaction_detail.errors, status: :unprocessable_entity }
       end
     else
-      if @transaction.type_id == Parameter.transaction_type_in.first.int_value
-        Transaction::Restock.call(@transaction)
-      end
       if @transaction.type_id == Parameter.transaction_type_out.first.int_value && @transaction.carrier.name == 'Cargo Expreso'
         @transaction.amount = TransactionDetail.get_total_order(@transaction.id).first.total_order
         @transaction.status = @transaction.status.parent
