@@ -6,7 +6,7 @@
       $('#lblIntegerError').remove();
       $(group).removeClass('has-warning');
       if (isNaN(value)) error = 'El valor debe ser un número'
-      else if (parseInt(value, 10) != value || value <= 0) error = 'El valor debe ser un número positivo, mayor a cero.';
+      else if (parseInt(value, 10) != value || value <= -1) error = 'El valor debe ser un número positivo.';
       else return true;
       $(this).after('<label style="color: red;" id="lblIntegerError"><br/>' + error + '</label>');
       $(group).addClass('has-warning');
