@@ -30,8 +30,8 @@ class Transaction::Create
     @transaction_detail = TransactionDetail.new(@params.except(:product_cost))
     @transaction_detail.transaction_id = @transaction.id
     @transaction_detail.product_id = @product.id
-    @transaction_detail.unit_price = @params[:unit_price]
-    @transaction_detail.total = (@params[:unit_price].to_f * @params[:quantity].to_f)
+    @transaction_detail.unit_price = @product.price
+    @transaction_detail.total = (@product.price.to_f * @params[:quantity].to_f)
   end
 
   def reduce_inventory
