@@ -186,9 +186,6 @@ class TransactionsController < ApplicationController
   def pendings_not
     @transactions_query = Transaction.not_delivered_liq('SALE').ransack(params[:q])
     @transactions = @transactions_query.result(distinct: true)
-    unless params[:q].present?
-      @transactions = @transactions.where('DATE(CREATED_AT) = ?', Date.today)
-    end
     @not_pendings = true
     render :pendings
   end
