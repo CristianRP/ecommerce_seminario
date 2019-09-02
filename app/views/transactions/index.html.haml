@@ -132,7 +132,7 @@
                 = bootstrap_button_id('downloadBtn', 'warning', nil, 'download', transaction_view_tracking_path(transaction))
               - elsif transaction.type.int_value == 2 && !transaction.open?('SALE') && !transaction.carrier.internal? && !transaction.url_reference.nil?
                 = bootstrap_button_id('downloadBtn', 'primary', nil, 'download', transaction.url_reference)
-              - if current_dealer.admin? && transaction.open?('SALE')
+              - if transaction.open?('SALE') || transaction.closed?('SALE')
                 = bootstrap_button_destroy(transaction)
               - if current_dealer.admin? && transaction.not_delivery?('SALE') && !transaction.status.parent.nil?
                 = bootstrap_button_ids('change_status', 'primary change_status', 'Regresar a stock', 'arrow-right', transaction_return_to_stock_path(transaction), 'post')

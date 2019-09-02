@@ -41,7 +41,7 @@
         - if @transaction.status.parent.nil?
           = bootstrap_button('primary disabled', t('general.change_status', status: @transaction.status.description), 'arrow-right', nil, 'post')
         - else
-          - unless current_dealer.courier? && @transaction.delivered?('SALE')
+          - if current_dealer.courier? && !@transaction.delivered?('SALE')
             = bootstrap_button('primary', t('general.change_status', status: @transaction.status.parent.description), 'arrow-right', transaction_change_status_path(@transaction), 'post')
       - if current_dealer.admin? && @transaction.on_route?('SALE') || current_dealer.admin? && @transaction.not_delivery?('SALE')
         = bootstrap_button('primary', t('general.change_status', status: 'DEVOLUCIÓN'), 'arrow-right', transaction_devolucion_path(@transaction), 'post')
