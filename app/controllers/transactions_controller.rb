@@ -8,7 +8,7 @@ class TransactionsController < ApplicationController
   # GET /transactions.json
   def index
     @transactions_query = if current_dealer.admin?
-                            Transaction.where(type: Parameter.transaction_type_out).ransack(params[:q])
+                            Transaction.where(type: Parameter.transaction_type_out).order(id: :desc).ransack(params[:q])
                           elsif current_dealer.grocer?
                             Transaction.pending_to_packing('SALE').ransack(params[:q])
                           elsif current_dealer.courier?
