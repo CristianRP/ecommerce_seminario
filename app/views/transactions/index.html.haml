@@ -97,18 +97,23 @@
       %thead
         %tr
           %th= t '.actions', :default => t("helpers.actions")
-          %th= model_class.human_attribute_name(:id)
-          %th= model_class.human_attribute_name(:tracking_number)
+          - unless current_dealer.courier?
+            %th= model_class.human_attribute_name(:id)
+            %th= model_class.human_attribute_name(:tracking_number)
           %th= model_class.human_attribute_name(:description)
           %th= model_class.human_attribute_name(:client)
           %th= model_class.human_attribute_name(:address2)
-          %th= model_class.human_attribute_name(:created_at)
+          - unless current_dealer.courier?
+            %th= model_class.human_attribute_name(:created_at)
           %th= model_class.human_attribute_name(:phone)
           %th= model_class.human_attribute_name(:amount)
-          %th= model_class.human_attribute_name(:status)
-          %th= t('activerecord.attributes.dealer.courier_custom')
-          %th= model_class.human_attribute_name(:dealer)
-          %th= model_class.human_attribute_name(:carrier)
+          - unless current_dealer.courier?
+            %th= model_class.human_attribute_name(:status)
+            %th= t('activerecord.attributes.dealer.courier_custom')
+            %th= model_class.human_attribute_name(:dealer)
+            %th= model_class.human_attribute_name(:carrier)
+          - if current_dealer.courier?
+            %th= model_class.human_attribute_name(:id)
       %tbody
         - @transactions.each do |transaction|
           %tr
@@ -136,20 +141,25 @@
                 = bootstrap_button_destroy(transaction)
               - if current_dealer.admin? && transaction.not_delivery?('SALE') && !transaction.status.parent.nil?
                 = bootstrap_button_ids('change_status', 'primary change_status', 'Regresar a stock', 'arrow-right', transaction_return_to_stock_path(transaction), 'post')
-            %td= transaction.id
-            %td= transaction.tracking_number
+            - unless current_dealer.courier?
+              %td= transaction.id
+              %td= transaction.tracking_number
             %td
               - transaction.transaction_details.each do |td|
                 %span= [td.product.custom_name_order, td.quantity].join(' | ')
             %td= transaction.client
             %td= transaction.address2
-            %td= transaction.created_at.strftime('%d/%m/%Y')
+            - unless current_dealer.courier?
+              %td= transaction.created_at.strftime('%d/%m/%Y')
             %td= transaction.phone
             %td= transaction.amount
-            %td= transaction.status.description unless transaction.status.nil?
-            %td= transaction.courier.custom_name unless transaction.courier.nil?
-            %td= transaction.dealer.custom_name unless transaction.dealer.nil?
-            %td= transaction.carrier.name unless transaction.carrier.nil?
+            - unless current_dealer.courier?
+              %td= transaction.status.description unless transaction.status.nil?
+              %td= transaction.courier.custom_name unless transaction.courier.nil?
+              %td= transaction.dealer.custom_name unless transaction.dealer.nil?
+              %td= transaction.carrier.name unless transaction.carrier.nil?
+            - if current_dealer.courier?
+              %td= transaction.id
     - unless current_dealer.grocer? || current_dealer.courier?
       %br/
       = bootstrap_button('primary', t('helpers.titles.new', model: model_class.model_name.human), 'plus', new_transaction_path)
