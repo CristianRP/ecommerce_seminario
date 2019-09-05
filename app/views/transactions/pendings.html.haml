@@ -146,7 +146,7 @@
             %td= transaction.status.description unless transaction.status.nil?
             %td= transaction.dealer.custom_name unless transaction.dealer.nil?
             - if transaction.carrier.internal?
-              %td= transaction.courier.custom_name
+              %td= transaction.courier.custom_name unless transactin.courier.nil?
             - else
               %td= transaction.carrier.name unless transaction.carrier.nil?
 
