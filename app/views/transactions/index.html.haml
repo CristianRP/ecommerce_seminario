@@ -127,7 +127,8 @@
             %td= transaction.address2
             - unless current_dealer.courier?
               %td= transaction.created_at.strftime('%d/%m/%Y')
-            %td= transaction.phone
+            %td
+              %a{href: "tel:#{transaction.phone}"}= transaction.phone
             %td= transaction.amount
             - unless current_dealer.courier?
               %td= transaction.status.description unless transaction.status.nil?
