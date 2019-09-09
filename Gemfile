@@ -45,8 +45,10 @@ gem 'faker'
 gem 'gon'
 # USe ransack for search functinality
 gem 'ransack'
+gem 'ransack_memory'
 # Use jquery ui
 gem 'jquery-ui-rails'
+
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

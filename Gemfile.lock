@@ -203,6 +203,7 @@ GEM
       activerecord (>= 5.0)
       activesupport (>= 5.0)
       i18n
+    ransack_memory (0.0.7)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
@@ -333,6 +334,7 @@ DEPENDENCIES
   puma (~> 3.11)
   rails (~> 5.2.3)
   ransack
+  ransack_memory
   rubocop
   rubocop-performance
   sass-rails (~> 5.0)

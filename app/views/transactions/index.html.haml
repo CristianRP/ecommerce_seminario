@@ -89,7 +89,7 @@
         .col
           = f.label ''
         .col
-          = bootstrap_button('primary', 'Borrar filtros', 'trash', transactions_path)
+          = clear_filter title: 'Borrar filtros', class: 'btn btn-primary', data: {confirm: 'Quieres borrar los filtros?', my_data: 'something'}
 
 = bootstrap_card t('.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale))) do
   .table-responsive

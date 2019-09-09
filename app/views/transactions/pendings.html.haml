@@ -46,7 +46,7 @@
   = bootstrap_notice(notice, alert.nil? ? 'success' : 'danger')
 
 = bootstrap_card 'Filtros' do
-  = search_form_for @transactions_query, url: pendings_path, html: {method: :get, class: 'form-inline'} do |f|
+  = search_form_for @transactions_query, url: @not_pendings ? pendings_not_delivered_path : pendings_path, html: {method: :get, class: 'form-inline'} do |f|
     .form-group
       .row.row-custom
         .col
@@ -88,11 +88,7 @@
         .col
           = f.label ''
         .col
-          - if @not_pendings
-            = bootstrap_button('primary', 'Borrar filtros', 'trash', pendings_not_delivered_path)
-          - else
-            = bootstrap_button('primary', 'Borrar filtros', 'trash', pendings_path)
-
+          = clear_filter title: 'Borrar filtros', class: 'btn btn-primary', data: {confirm: 'Quieres borrar los filtros?', my_data: 'something'}
 
 = bootstrap_card t('.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale))) do
   .table-responsive

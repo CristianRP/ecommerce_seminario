@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  include RansackMemory::Concern
   protect_from_forgery with: :exception
   before_action :authenticate_dealer!
   around_action :rescue_from_fk_constraint, only: :destroy
   before_action :not_admin
+  before_action :save_and_load_filters
 
   def rescue_from_fk_constraint
     yield
