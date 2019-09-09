@@ -17,6 +17,7 @@ class TransactionsController < ApplicationController
                             current_dealer.transactions.ransack(params[:q])
                           end
     @transactions = @transactions_query.result(distinct: true)
+    gon.status_filter = params[:q][:status_id] unless params[:q].nil?
   end
 
   # GET /transactions/1

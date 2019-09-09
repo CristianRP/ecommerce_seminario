@@ -14,7 +14,7 @@
       }
     });
     $('select').select2();
-    $('select').change(function(data) {
+    $('#select_change').change(function(data) {
       console.log($(this).select2('data')[0].text);
       console.log($("#dialog-confirm"));
       if ($(this).select2('data')[0].text == 'Por favor seleccione') return;
@@ -38,6 +38,9 @@
         return;
       }
     });
+    if (gon.status_filter != null) {
+      $('.q_status_id_eq').val(gon.status_filter);
+    }
   });
 
 - model_class = Transaction
@@ -72,6 +75,12 @@
           = f.label :created_at
         .col
           = bootstrap_text_field(f, :created_at_date_equals, model_class.human_attribute_name(:created_at))
+    .form-group
+      .row.row-custom
+        .col
+          = f.label :status_id
+        .col
+          = f.collection_select :status_id_eq, Status.all, :id, :description, { prompt: true }, { class: 'form-control' }
     .form-group
       .row.row-custom
         .col
@@ -141,7 +150,7 @@
               - if transaction.type.int_value == 2 && !transaction.amount.nil? && transaction.amount > 0
                 - if !transaction.status.parent.nil?
                   - if transaction.courier.nil? && !transaction.carrier.nil? && transaction.carrier.internal && (current_dealer.grocer? || current_dealer.admin?)
-                    = collection_select 'couriers', :courier_id, Dealer.couriers, :id, :custom_name, { prompt: true }, { class: 'form-control', id: transaction.id }
+                    = collection_select 'couriers', :courier_id, Dealer.couriers, :id, :custom_name, { prompt: true }, { class: 'form-control select_change', id: transaction.id }
                   - elsif current_dealer.courier? || current_dealer.grocer? || current_dealer.admin?
                     - unless transaction.status.parent.description == 'LIQUIDADA (NO ENTREGADA)'
                       = bootstrap_button_ids('change_status', 'primary change_status', t('general.change_status', status: transaction.status.parent.description), 'arrow-right', transaction_change_status_path(transaction), 'post')
