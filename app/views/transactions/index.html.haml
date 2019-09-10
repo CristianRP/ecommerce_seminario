@@ -2,19 +2,24 @@
 
 :javascript
   $(function() {
-    $('#downloadBtn').click(function() {
-      if (gon.closed) {
-        if (confirm('Quiere cambiar de estado esta orden?')) {
-          $.post('/transactions/' + gon.transaction.id + '/change_status', function(data) {
-            console.log('done');
-          });
-        } else {
-          return;
-        }
+    $('.downloadBtn').click(function(e) {
+      if (confirm('Quiere cambiar de estado esta orden?')) {
+        /*$.post('/transactions/' + gon.transaction.id + '/change_status', function(data) {
+          console.log('done');
+          const url_path = '/transactions/';
+          document.location.href = url_path;
+        });*/
+        setTimeout(function(){
+          location.reload();
+        }, 2000);
+      } else {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
       }
     });
     $('select').select2();
-    $('#select_change').change(function(data) {
+    $('.select_change').change(function(data) {
       console.log($(this).select2('data')[0].text);
       console.log($("#dialog-confirm"));
       if ($(this).select2('data')[0].text == 'Por favor seleccione') return;
@@ -28,7 +33,7 @@
         return;
       }
     });
-    $('.change_status').click(function(e) {
+    $('#change_status').click(function(e) {
       console.log(e);
       if (confirm('Esta seguro que quiere cambiar de estado esta orden?')) {
         console.log('success');
@@ -39,7 +44,7 @@
       }
     });
     if (gon.status_filter != null) {
-      $('.q_status_id_eq').val(gon.status_filter);
+      $('#q_status_id_eq').val(gon.status_filter);
     }
   });
 
@@ -84,9 +89,15 @@
     .form-group
       .row.row-custom
         .col
+          = f.label :transportista
+        .col
+          = f.collection_select :carrier_id_eq, Carrier.all, :id, :name, { prompt: true }, { class: 'form-control' }
+    .form-group
+      .row.row-custom
+        .col
           = f.label :mensajero
         .col
-          = bootstrap_text_field(f, :courier_name_cont, model_class.human_attribute_name(:mensajero))
+          = f.collection_select :courier_id_eq, Dealer.where(courier: true), :id, :custom_name, { prompt: true }, { class: 'form-control' }
     .form-group
       .row.row-custom
         .col
@@ -162,10 +173,11 @@
               = bootstrap_button('warning', nil, 'exclamation-triangle', edit_transaction_path(transaction)) if current_dealer.grocer? && transaction.url_reference.nil?
               - if transaction.open?('SALE')
                 = bootstrap_button('warning', nil, 'exclamation-triangle', edit_transaction_path(transaction)) unless transaction.closed?('SALE')
-              - if transaction.closed?('SALE') && transaction.type.int_value == 2 && !transaction.carrier.internal? && !transaction.url_reference.nil? && current_dealer.grocer?
-                = bootstrap_button_id('downloadBtn', 'warning', nil, 'download', transaction_view_tracking_path(transaction))
-              - elsif transaction.type.int_value == 2 && !transaction.open?('SALE') && !transaction.carrier.internal? && !transaction.url_reference.nil? && current_dealer.grocer?
-                = bootstrap_button_id('downloadBtn', 'primary', nil, 'download', transaction.url_reference)
+              =# bootstrap_button_id('downloadBtn', 'warning', nil, 'download', transaction_view_tracking_path(transaction))
+              - if transaction.closed?('SALE') && transaction.type.int_value == 2 && !transaction.carrier.internal? && !transaction.url_reference.nil? && current_dealer.grocer? || current_dealer.admin?
+                = bootstrap_button_id('downloadBtn', 'warning downloadBtn', nil, 'download', transaction_view_tracking_path(transaction))
+              - elsif transaction.type.int_value == 2 && !transaction.open?('SALE') && !transaction.carrier.internal? && !transaction.url_reference.nil? && current_dealer.grocer? || current_dealer.admin?
+                = bootstrap_button_id('downloadBtn2', 'primary', nil, 'download', transaction.url_reference)
               - if transaction.open?('SALE') || transaction.closed?('SALE')
                 = bootstrap_button_destroy(transaction)
               - if current_dealer.admin? && transaction.not_delivery?('SALE') && !transaction.status.parent.nil?

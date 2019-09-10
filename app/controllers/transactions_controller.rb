@@ -101,7 +101,7 @@ class TransactionsController < ApplicationController
 
   # POST /transactions/change_status
   def change_status
-    if @transaction.status.parent == Transaction.find_by_description('EN RUTA')
+    if @transaction.status.parent == Status.find_by_description('EN RUTA')
       respond_to do |format|
         format.html { redirect_to delivery_path }
       end
@@ -220,14 +220,12 @@ class TransactionsController < ApplicationController
   end
 
   def view_tracking
-    if @transaction.status.parent == Transaction.find_by_description('EN RUTA')
-      respond_to do |format|
-        format.html { redirect_to delivery_path }
-      end
+    if @transaction.status == Status.find_by_description('PROCESADA')
+      @transaction.status = @transaction.status.parent
     end
-    @transaction.status = @transaction.status.parent
     respond_to do |format|
       if @transaction.save
+        #raise
         format.html { redirect_to @transaction.url_reference.nil? ? transactions_path : @transaction.url_reference }
         format.json { render :show, status: :created, location: @transaction_detail }
       else
