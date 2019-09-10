@@ -63,7 +63,7 @@
             = f.label :tracking_number
           .col
             = bootstrap_text_field(f, :tracking_number, model_class.human_attribute_name(:tracking_number))
-      - unless transaction.open?('SALE') && current_dealer.grocer? || current_dealer.admin?
+      - if transaction.open?('SALE') && current_dealer.grocer? || current_dealer.admin?
         .form-group
           .row.row-custom
             .col
