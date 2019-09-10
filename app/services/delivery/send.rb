@@ -21,10 +21,10 @@ class Delivery::Send
     @client = Savon.client(wsdl: @auth.find_by_description('WSDL').text_value, log: true)
     @weight = 0
     @ref1 = ''
-    @amount = 0
+    @amount = @transaction.amount
     @transaction.transaction_details.each do |t|
       @weight += (t.product.weight * t.quantity)
-      @amount += t.product.price.nil? ? 0 : t.product.price
+      #@amount += t.product.price.nil? ? 0 : t.product.price
       # @ref1 += [' ] ', t.product.custom_name_order].join('[')
     end
     @ref1 = @transaction.transaction_details.first.product.custom_name_order
@@ -96,6 +96,40 @@ class Delivery::Send
       end
     end
     transaction_log.ended_at = DateTime.now
+    string_json = "#{{'ListaRecolecciones' => {
+      'DatosRecoleccion' => {
+        'RecoleccionID' => @transaction.id,
+        'RemitenteNombre' => @delivery.sender_name,
+        'RemitenteDireccion' => @delivery.sender_address,
+        'RemitenteTelefono' => @delivery.sender_phone,
+        'DestinatarioNombre' => @transaction.client,
+        'DestinatarioDireccion' => @transaction.address2,
+        'DestinatarioTelefono' => @transaction.phone,
+        'DestinatarioContacto' => nil,
+        'DestinatarioNIT' => @delivery.receiver_nit,
+        'ReferenciaCliente1' => @ref1,
+        'ReferenciaCliente2' => @ref2,
+        'CodigoPobladoDestino' => @delivery.populated_receiver_id,
+        'CodigoPobladoOrigen' => @delivery.populated_origin_id,
+        'TipoServicio' => @delivery.service_type,
+        'MontoCOD' => @amount,
+        'FormatoImpresion' => 1,
+        'CodigoCredito' => @credito,
+        'MontoAsegurado' => @amount,
+        'Observaciones' => @delivery.observations,
+        'CodigoReferencia' => 0,
+        'Piezas' => {
+          'Pieza' => {
+            'NumeroPieza' => '1',
+            'TipoPieza' => '2',
+            'PesoPieza' => @weight.to_s,
+            'MontoCOD' => @amount,
+            'TarifaPorPieza' => 0
+          }
+        }
+      }
+    }}.to_json}"
+    transaction_log.request_json = string_json
     transaction_log.messages = response.body
     transaction_log.save
   end
