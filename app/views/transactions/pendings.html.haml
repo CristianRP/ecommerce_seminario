@@ -121,13 +121,15 @@
           %tr
             %td
               - if transaction.type.int_value == 2 && !transaction.amount.nil? && transaction.amount > 0
-                - unless transaction.status.parent.nil?
+                - unless transaction.status == Status.find_by_description('NO ENTREGADA')
                   = bootstrap_button('primary', t('general.change_status', status: transaction.status.parent.description), 'arrow-right', transaction_change_status_path(transaction), 'post')
               = bootstrap_button('success', nil, 'eye', transaction_transaction_details_path(transaction))
               - if transaction.open?('SALE')
                 = bootstrap_button('warning', nil, 'exclamation-triangle', edit_transaction_path(transaction)) unless transaction.closed?('SALE')
               - if current_dealer.admin? && transaction.open?('SALE')
                 = bootstrap_button_destroy(transaction)
+              - if current_dealer.admin? && transaction.status != Status.find_by_description('ENTREGADA')
+                = bootstrap_button_ids('change_status', 'primary change_status', 'Regresar a stock', 'arrow-right', transaction_return_to_stock_path(transaction), 'post')
             %td= transaction.id
             %td= transaction.tracking_number
             %td

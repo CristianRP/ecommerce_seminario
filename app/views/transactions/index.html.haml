@@ -180,7 +180,7 @@
                 = bootstrap_button_id('downloadBtn2', 'primary', nil, 'download', transaction.url_reference)
               - if (transaction.open?('SALE') || transaction.closed?('SALE')) || current_dealer.admin?
                 = bootstrap_button_destroy(transaction)
-              - if current_dealer.admin? && transaction.not_delivery?('SALE') && !transaction.status.parent.nil?
+              - if current_dealer.admin? && transaction.delivered?('SALE') || transaction.not_delivery?('SALE') && transaction.status != Status.find_by_description('REGRESADO A STOCK')
                 = bootstrap_button_ids('change_status', 'primary change_status', 'Regresar a stock', 'arrow-right', transaction_return_to_stock_path(transaction), 'post')
     - unless current_dealer.grocer? || current_dealer.courier?
       %br/

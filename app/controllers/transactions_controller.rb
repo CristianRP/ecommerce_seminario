@@ -200,7 +200,7 @@ class TransactionsController < ApplicationController
       product.balance = product.quantity
       product.save
     end
-    @transaction.status = @transaction.status.parent
+    @transaction.status = Status.find_by_description('REGRESADO A STOCK')
     respond_to do |format|
       if @transaction.save
         format.html { redirect_to transactions_path }
