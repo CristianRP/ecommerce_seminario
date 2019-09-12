@@ -101,12 +101,19 @@ class TransactionsController < ApplicationController
 
   # POST /transactions/change_status
   def change_status
+    log = ActionLog.new
+    log.transaction_id = @transaction.id
+    log.user_id = current_dealer.id
+    log.user_name = current_dealer.email
     if @transaction.status.parent == Transaction.find_by_description('EN RUTA')
       respond_to do |format|
         format.html { redirect_to delivery_path }
       end
     end
     @transaction_liq = @transaction.status.parent
+    log.action = "Change status #{@transaction.status.description} to #{@transaction.status.parent.description}"
+    log.date_time = DateTime.now
+    log.save
     @transaction.status = @transaction.status.parent
     respond_to do |format|
       if @transaction.save
