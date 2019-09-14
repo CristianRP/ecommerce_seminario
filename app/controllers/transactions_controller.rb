@@ -64,6 +64,13 @@ class TransactionsController < ApplicationController
 
   # POST /transactions/close_order
   def close_order
+    log = ActionLog.new
+    log.transaction_id = @transaction.id
+    log.user_id = current_dealer.id
+    log.user_name = current_dealer.email
+    log.action = "Orden cerrada"
+    log.date_time = DateTime.now
+    log.save
     if @transaction.transaction_details.empty?
       respond_to do |format|
         format.html { redirect_to transaction_transaction_details_path(@transaction), notice: t('activerecord.errors.messages.must_have_child'), alert: true }
@@ -165,8 +172,15 @@ class TransactionsController < ApplicationController
   end
 
   def asign_courier
+    log = ActionLog.new
+    log.transaction_id = @transaction.id
+    log.user_id = current_dealer.id
+    log.user_name = current_dealer.email
     courier = Dealer.find_by_id(transaction_params[:courier_id])
     @transaction.courier = courier
+    log.action = "Courier asigned #{@transaction.status.description} to #{@transaction.status.parent.description}"
+    log.date_time = DateTime.now
+    log.save
     @transaction.status = @transaction.status.parent
     respond_to do |format|
       if @transaction.save
@@ -201,12 +215,19 @@ class TransactionsController < ApplicationController
   end
 
   def return_to_stock
+    log = ActionLog.new
+    log.transaction_id = @transaction.id
+    log.user_id = current_dealer.id
+    log.user_name = current_dealer.email
     @transaction.transaction_details.each do |td|
       product = Product.find(td.product.id)
       product.quantity += td.quantity
       product.balance = product.quantity
       product.save
     end
+    log.action = "Return to stock"
+    log.date_time = DateTime.now
+    log.save
     @transaction.status = Status.find_by_description('REGRESADO A STOCK')
     respond_to do |format|
       if @transaction.save
