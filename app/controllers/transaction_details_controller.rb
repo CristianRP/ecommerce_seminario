@@ -36,6 +36,13 @@ class TransactionDetailsController < ApplicationController
   # POST /transaction_details.json
   def create
     @transaction_detail = Transaction::Create.call(transaction_detail_params, @transaction)
+    log = ActionLog.new
+    log.transaction_id = @transaction_detail.transaction_id
+    log.user_id = current_dealer.id
+    log.user_name = current_dealer.email
+    log.action = "Added product to order #{@transaction_detail.to_json}"
+    log.date_time = DateTime.now
+    log.save
     respond_to do |format|
       if @transaction_detail.valid?
         format.html { redirect_to transaction_transaction_details_path(@transaction), notice: t('forms.created', model: TransactionDetail.model_name.human) }
@@ -64,6 +71,13 @@ class TransactionDetailsController < ApplicationController
   # DELETE /transaction_details/1
   # DELETE /transaction_details/1.json
   def destroy
+    log = ActionLog.new
+    log.transaction_id = @transaction_detail.transaction_id
+    log.user_id = current_dealer.id
+    log.user_name = current_dealer.email
+    log.action = "Product removed from order #{@transaction_detail.to_json}"
+    log.date_time = DateTime.now
+    log.save
     Transaction::Destroy.call(@transaction_detail)
     respond_to do |format|
       format.html { redirect_to transaction_transaction_details_url, notice: t('forms.deleted', model: TransactionDetail.model_name.human) }

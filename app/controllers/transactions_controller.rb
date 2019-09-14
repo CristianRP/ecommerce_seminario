@@ -51,6 +51,13 @@ class TransactionsController < ApplicationController
   # POST /transactions.json
   def create
     created = Delivery::Create.call(params, current_dealer, transaction_params)
+    log = ActionLog.new
+    log.transaction_id = created.id
+    log.user_id = current_dealer.id
+    log.user_name = current_dealer.email
+    log.action = "Order created"
+    log.date_time = DateTime.now
+    log.save
     respond_to do |format|
       if created
         format.html { redirect_to transaction_transaction_details_path(created), notice: t('forms.created', model: Transaction.model_name.human) }
