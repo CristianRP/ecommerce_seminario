@@ -27,7 +27,7 @@ module ApplicationHelper
   end
 
   def bootstrap_button(css_class, text, icon, action = '', method = '')
-    content_tag(:a, nil, class: "btn btn-sm btn-#{css_class}", href: action, 'data-method': method) {
+    content_tag(:a, nil, class: "btn btn-sm btn-#{css_class}", href: action, 'data-method': method, disable_with: 'Guardando...') {
       content_tag(:i, nil, class: "fa fa-#{icon}") +
       content_tag(:span, text, class: 'text')
     }

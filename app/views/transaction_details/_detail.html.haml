@@ -1,3 +1,13 @@
+:javascript
+  $(function() {
+    $('#btnSubmitOrder').click(function() {
+      console.log('caca')
+      $('#btnSubmitOrder').hide();
+      $('#btnSubmitOrder').attr('disabled', 'disabled');
+    });
+  });
+
+
 = bootstrap_card t('.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale))) do
   .table-responsive
     %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
@@ -35,7 +45,7 @@
     = bootstrap_button('primary', t('helpers.links.back'), 'fa-arrow', transactions_path)
     - if @transaction.open?('SALE')
       = bootstrap_button('primary', t('general.add_products'), 'plus', new_transaction_transaction_detail_path)
-      = bootstrap_button('success', t('general.close', obj: title), 'check', transaction_close_order_path(@transaction), 'post')
+      = bootstrap_button_ids('btnSubmitOrder', 'success', t('general.close', obj: title), 'check', transaction_close_order_path(@transaction), 'post')
     - else
       - unless @transaction.type.int_value == 1
         - if @transaction.status.parent.nil?
