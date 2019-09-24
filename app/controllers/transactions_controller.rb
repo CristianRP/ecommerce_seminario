@@ -17,6 +17,10 @@ class TransactionsController < ApplicationController
                             current_dealer.transactions.ransack(params[:q])
                           end
     @transactions = @transactions_query.result(distinct: true)
+    #raise
+    unless params[:q].present?
+      @transactions = @transactions_query.result.where('DATE(CREATED_AT) = ?', Date.today)
+    end
     gon.status_filter = params[:q][:status_id] unless params[:q].nil?
   end
 
