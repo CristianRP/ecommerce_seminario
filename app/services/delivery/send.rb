@@ -27,8 +27,8 @@ class Delivery::Send
       #@amount += t.product.price.nil? ? 0 : t.product.price
       # @ref1 += [' ] ', t.product.custom_name_order].join('[')
     end
-    @ref1 = @transaction.transaction_details.first.product.custom_name_order
-    @ref2 = @transaction.transaction_details.second.nil? ? '' : @transaction.transaction_details.second.product.custom_name_order
+    @ref1 = [@transaction.transaction_details.first.product.custom_name_order, @transaction.transaction_details.first.quantity].join("|")
+    @ref2 = @transaction.transaction_details.second.nil? ? '' : [@transaction.transaction_details.second.product.custom_name_order, @transaction.transaction_details.second.quantity].join("|")
   end
 
   def perform

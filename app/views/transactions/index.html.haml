@@ -37,6 +37,7 @@
       console.log(e);
       if (confirm('Esta seguro que quiere cambiar de estado esta orden?')) {
         console.log('success');
+        $(this).hide();
       } else {
         e.preventDefault();
         e.stopPropagation();
@@ -168,7 +169,7 @@
                   - if current_dealer.courier?
                     = bootstrap_button_ids('change_status', 'primary change_status', t('general.change_status', status: 'NO ENTREGADA'), 'arrow-right', transaction_not_delivery_path(transaction), 'post')
                   - if !(current_dealer.courier? || current_dealer.grocer? || current_dealer.admin?) && !transaction.carrier.internal && transaction.on_route?('SALE')
-                    = bootstrap_button_ids('change_status', 'primary change_status', t('general.change_status', status: transaction.status.parent.description), 'arrow-right', transaction_change_status_path(transaction), 'post')
+                    = bootstrap_button_ids('change_status', 'primary change_status vendedor', t('general.change_status', status: transaction.status.parent.description), 'arrow-right', transaction_change_status_path(transaction), 'post')
               = bootstrap_button('success', nil, 'eye', transaction_transaction_details_path(transaction))
               = bootstrap_button('warning', nil, 'exclamation-triangle', edit_transaction_path(transaction)) if current_dealer.grocer? && transaction.url_reference.nil?
               - if transaction.open?('SALE')
