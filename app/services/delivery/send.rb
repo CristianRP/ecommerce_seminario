@@ -70,7 +70,7 @@ class Delivery::Send
                                            'MontoCOD' => @amount,
                                            'FormatoImpresion' => 1,
                                            'CodigoCredito' => @credito,
-                                           'MontoAsegurado' => @amount,
+                                           'MontoAsegurado' => 0,
                                            'Observaciones' => @delivery.observations,
                                            'CodigoReferencia' => 0,
                                            'Piezas' => {
@@ -115,7 +115,7 @@ class Delivery::Send
         'MontoCOD' => @amount,
         'FormatoImpresion' => 1,
         'CodigoCredito' => @credito,
-        'MontoAsegurado' => @amount,
+        'MontoAsegurado' => 0,
         'Observaciones' => @delivery.observations,
         'CodigoReferencia' => 0,
         'Piezas' => {
