@@ -88,6 +88,7 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.1.5)
     crass (1.0.4)
+    csv (3.0.9)
     debug_inspector (0.0.3)
     devise (4.6.2)
       bcrypt (~> 3.0)
@@ -321,6 +322,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   chromedriver-helper
   coffee-rails (~> 4.2)
+  csv
   devise
   faker
   gon

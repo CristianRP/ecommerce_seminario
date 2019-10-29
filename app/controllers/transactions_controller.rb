@@ -18,10 +18,14 @@ class TransactionsController < ApplicationController
                           end
     @transactions = @transactions_query.result(distinct: true)
     #raise
-    unless params[:q].present?
-      @transactions = @transactions_query.result.where('DATE(CREATED_AT) = ?', Date.today)
-    end
+    #unless params[:q].present?
+    #  @transactions = @transactions_query.result.where('DATE(CREATED_AT) = ?', Date.today)
+    #end
     gon.status_filter = params[:q][:status_id] unless params[:q].nil?
+    respond_to do |format|
+      format.html
+      format.csv { send_data @transactions.to_csv, filename: "transactions-#{Date.today}.csv" }
+    end
   end
 
   # GET /transactions/1

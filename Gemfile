@@ -48,6 +48,8 @@ gem 'ransack'
 gem 'ransack_memory'
 # Use jquery ui
 gem 'jquery-ui-rails'
+# CSV
+gem 'csv'
 
 
 # Use ActiveStorage variant
