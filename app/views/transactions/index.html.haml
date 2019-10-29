@@ -105,7 +105,7 @@
           = f.label ''
         .col
           = bootstrap_submit_button(f, 'Buscar')
-          = link_to 'Excel', transactions_path(format: :csv)
+          = bootstrap_button('primary', 'Exportar a excel', 'file-excel-o', transactions_path(format: :csv), 'get')
     .form-group
       .row.row-custom
         .col
