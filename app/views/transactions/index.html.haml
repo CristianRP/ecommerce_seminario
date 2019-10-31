@@ -105,7 +105,8 @@
           = f.label ''
         .col
           = bootstrap_submit_button(f, 'Buscar')
-          = bootstrap_button('primary', 'Exportar a excel', 'file-excel-o', transactions_path(format: :csv), 'get')
+          - if current_dealer.admin?
+            = bootstrap_button('primary', 'Exportar a excel', 'file-excel-o', transactions_path(format: :csv), 'get')
     .form-group
       .row.row-custom
         .col

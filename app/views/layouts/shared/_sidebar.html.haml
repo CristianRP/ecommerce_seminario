@@ -63,6 +63,10 @@
             %a{href: restocks_path, title: t('modules.restocks')}
               %em.fa.fa-cart-plus
               %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.restocks')
+          %li
+            %a{href: transactions_path(format: :csv), title: 'Exportar a Excel'}
+              %em.fa.fa-file-excel-o
+              %span{"data-localize" => "sidebar.nav.DASHBOARD"} Exportar a Excel
       - if current_dealer.grocer?
         %li
           %a{href: on_route_path, title: t('modules.on_route')}
