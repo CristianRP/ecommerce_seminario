@@ -115,6 +115,7 @@
           = clear_filter title: 'Borrar filtros', class: 'btn btn-primary', data: {confirm: 'Quieres borrar los filtros?', my_data: 'something'}
 
 = bootstrap_card t('.title', :default => t('general.list', model: model_class.model_name.human.pluralize(I18n.locale))) do
+  = will_paginate @transactions, renderer: BootstrapPagination::Rails
   .table-responsive
     %table#dataTable.table.table-bordered{:cellspacing => "0", :width => "100%"}
       %thead

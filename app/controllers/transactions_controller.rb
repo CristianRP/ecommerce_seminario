@@ -16,7 +16,7 @@ class TransactionsController < ApplicationController
                           else
                             current_dealer.transactions.ransack(params[:q])
                           end
-    @transactions = @transactions_query.result(distinct: true)
+    @transactions = @transactions_query.result(distinct: true).page(params[:page])
     #raise
     #unless params[:q].present?
     #  @transactions = @transactions_query.result.where('DATE(CREATED_AT) = ?', Date.today)

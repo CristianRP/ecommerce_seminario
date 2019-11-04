@@ -50,6 +50,9 @@ gem 'ransack_memory'
 gem 'jquery-ui-rails'
 # CSV
 gem 'csv'
+# Paginate
+gem 'will_paginate'
+gem 'will_paginate-bootstrap'
 
 
 # Use ActiveStorage variant
