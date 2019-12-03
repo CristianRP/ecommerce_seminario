@@ -64,7 +64,7 @@
               %em.fa.fa-cart-plus
               %span{"data-localize" => "sidebar.nav.DASHBOARD"}= t('modules.restocks')
           %li
-            %a{href: transactions_path(format: :csv), title: 'Exportar a Excel'}
+            %a{href: reports_path, title: 'Exportar a Excel'}
               %em.fa.fa-file-excel-o
               %span{"data-localize" => "sidebar.nav.DASHBOARD"} Exportar a Excel
       - if current_dealer.grocer?

@@ -39,5 +39,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/reports', to: 'reports#index', as: 'reports'
+
   root 'dashboard#index'
 end

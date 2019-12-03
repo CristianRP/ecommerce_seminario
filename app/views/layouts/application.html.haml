@@ -40,7 +40,35 @@
 =#  = render 'layouts/shared/footer'
 :javascript
   $(function() {
-    $('#q_created_at_date_equals').datepicker({
+    /*$('#q_created_at_date_equals').datepicker({
       dateFormat: 'dd/mm/yy'
+    });*/
+    var dateFormat = "dd/mm/yy", from = $( "#from" ).datepicker({
+          defaultDate: "+1w",
+          changeMonth: true,
+          numberOfMonths: 1,
+          dateFormat: dateFormat
+      }).on( "change", function() {
+        to.datepicker( "option", "minDate", getDate( this ) );
+        $('#q_created_at_date_equals').val($('#from').val() + ' to ' + $('#to').val());
+      }),
+      to = $( "#to" ).datepicker({
+        defaultDate: "+1w",
+        changeMonth: true,
+        numberOfMonths: 1,
+        dateFormat: dateFormat
+    }).on( "change", function() {
+        from.datepicker( "option", "maxDate", getDate( this ) );
+        $('#q_created_at_between').val($('#from').val() + ' to ' + $('#to').val());
     });
+
+    function getDate( element ) {
+      var date;
+      try {
+        date = $.datepicker.parseDate( dateFormat, element.value );
+      } catch( error ) {
+        date = null;
+      }
+      return date;
+    }
   });

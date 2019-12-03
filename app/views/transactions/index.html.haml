@@ -77,10 +77,15 @@
           = bootstrap_text_field(f, :tracking_number_cont, model_class.human_attribute_name(:tracking_number))
     .form-group
       .row.row-custom
-        .col
+        .col{hidden:true}
           = f.label :created_at
         .col
-          = bootstrap_text_field(f, :created_at_date_equals, model_class.human_attribute_name(:created_at))
+          %div{hidden: true}
+            = bootstrap_text_field(f, :created_at_between, model_class.human_attribute_name(:created_at))
+          %label{:for => "from"} Fecha inicial
+          %input#from{:name => "from", :type => "text",  class: 'form-control'}/
+          %label{:for => "to"} Fecha final
+          %input#to{:name => "to", :type => "text", class: 'form-control'}/
     .form-group
       .row.row-custom
         .col

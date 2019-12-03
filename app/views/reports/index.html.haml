@@ -1,0 +1,57 @@
+- model_class = Transaction
+
+= bootstrap_card 'Filtros' do
+  = search_form_for @transactions_query, url: reports_path(format: :csv), html: {method: :get, class: 'form-inline'} do |f|
+    .form-group
+      .row.row-custom
+        .col
+          = f.label :client
+        .col
+          = bootstrap_text_field(f, :client_cont, model_class.human_attribute_name(:client))
+    .form-group
+      .row.row-custom
+        .col
+          = f.label :tracking_number
+        .col
+          = bootstrap_text_field(f, :tracking_number_cont, model_class.human_attribute_name(:tracking_number))
+    .form-group
+      .row.row-custom
+        .col{hidden:true}
+          = f.label :created_at
+        .col
+          %div{hidden: true}
+            = bootstrap_text_field(f, :created_at_between, model_class.human_attribute_name(:created_at))
+          %label{:for => "from"} Fecha inicial
+          %input#from{:name => "from", :type => "text",  class: 'form-control'}/
+          %label{:for => "to"} Fecha final
+          %input#to{:name => "to", :type => "text", class: 'form-control'}/
+    .form-group
+      .row.row-custom
+        .col
+          = f.label :status_id
+        .col
+          = f.collection_select :status_id_eq, Status.all, :id, :description, { prompt: true }, { class: 'form-control' }
+    .form-group
+      .row.row-custom
+        .col
+          = f.label :transportista
+        .col
+          = f.collection_select :carrier_id_eq, Carrier.all, :id, :name, { prompt: true }, { class: 'form-control' }
+    .form-group
+      .row.row-custom
+        .col
+          = f.label :mensajero
+        .col
+          = f.collection_select :courier_id_eq, Dealer.where(courier: true), :id, :custom_name, { prompt: true }, { class: 'form-control' }
+    .form-group
+      .row.row-custom
+        .col
+          = f.label ''
+        .col
+          = f.submit 'Descargar reporte', data: { disable_with: false } #bootstrap_submit_button(f, 'Buscar')
+    .form-group
+      .row.row-custom
+        .col
+          = f.label ''
+        .col
+          = clear_filter title: 'Borrar filtros', class: 'btn btn-primary', data: {confirm: 'Quieres borrar los filtros?', my_data: 'something'}

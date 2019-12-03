@@ -38,16 +38,15 @@ class Transaction < ApplicationRecord
   scope :pending_to_close, ->(tag) { where(status: Status.finished(tag)) }
 
   ransacker :created_at do
-    Arel.sql('date(created_at)')
+    Arel.sql('date(transactions.created_at)')
   end
 
-  def self.to_csv
-    attributes = %w{id description client address address2 phone amount estado vendedor tracking_number transportista fecha mensajero productos }
-    CSV.generate(headers: true) do |csv|
-      csv << attributes
-
-      report.each do |transaction|
-        csv << attributes.map{ |attr| transaction.send(attr) }
+  def self.to_csv(transactions)
+    CSV.generate do |csv|
+      columns = %w(id description client address address2 phone amount estado vendedor tracking_number transportista fecha productos )
+      csv << columns.map(&:humanize)
+      transactions.limit(1000000).to_a.each do |transaction|
+        csv << transaction.attributes.values_at(*columns)
       end
     end
   end
@@ -76,6 +75,30 @@ class Transaction < ApplicationRecord
      ).joins(:status, :dealer, :carrier, :courier)
   end
 
+  def self.report_all
+    t = Transaction.arel_table
+    s = Status.arel_table
+    d = Dealer.arel_table
+    ca = Carrier.arel_table
+    co = Dealer.arel_table
+    dt = TransactionDetail.arel_table
+    p = Product.arel_table
+    join_on = dt.create_on(t[:id].eq(dt[:transaction_id]))
+    inner_join = dt.create_join(t, join_on)
+    select_array = TransactionDetail.select(Arel::Nodes::NamedFunction.new('CONCAT',
+      [literal("'|'"), p[:description], literal("'-Precio venta:'"), dt[:unit_price], literal("'- Precio: '"),
+      p[:price], literal("'-Cantidad:'"),
+      dt[:quantity], literal("'|'")])).joins(:product).where(t[:id].eq(dt[:id])).to_sql + ")"
+    array_productos = Arel::Nodes::NamedFunction.new('ARRAY', [Arel::Nodes::SqlLiteral.new(select_array)])
+    Transaction.select(t[:id], t[:description], t[:client], t[:address], t[:address2], t[:phone],
+      t[:amount], s[:description].as('ESTADO'), concat(d[:name], d[:last_name], 'VENDEDOR'),
+     t[:tracking_number], ca[:name].as('TRANSPORTISTA'),
+     Arel::Nodes::NamedFunction.new('TO_CHAR',
+       [t[:created_at], Arel::Nodes::SqlLiteral.new("'dd/mm/yyy'")]).as('FECHA'),
+     (Arel::Nodes::NamedFunction.new('(SELECT', [Arel::Nodes::SqlLiteral.new(array_productos.to_sql)], 'PRODUCTOS'))
+     ).joins(:status, :dealer, :carrier)
+  end
+
   def self.concat(first, second, as)
     Arel::Nodes::NamedFunction.new('CONCAT', [first, Arel::Nodes.build_quoted(' '), second], as)
   end
@@ -83,26 +106,4 @@ class Transaction < ApplicationRecord
   def self.literal(str)
     Arel::Nodes::SqlLiteral.new(str)
   end
-
-  #Transaction.select(t[:id], t[:description], t[:client], t[:address], t[:address2], t[:phone],
-  # t[:amount], s[:description].as('ESTADO'), concat(d[:name], d[:last_name], 'VENDEDOR'),
-  #t[:tracking_number], ca[:name].as('TRANSPORTISTA'),
-  #Arel::Nodes::NamedFunction.new('TO_CHAR',
-  #  [t[:created_at], Arel::Nodes::SqlLiteral.new("'dd/mm/yyy'")]).as('FECHA'),
-  #concat(co[:name], co[:last_name], 'MENSAJERO'),
-  #(Arel::Nodes::NamedFunction.new('(SELECT', [Arel::Nodes::SqlLiteral.new(array_productos.to_sql)], 'PRODUCTOS'))
-  #).joins(:status, :dealer, :carrier, :courier).to_sql
-
-#
-#  SELECT T.ID, T.DESCRIPTION, T.CLIENT, T.ADDRESS, T.ADDRESS2,
-#T.PHONE, T.AMOUNT, S.DESCRIPTION ESTADO, CONCAT(D.NAME, ' ', D.LAST_NAME) VENDEDOR,
-#T.TRACKING_NUMBER, CA.NAME TRANSPORTISTA, TO_CHAR(T.CREATED_AT, 'dd/mm/yyyy') FECHA,
-#CONCAT(CO.NAME, ' ', CO.LAST_NAME) MENSAJERO,
-#(SELECT ARRAY(SELECT '|' || P.DESCRIPTION || '-' || DT.UNIT_PRICE || '-' || DT.QUANTITY || '|' FROM
-#TRANSACTION_DETAILS DT INNER JOIN PRODUCTS P ON P.ID = DT.PRODUCT_ID WHERE DT.TRANSACTION_ID = T.ID)) PRODUCTOS
-#FROM TRANSACTIONS T
-#INNER JOIN STATUSES S ON S.ID = STATUS_ID
-#INNER JOIN DEALERS D ON D.ID = DEALER_ID
-#INNER JOIN CARRIERS CA ON CA.ID = CARRIER_ID
-#INNER JOIN DEALERS CO ON CO.ID = COURIER_ID AND CO.COURIER = TRUE;
 end
