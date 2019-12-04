@@ -45,10 +45,45 @@ class Transaction < ApplicationRecord
     CSV.generate do |csv|
       columns = %w(id description client address address2 phone amount estado vendedor tracking_number transportista fecha productos )
       csv << columns.map(&:humanize)
-      transactions.limit(1000000).to_a.each do |transaction|
+      transactions.limit(100_000_0).to_a.each do |transaction|
         csv << transaction.attributes.values_at(*columns)
       end
     end
+  end
+
+  def self.earning_to_csv(transactions)
+    CSV.generate do |csv|
+      columns = %w(codigo descripcion cliente direccion telefono estado vendedor fecha transportista costo_vendido precio_de_venta_modificado producto cantidad)
+      csv << columns.map(&:humanize)
+      transactions.limit(100_000_0).to_a.each do |transaction|
+        csv << transaction.attributes.values_at(*columns)
+      end
+    end
+  end
+
+  def self.delivery_to_csv(transactions)
+    CSV.generate do |csv|
+      columns = %w(codigo descripcion cliente direccion telefono estado vendedor fecha transportista costo_vendido precio_de_venta_modificado producto cantidad caracteristica)
+      csv << columns.map(&:humanize)
+      transactions.limit(100_000_0).to_a.each do |transaction|
+        csv << transaction.attributes.values_at(*columns)
+      end
+    end
+  end
+
+  def self.earning_report
+    t = Transaction.arel_table
+    s = Status.arel_table
+    d = Dealer.arel_table
+    ca = Carrier.arel_table
+    dt = TransactionDetail.arel_table
+    p = Product.arel_table
+    ch = Characteristic.arel_table
+    select(t[:id].as('CODIGO'), t[:description].as('DESCRIPCION'), t[:client].as('CLIENTE'), t[:address].as('DIRECCION'), t[:phone].as('TELEFONO'),
+           s[:description].as('ESTADO'), d[:name].as('VENDEDOR'), t[:created_at].as('FECHA'), ca[:name].as('TRANSPORTISTA'),
+           p[:price].as('COSTO_VENDIDO'), dt[:unit_price].as('PRECIO_DE_VENTA_MODIFICADO'), p[:description].as('PRODUCTO'), dt[:quantity].as('CANTIDAD'),
+           ch[:name].as('CARACTERISTICA'))
+    .joins([:status, :dealer, :carrier, transaction_details: [product: [:characteristic]]])
   end
 
   def self.report

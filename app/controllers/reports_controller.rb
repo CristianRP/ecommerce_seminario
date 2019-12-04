@@ -26,4 +26,50 @@ class ReportsController < ApplicationController
       format.csv { send_data Transaction.to_csv(@transactions_report), filename: "transactions-#{DateTime.now}.csv" }
     end
   end
+
+  def earning_report
+    if current_dealer.admin?
+      @transactions_query = Transaction.earning_report.where(type: Parameter.transaction_type_out).order(id: :desc).ransack(params[:q])
+    elsif current_dealer.grocer?
+      @transactions_query = Transaction.earning_report.pending_to_packing('SALE').ransack(params[:q])
+    elsif current_dealer.courier?
+      @transactions_query = Transaction.earning_report.pending_to_deliver('SALE', current_dealer.id).ransack(params[:q])
+    else
+      @transactions_query = current_dealer.transactions.earning_report.ransack(params[:q])
+    end
+    @transactions = @transactions_query.result(distinct: true).page(params[:page])
+    #raise
+    #unless params[:q].present?
+    #  @transactions = @transactions_query.result.where('DATE(CREATED_AT) = ?', Date.today)
+    #end
+    gon.status_filter = params[:q][:status_id] unless params[:q].nil?
+    #raise @transactions_report.to_json
+    respond_to do |format|
+      format.html
+      format.csv { send_data Transaction.earning_to_csv(@transactions), filename: "ganancia-#{DateTime.now}.csv" }
+    end
+  end
+
+  def delivery_report
+    if current_dealer.admin?
+      @transactions_query = Transaction.earning_report.where(type: Parameter.transaction_type_out).order(id: :desc).ransack(params[:q])
+    elsif current_dealer.grocer?
+      @transactions_query = Transaction.earning_report.pending_to_packing('SALE').ransack(params[:q])
+    elsif current_dealer.courier?
+      @transactions_query = Transaction.earning_report.pending_to_deliver('SALE', current_dealer.id).ransack(params[:q])
+    else
+      @transactions_query = current_dealer.transactions.earning_report.ransack(params[:q])
+    end
+    @transactions = @transactions_query.result(distinct: true).page(params[:page])
+    #raise
+    #unless params[:q].present?
+    #  @transactions = @transactions_query.result.where('DATE(CREATED_AT) = ?', Date.today)
+    #end
+    gon.status_filter = params[:q][:status_id] unless params[:q].nil?
+    #raise @transactions_report.to_json
+    respond_to do |format|
+      format.html
+      format.csv { send_data Transaction.delivery_to_csv(@transactions), filename: "envios-#{DateTime.now}.csv" }
+    end
+  end
 end

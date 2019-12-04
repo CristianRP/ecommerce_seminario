@@ -40,6 +40,8 @@ Rails.application.routes.draw do
   end
 
   get '/reports', to: 'reports#index', as: 'reports'
+  get '/earning', to: 'reports#earning_report', as: 'earning_report'
+  get '/delivery', to: 'reports#delivery_report', as: 'delivery_report'
 
   root 'dashboard#index'
 end
