@@ -53,7 +53,7 @@ class Transaction < ApplicationRecord
 
   def self.earning_to_csv(transactions)
     CSV.generate do |csv|
-      columns = %w(codigo descripcion cliente direccion telefono estado vendedor fecha transportista costo_vendido precio_de_venta_modificado producto cantidad)
+      columns = %w(codigo descripcion cliente direccion telefono estado vendedor fecha transportista costo precio precio_de_venta_modificado producto cantidad)
       csv << columns.map(&:humanize)
       transactions.limit(100_000_0).to_a.each do |transaction|
         csv << transaction.attributes.values_at(*columns)
@@ -63,7 +63,7 @@ class Transaction < ApplicationRecord
 
   def self.delivery_to_csv(transactions)
     CSV.generate do |csv|
-      columns = %w(codigo descripcion cliente direccion telefono estado vendedor fecha transportista costo_vendido precio_de_venta_modificado producto cantidad caracteristica)
+      columns = %w(codigo descripcion cliente direccion telefono estado vendedor fecha transportista costo precio precio_de_venta_modificado producto cantidad caracteristica)
       csv << columns.map(&:humanize)
       transactions.limit(100_000_0).to_a.each do |transaction|
         csv << transaction.attributes.values_at(*columns)
@@ -80,8 +80,8 @@ class Transaction < ApplicationRecord
     p = Product.arel_table
     ch = Characteristic.arel_table
     select(t[:id].as('CODIGO'), t[:description].as('DESCRIPCION'), t[:client].as('CLIENTE'), t[:address].as('DIRECCION'), t[:phone].as('TELEFONO'),
-           s[:description].as('ESTADO'), d[:name].as('VENDEDOR'), t[:created_at].as('FECHA'), ca[:name].as('TRANSPORTISTA'),
-           p[:price].as('COSTO_VENDIDO'), dt[:unit_price].as('PRECIO_DE_VENTA_MODIFICADO'), p[:description].as('PRODUCTO'), dt[:quantity].as('CANTIDAD'),
+           s[:description].as('ESTADO'), d[:name].as('VENDEDOR'), t[:created_at].as('FECHA'), ca[:name].as('TRANSPORTISTA'), p[:cost].as('COSTO'),
+           p[:price].as('PRECIO'), dt[:unit_price].as('PRECIO_DE_VENTA_MODIFICADO'), p[:description].as('PRODUCTO'), dt[:quantity].as('CANTIDAD'),
            ch[:name].as('CARACTERISTICA'))
     .joins([:status, :dealer, :carrier, transaction_details: [product: [:characteristic]]])
   end
