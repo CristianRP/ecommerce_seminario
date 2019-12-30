@@ -50,7 +50,7 @@
           dateFormat: dateFormat
       }).on( "change", function() {
         to.datepicker( "option", "minDate", getDate( this ) );
-        $('#q_created_at_date_equals').val($('#from').val() + ' to ' + $('#to').val());
+        $('#q_created_at_date_equals').val($('#from').val().toString() + ' to ' + $('#to').val().toString());
       }),
       to = $( "#to" ).datepicker({
         defaultDate: "+1w",
@@ -59,7 +59,7 @@
         dateFormat: dateFormat
     }).on( "change", function() {
         from.datepicker( "option", "maxDate", getDate( this ) );
-        $('#q_created_at_between').val($('#from').val() + ' to ' + $('#to').val());
+        $('#q_created_at_between').val('"' + $('#from').val() + '"'+ ' to ' + '"' + $('#to').val() + '"');
     });
 
     function getDate( element ) {
