@@ -225,7 +225,7 @@ class TransactionsController < ApplicationController
 
   def pendings_not
     @transactions_query = Transaction.not_delivered_liq('SALE').ransack(params[:q])
-    @transactions = @transactions_query.result(distinct: true)
+    @transactions = @transactions_query.result(distinct: true).page(params[:page])
     @not_pendings = true
     render :pendings
   end
