@@ -17,9 +17,9 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: localhost
-  username: cristian
-  password: 123456
+  host: ec2-3-216-92-193.compute-1.amazonaws.com
+  username: bopmuclosbqnma
+  password: 6e2044bd1e6b27513f1ca0f41ea4d79073c492ec5691fd50c28bcadf94af38c6
   # For details on connection pooling, see Rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>

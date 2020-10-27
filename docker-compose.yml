@@ -1,0 +1,19 @@
+version: '1'
+services:
+  db:
+    image: postgres
+    volumes:
+      - postgres:/var/lib/postgresql/data
+  web:
+    build: .
+    command: bash -C "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b 0.0.0.0"
+    volumes:
+      - :/ecommerce-app
+      - bundler_gems:/usr/local/bundle
+    port:
+      - "3000:3000"
+    depends_on:
+      - db
+volumes:
+  postgres:
+  bundler_gems:
